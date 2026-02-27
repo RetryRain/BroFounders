@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Search, GitBranch, Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -56,11 +57,13 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Button */}
-        <div className="hidden sm:flex gap-3">
-          <button className="flex h-10 px-6 items-center justify-center rounded-full bg-white text-background text-sm font-black transition-all hover:bg-primary hover:text-white active:scale-95 cursor-pointer">
-            GET STARTED
-          </button>
-        </div>
+        <Link to={"/Projects"}>
+          <div className="hidden sm:flex gap-3">
+            <button className="flex h-10 px-6 items-center justify-center rounded-full bg-white text-background text-sm font-black transition-all hover:bg-primary hover:text-white active:scale-95 cursor-pointer">
+              GET STARTED
+            </button>
+          </div>
+        </Link>
 
         {/* Mobile Menu */}
         <Sheet>

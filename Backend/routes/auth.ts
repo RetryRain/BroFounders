@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
     { expiresIn: "1h" },
   );
 
-  res.send(token);
+  res.send({token});
 });
 
 export default router;

@@ -1,4 +1,5 @@
 import "material-symbols/rounded.css";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
@@ -35,19 +36,22 @@ export default function Hero() {
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-6 mt-4">
-            <button className="group flex h-16 px-10 items-center justify-center rounded-full bg-primary text-white text-xl font-black shadow-2xl shadow-primary/50 hover:-translate-y-0.5 transition-all border border-white/20 cursor-pointer">
-              FIND PROJECTS
-              <span className="material-symbols-rounded ml-2 text-lg group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
-            </button>
-
-            <button className="flex h-16 px-10 items-center justify-center rounded-full bg-white/10 text-white text-xl font-black border-2 border-white/40 hover:bg-white/20 transition-all backdrop-blur-sm cursor-pointer">
-              HOST A SQUAD
-              <span className="material-symbols-rounded ml-2 text-lg group-hover:translate-x-1 transition-transform">
-                edit
-              </span>
-            </button>
+            <Link to={"/projects"}>
+              <button className="group flex h-16 px-10 items-center justify-center rounded-full bg-primary text-white text-xl font-black shadow-2xl shadow-primary/50 hover:-translate-y-0.5 transition-all border border-white/20 cursor-pointer">
+                FIND PROJECTS
+                <span className="material-symbols-rounded ml-2 text-lg group-hover:translate-x-1 transition-transform">
+                  arrow_forward
+                </span>
+              </button>
+            </Link>
+            <Link to={"/projects"}>
+              <button className="flex h-16 px-10 items-center justify-center rounded-full bg-white/10 text-white text-xl font-black border-2 border-white/40 hover:bg-white/20 transition-all backdrop-blur-sm cursor-pointer">
+                HOST A SQUAD
+                <span className="material-symbols-rounded ml-2 text-lg group-hover:translate-x-1 transition-transform">
+                  edit
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
 

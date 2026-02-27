@@ -3,8 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarLink from "./SidebarLink";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/Auth");
+  };
+
   return (
     <>
       {/* ================= MOBILE ================= */}
@@ -20,14 +29,14 @@ export default function Sidebar() {
             side="left"
             className="w-64 bg-sidebar text-sidebar-foreground p-0 border-sidebar-border"
           >
-            <SidebarContent />
+            <SidebarContent onLogout={handleLogout} />
           </SheetContent>
         </Sheet>
       </div>
 
       {/* ================= DESKTOP ================= */}
       <aside className="hidden lg:flex w-64 bg-sidebar text-sidebar-foreground flex-col fixed inset-y-0 left-0 border-r border-sidebar-border">
-        <SidebarContent />
+        <SidebarContent onLogout={handleLogout} />
       </aside>
     </>
   );
@@ -35,28 +44,32 @@ export default function Sidebar() {
 
 /* ================= REUSABLE CONTENT ================= */
 
-function SidebarContent() {
+function SidebarContent({ onLogout }: { onLogout: () => void }) {
   return (
     <>
       {/* Logo */}
-      <div className="p-8 flex items-center gap-3">
-        <div className="size-10 bg-purple rounded-sm flex items-center justify-center shadow-lg shadow-primary/20">
-          <span className="material-symbols-rounded text-primary-foreground">
-            rocket_launch
-          </span>
+      <Link to={"/"}>
+        <div className="p-8 flex items-center gap-3">
+          <div className="size-10 bg-purple rounded-sm flex items-center justify-center shadow-lg shadow-primary/20">
+            <span className="material-symbols-rounded text-primary-foreground">
+              rocket_launch
+            </span>
+          </div>
+          <h2 className="text-xl font-bold tracking-tight text-white">
+            Project Hub
+          </h2>
         </div>
-        <h2 className="text-xl font-bold tracking-tight text-white">
-          Project Hub
-        </h2>
-      </div>
+      </Link>
 
       {/* Navigation */}
       <nav className="flex-1 px-4 mt-4 space-y-1">
-        <SidebarLink
-          icon={<span className="material-symbols-rounded">dashboard</span>}
-          label="Discovery"
-          active
-        />
+        <Link to={"/projects"}>
+          <SidebarLink
+            icon={<span className="material-symbols-rounded">dashboard</span>}
+            label="Discovery"
+            active
+          />
+        </Link>
         <SidebarLink
           icon={<span className="material-symbols-rounded">groups</span>}
           label="My Teams"
@@ -65,10 +78,14 @@ function SidebarContent() {
           icon={<span className="material-symbols-rounded">folder</span>}
           label="Resources"
         />
-        <SidebarLink
-          icon={<span className="material-symbols-rounded">notifications</span>}
-          label="Activity"
-        />
+        <Link to={"/activity"}>
+          <SidebarLink
+            icon={
+              <span className="material-symbols-rounded">notifications</span>
+            }
+            label="Activity"
+          />
+        </Link>
         <SidebarLink
           icon={<span className="material-symbols-rounded">settings</span>}
           label="Settings"
@@ -97,7 +114,12 @@ function SidebarContent() {
           </p>
         </div>
 
-        <Button variant="ghost" size="icon" className="cursor-pointer">
+        <Button
+          onClick={onLogout}
+          variant="ghost"
+          size="icon"
+          className="cursor-pointer"
+        >
           <span className="material-symbols-rounded">logout</span>
         </Button>
       </div>

@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import "material-symbols/rounded.css";
+import { Link } from "react-router-dom";
 
 export default function CallingCard() {
   return (
@@ -37,36 +38,39 @@ export default function CallingCard() {
 
           {/* Buttons */}
           <div className="flex flex-wrap justify-center gap-6 mt-6">
-            <Button
-              className="
-                px-12 py-6
-                bg-white text-background
-                rounded-full font-black text-base md:text-xl
-                hover:scale-105 transition-all
-                shadow-2xl hover:bg-background hover:text-white
-                cursor-pointer
+            <Link to={"/Projects"}>
+              <Button
+                className="
+                  px-12 py-6
+                  bg-white text-background
+                  rounded-full font-black text-base md:text-xl
+                  hover:scale-105 transition-all
+                  shadow-2xl hover:bg-background hover:text-white
+                  cursor-pointer
+                "
+              >
+                START BROWSING
+              </Button>
+            </Link>
+            <a href="#workflow">
+              <Button
+                className="
+                  px-12 py-6
+                  bg-primary text-primary-foreground
+                  rounded-full font-black text-base md:text-xl
+                  shadow-xl
+                  transition-all duration-300
+                  hover:bg-accent
+                  hover:text-accent-foreground
+                  hover:-translate-y-0.5
+                  hover:shadow-2xl
+                  active:scale-95
+                  cursor-pointer
               "
-            >
-              START BROWSING
-            </Button>
-
-            <Button
-              className="
-                px-12 py-6
-                bg-primary text-primary-foreground
-                rounded-full font-black text-base md:text-xl
-                shadow-xl
-                transition-all duration-300
-                hover:bg-accent
-                hover:text-accent-foreground
-                hover:-translate-y-0.5
-                hover:shadow-2xl
-                active:scale-95
-                cursor-pointer
-            "
-            >
-              HOW IT WORKS
-            </Button>
+              >
+                HOW IT WORKS
+              </Button>
+            </a>
           </div>
         </CardContent>
 

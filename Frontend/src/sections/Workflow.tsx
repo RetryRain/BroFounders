@@ -3,7 +3,10 @@ import "material-symbols/rounded.css";
 
 export default function Workflow() {
   return (
-    <section className="w-full bg-(--workflow-bg) py-10 md:py-15 border-y border-white/10">
+    <section
+      id="workflow"
+      className="w-full bg-(--workflow-bg) py-10 md:py-15 border-y border-white/10"
+    >
       <div className="max-w-300 mx-auto px-6 text-center">
         {/* Heading */}
         <div className="mb-20">
