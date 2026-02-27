@@ -5,13 +5,44 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarLink from "./SidebarLink";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const API = import.meta.env.VITE_API_URL;
 
 export default function Sidebar() {
   const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/auth");
+          return;
+        }
+
+        const res = await axios.get(`${API}/users/me`, {
+          headers: {
+            "x-auth-token": token,
+          },
+        });
+
+        setUser(res.data);
+        localStorage.setItem("user", JSON.stringify(res.data));
+      } catch (err) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+    };
+
+    fetchUser();
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/Auth");
+    localStorage.removeItem("user");
+    navigate("/auth");
   };
 
   return (
@@ -29,14 +60,14 @@ export default function Sidebar() {
             side="left"
             className="w-64 bg-sidebar text-sidebar-foreground p-0 border-sidebar-border"
           >
-            <SidebarContent onLogout={handleLogout} />
+            <SidebarContent onLogout={handleLogout} user={user} />
           </SheetContent>
         </Sheet>
       </div>
 
       {/* ================= DESKTOP ================= */}
       <aside className="hidden lg:flex w-64 bg-sidebar text-sidebar-foreground flex-col fixed inset-y-0 left-0 border-r border-sidebar-border">
-        <SidebarContent onLogout={handleLogout} />
+        <SidebarContent onLogout={handleLogout} user={user} />
       </aside>
     </>
   );
@@ -44,7 +75,13 @@ export default function Sidebar() {
 
 /* ================= REUSABLE CONTENT ================= */
 
-function SidebarContent({ onLogout }: { onLogout: () => void }) {
+function SidebarContent({
+  onLogout,
+  user,
+}: {
+  onLogout: () => void;
+  user: any;
+}) {
   return (
     <>
       {/* Logo */}
@@ -108,9 +145,11 @@ function SidebarContent({ onLogout }: { onLogout: () => void }) {
         <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30"></div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold truncate">Alex Rivera</p>
+          <p className="text-sm font-semibold truncate">
+            {user?.name || "Loading..."}
+          </p>
           <p className="text-xs text-muted-foreground truncate">
-            Senior Builder
+            {user?.email}
           </p>
         </div>
 

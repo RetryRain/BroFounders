@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/Auth" element={<Authentication />}>
+          <Route path="/auth" element={<Authentication />}>
             <Route index element={<LoginPanel />} />
             <Route path="login" element={<LoginPanel />} />
             <Route path="register" element={<RegisterPanel />} />
@@ -21,8 +21,8 @@ function App() {
 
           {/* Protected Section */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/Projects" element={<Projects />} />
-            <Route path="/Activity" element={<Activity />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/activity" element={<Activity />} />
           </Route>
         </Routes>
       </BrowserRouter>

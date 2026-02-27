@@ -38,7 +38,7 @@ export default function CallingCard() {
 
           {/* Buttons */}
           <div className="flex flex-wrap justify-center gap-6 mt-6">
-            <Link to={"/Projects"}>
+            <Link to={"/projects"}>
               <Button
                 className="
                   px-12 py-6

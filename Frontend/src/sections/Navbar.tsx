@@ -57,7 +57,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Button */}
-        <Link to={"/Projects"}>
+        <Link to={"/projects"}>
           <div className="hidden sm:flex gap-3">
             <button className="flex h-10 px-6 items-center justify-center rounded-full bg-white text-background text-sm font-black transition-all hover:bg-primary hover:text-white active:scale-95 cursor-pointer">
               GET STARTED

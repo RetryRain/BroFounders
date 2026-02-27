@@ -41,7 +41,7 @@ export default function RegisterPanel() {
       });
 
       localStorage.setItem("token", res.data.token);
-      navigate("/Projects");
+      navigate("/projects");
     } catch (err) {
       if (axios.isAxiosError(err)) {
         alert(err.response?.data || "Request failed");
