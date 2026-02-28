@@ -9,6 +9,27 @@ const projectSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 100,
   },
+  blurb: {
+    type: String,
+    required: true,
+    maxlength: 300,
+    trim: true,
+  },
+  level: {
+    type: String,
+    required: true,
+    enum: ["beginner", "intermediate", "advanced", "chaos"],
+  },
+  goals: {
+    type: [
+      {
+        type: String,
+        maxlength: 300,
+        trim: true,
+      },
+    ],
+    required: true,
+  },
   description: {
     type: String,
     required: true,
@@ -87,6 +108,11 @@ function validateProject(project: any) {
     status: Joi.string().valid("open", "in-progress", "closed").optional(),
     broadcast: Joi.string().min(3).max(300).required(),
     maxMembers: Joi.number().integer().min(1).max(50).required(),
+    blurb: Joi.string().max(300).required(),
+    level: Joi.string()
+      .valid("beginner", "intermediate", "advanced", "chaos")
+      .required(),
+    goals: Joi.array().items(Joi.string().max(300)).min(1).max(4).required(),
   });
 
   return schema.validate(project);
@@ -101,6 +127,9 @@ function validateProjectUpdate(project: any) {
     status: Joi.string().valid("open", "in-progress", "closed"),
     broadcast: Joi.string().min(3).max(300),
     maxMembers: Joi.number().integer().min(1).max(50),
+    blurb: Joi.string().max(300),
+    level: Joi.string().valid("beginner", "intermediate", "advanced", "chaos"),
+    goals: Joi.array().items(Joi.string().max(300)).min(1).max(4),
   }).min(1); // at least one field required
 
   return schema.validate(project);
