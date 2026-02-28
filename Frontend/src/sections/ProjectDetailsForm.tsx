@@ -1,15 +1,48 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 
-export default function ProjectDetailsForm() {
+interface Props {
+  title: string;
+  setTitle: (v: string) => void;
+  description: string;
+  setDescription: (v: string) => void;
+  tags: string[];
+  setTags: (v: string[]) => void;
+  maxMembers: number;
+  setMaxMembers: (v: number) => void;
+}
+
+export default function ProjectDetailsForm({
+  title,
+  setTitle,
+  description,
+  setDescription,
+  tags,
+  setTags,
+  maxMembers,
+  setMaxMembers,
+}: Props) {
+  const allTags = [
+    "Rust",
+    "Solana",
+    "Wasm",
+    "React",
+    "Node.js",
+    "Go",
+    "Python",
+    "TypeScript",
+    "PostgreSQL",
+  ];
+
+  const toggleTag = (tag: string) => {
+    if (tags.includes(tag)) {
+      setTags(tags.filter((t) => t !== tag));
+    } else {
+      setTags([...tags, tag]);
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* TITLE */}
@@ -18,8 +51,9 @@ export default function ProjectDetailsForm() {
           Project Title
         </label>
         <Input
-          defaultValue="Decentralized Asset Hub"
-          className="bg-white/5 border-white/10 focus-visible:ring-indigo-bloom py-5 text-[17px]!"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="py-5 text-[17px]"
         />
       </div>
 
@@ -30,8 +64,9 @@ export default function ProjectDetailsForm() {
         </label>
         <Textarea
           rows={4}
-          defaultValue="Building a high-performance cross-chain liquidity protocol using Rust and Substrate. Aiming for low latency and high security."
-          className="bg-white/5 border-white/10 focus-visible:ring-indigo-bloom resize-none py-5 text-[17px]!"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="py-5 text-[17px] resize-none"
         />
       </div>
 
@@ -42,56 +77,36 @@ export default function ProjectDetailsForm() {
         </label>
 
         <div className="flex flex-wrap gap-2">
-          {["Rust", "Solana", "Wasm"].map((tech) => (
-            <Badge key={tech} className="bg-primary text-white cursor-pointer">
-              {tech}
-            </Badge>
-          ))}
+          {allTags.map((tech) => {
+            const selected = tags.includes(tech);
 
-          {["React", "Node.js", "Go", "Python", "TypeScript", "PostgreSQL"].map(
-            (tech) => (
+            return (
               <Badge
                 key={tech}
-                variant="outline"
-                className="border-white/10 bg-white/5 text-muted-foreground hover:bg-primary/20 hover:border-primary/50 cursor-pointer"
+                onClick={() => toggleTag(tech)}
+                className={`cursor-pointer ${
+                  selected
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card border-border text-muted-foreground hover:bg-primary/20"
+                }`}
               >
                 {tech}
               </Badge>
-            ),
-          )}
+            );
+          })}
         </div>
       </div>
 
-      {/* MEMBERS + PLATFORM */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-            Max Members
-          </label>
-          <Input
-            type="number"
-            defaultValue={5}
-            className="bg-white/5 border-white/10 focus-visible:ring-indigo-bloom"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-            Coordination Platform
-          </label>
-
-          <Select defaultValue="discord">
-            <SelectTrigger className="bg-white/5 border-white/10 focus:ring-indigo-bloom">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="discord">Discord</SelectItem>
-              <SelectItem value="slack">Slack</SelectItem>
-              <SelectItem value="telegram">Telegram</SelectItem>
-              <SelectItem value="matrix">Matrix</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      {/* MEMBERS */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+          Max Members
+        </label>
+        <Input
+          type="number"
+          value={maxMembers}
+          onChange={(e) => setMaxMembers(Number(e.target.value))}
+        />
       </div>
     </div>
   );
