@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
 
-export default function CreateProjectHeader() {
+interface Props {
+  onLaunch: () => void;
+  submitting: boolean;
+}
+
+export default function CreateProjectHeader({ onLaunch, submitting }: Props) {
   return (
     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
       {/* LEFT */}
@@ -28,8 +33,12 @@ export default function CreateProjectHeader() {
           Save Draft
         </Button>
 
-        <Button className="w-full sm:w-auto h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-bold rounded-full">
-          Launch Project
+        <Button
+          onClick={onLaunch}
+          disabled={submitting}
+          className="w-full sm:w-auto h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-bold rounded-full disabled:opacity-50"
+        >
+          {submitting ? "Launching..." : "Launch Project"}
         </Button>
       </div>
     </div>

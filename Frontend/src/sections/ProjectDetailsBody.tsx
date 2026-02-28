@@ -1,21 +1,23 @@
 import { Button } from "@/components/ui/button";
+import type { Project } from "../types/project";
 
 interface Props {
-  description: string;
-  tags: string[];
-  members: number;
-  maxMembers: number;
-  status: string;
+  project: Project;
 }
 
-export function ProjectDetailsBody({
-  description,
-  tags,
-  members,
-  maxMembers,
-  status,
-}: Props) {
-  const percentage = (members / maxMembers) * 100;
+export function ProjectDetailsBody({ project }: Props) {
+  const {
+    description,
+    techStack,
+    goals,
+    members,
+    maxMembers,
+    status,
+    lookingFor,
+  } = project;
+
+  const memberCount = members.length;
+  const percentage = (memberCount / maxMembers) * 100;
 
   return (
     <div className="px-6 py-6 sm:p-10 overflow-y-auto flex-1 text-foreground min-h-0">
@@ -24,55 +26,44 @@ export function ProjectDetailsBody({
         <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-4 sm:mb-6 uppercase tracking-widest">
           Tech Stack
         </h3>
+
         <div className="flex flex-wrap gap-2 sm:gap-3">
-          {tags.map((tag) => (
+          {techStack.map((tech) => (
             <div
-              key={tag}
+              key={tech}
               className="flex items-center gap-2 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-white/10"
             >
               <span className="material-symbols-rounded text-xs">code</span>
               <span className="text-[11px] sm:text-xs font-extrabold text-white">
-                {tag}
+                {tech}
               </span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Learning Outcomes */}
+      {/* Learning Outcomes (Goals from backend) */}
       <div className="mb-8 sm:mb-12">
         <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-4 sm:mb-6 uppercase tracking-widest">
           Learning Outcomes
         </h3>
 
         <div className="grid grid-cols-1 gap-3 sm:gap-4">
-          <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-sidebar/10 border border-sidebar/20">
-            <span className="material-symbols-rounded text-purple bg-white p-1.5 sm:p-2 rounded-xl shadow-sm shrink-0">
-              memory
-            </span>
-            <div>
-              <h4 className="font-bold text-foreground text-sm sm:text-base">
-                Memory Safety in Rust
-              </h4>
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                Master production-grade memory management and safety patterns.
-              </p>
+          {goals.map((goal, index) => (
+            <div
+              key={index}
+              className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-sidebar/10 border border-sidebar/20"
+            >
+              <span className="material-symbols-rounded text-purple bg-white p-1.5 sm:p-2 rounded-xl shadow-sm shrink-0">
+                school
+              </span>
+              <div>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  {goal}
+                </p>
+              </div>
             </div>
-          </div>
-
-          <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-sidebar/10 border border-sidebar/20">
-            <span className="material-symbols-rounded text-purple bg-white p-1.5 sm:p-2 rounded-xl shadow-sm shrink-0">
-              layers
-            </span>
-            <div>
-              <h4 className="font-bold text-foreground text-sm sm:text-base">
-                Substrate Framework
-              </h4>
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                Deep dive into pallet development and custom runtime logic.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -81,8 +72,20 @@ export function ProjectDetailsBody({
         <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-3 sm:mb-4 uppercase tracking-widest">
           Project Mission
         </h3>
+
         <p className="leading-relaxed text-base sm:text-lg font-medium text-foreground/80">
           {description}
+        </p>
+      </div>
+
+      {/* Looking For */}
+      <div className="mb-8 sm:mb-10">
+        <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-3 sm:mb-4 uppercase tracking-widest">
+          Looking For
+        </h3>
+
+        <p className="text-base sm:text-lg font-medium text-foreground/80">
+          {lookingFor}
         </p>
       </div>
 
@@ -123,7 +126,7 @@ export function ProjectDetailsBody({
 
             <div className="absolute flex flex-col items-center">
               <span className="text-lg font-black text-white leading-none">
-                {members}/{maxMembers}
+                {memberCount}/{maxMembers}
               </span>
               <span className="text-[8px] font-black text-purple/60 uppercase tracking-widest mt-0.5">
                 Slots
@@ -132,7 +135,7 @@ export function ProjectDetailsBody({
           </div>
 
           <p className="text-sm font-bold text-muted-foreground">
-            Join {members} others exploring this stack
+            Join {memberCount} others exploring this stack
           </p>
         </div>
       </div>

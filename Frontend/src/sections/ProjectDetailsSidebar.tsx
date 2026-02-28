@@ -1,92 +1,17 @@
-// interface ProjectDetailsSidebarProps {
-//   members: number;
-//   maxMembers: number;
-//   onClose: () => void;
-// }
-
 import { Button } from "@/components/ui/button";
+import type { Project } from "../types/project";
 
-// export function ProjectDetailsSidebar({
-//   members,
-//   maxMembers,
-// }: ProjectDetailsSidebarProps) {
-//   const percentage = (members / maxMembers) * 100;
-//   const radius = 54;
-//   const circumference = 2 * Math.PI * radius;
-//   const offset = circumference - (percentage / 100) * circumference;
-
-//   return (
-//     <div
-//       className="
-//     hidden md:flex
-//     w-[320px] lg:w-90
-//     bg-sidebar
-//     flex-col gap-10
-//     border-l border-white/5
-//     p-10 shrink-0
-//   "
-//     >
-//       <section className="sticky top-10">
-//         <h3 className="text-purple font-extrabold text-[10px] mb-5 uppercase tracking-widest opacity-80">
-//           Availability
-//         </h3>
-
-//         <div className="bg-white/5 p-6 rounded-[2rem] border border-white/10 flex flex-col items-center">
-//           <div className="relative flex items-center justify-center mb-4">
-//             <svg className="w-32 h-32">
-//               <circle
-//                 className="text-white/10"
-//                 cx="64"
-//                 cy="64"
-//                 r={radius}
-//                 stroke="currentColor"
-//                 strokeWidth="12"
-//                 fill="transparent"
-//               />
-//               <circle
-//                 className="text-purple transition-all duration-500"
-//                 cx="64"
-//                 cy="64"
-//                 r={radius}
-//                 stroke="currentColor"
-//                 strokeWidth="12"
-//                 fill="transparent"
-//                 strokeDasharray={circumference}
-//                 strokeDashoffset={offset}
-//                 strokeLinecap="round"
-//                 transform="rotate(-90 64 64)"
-//               />
-//             </svg>
-
-//             <div className="absolute flex flex-col items-center">
-//               <span className="text-3xl font-black text-white leading-none">
-//                 {members}/{maxMembers}
-//               </span>
-//               <span className="text-[10px] font-black text-purple/60 uppercase tracking-widest mt-1">
-//                 Slots
-//               </span>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     </div>
-//   );
-// }
-
-// ─── Sidebar (updated) ────────────────────────────────────────────────────────
-
-interface ProjectDetailsSidebarProps {
-  members: number;
-  maxMembers: number;
+interface Props {
+  project: Project;
   onClose: () => void;
 }
 
-export function ProjectDetailsSidebar({
-  members,
-  maxMembers,
-  onClose,
-}: ProjectDetailsSidebarProps) {
-  const percentage = (members / maxMembers) * 100;
+export function ProjectDetailsSidebar({ project, onClose }: Props) {
+  const { members, maxMembers, status } = project;
+
+  const memberCount = members.length;
+  const percentage = (memberCount / maxMembers) * 100;
+
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;
@@ -103,8 +28,7 @@ export function ProjectDetailsSidebar({
         overflow-y-auto
       "
     >
-      {/* Close lives here — stays put because sidebar only scrolls if
-          its own content overflows, which it won't at typical heights */}
+      {/* Close Button */}
       <div className="flex justify-end">
         <Button
           size="icon"
@@ -121,6 +45,7 @@ export function ProjectDetailsSidebar({
         <h3 className="text-purple font-extrabold text-[10px] mb-5 uppercase tracking-widest opacity-80">
           Availability
         </h3>
+
         <div className="bg-white/5 p-6 rounded-[2rem] border border-white/10 flex flex-col items-center">
           <div className="relative flex items-center justify-center mb-4">
             <svg className="w-32 h-32">
@@ -133,6 +58,7 @@ export function ProjectDetailsSidebar({
                 strokeWidth="12"
                 fill="transparent"
               />
+
               <circle
                 className="text-purple transition-all duration-500"
                 cx="64"
@@ -147,18 +73,30 @@ export function ProjectDetailsSidebar({
                 transform="rotate(-90 64 64)"
               />
             </svg>
+
             <div className="absolute flex flex-col items-center">
               <span className="text-3xl font-black text-white leading-none">
-                {members}/{maxMembers}
+                {memberCount}/{maxMembers}
               </span>
               <span className="text-[10px] font-black text-purple/60 uppercase tracking-widest mt-1">
                 Slots
               </span>
             </div>
           </div>
+
           <p className="text-sm font-bold text-muted-foreground text-center">
-            Join {members} others exploring this stack
+            Join {memberCount} others exploring this stack
           </p>
+
+          {/* Join Button (Desktop) */}
+          {status === "open" && (
+            <Button className="mt-6 w-full bg-purple hover:bg-purple/90 text-white rounded-2xl font-black text-base shadow-xl shadow-purple/40">
+              <span className="material-symbols-rounded mr-2">
+                rocket_launch
+              </span>
+              Join Project
+            </Button>
+          )}
         </div>
       </section>
     </div>

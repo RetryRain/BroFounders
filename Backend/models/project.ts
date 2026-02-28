@@ -61,7 +61,7 @@ const projectSchema = new mongoose.Schema({
   maxMembers: {
     type: Number,
     required: true,
-    min: 1,
+    min: 2,
     max: 50,
   },
   status: {

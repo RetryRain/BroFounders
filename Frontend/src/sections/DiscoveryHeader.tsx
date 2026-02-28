@@ -29,7 +29,7 @@ export function DiscoveryHeader() {
         </div>
 
         {/* Button */}
-        <Link to={"create-project"}>
+        <Link to={"/projects/create-project"}>
           <Button className="w-full sm:w-auto h-12 gap-2 bg-purple text-base font-bold hover:bg-purple/70 rounded-2xl">
             <span className="material-symbols-rounded">add_circle</span>
             Host Project

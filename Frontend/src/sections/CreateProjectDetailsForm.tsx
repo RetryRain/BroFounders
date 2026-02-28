@@ -1,0 +1,252 @@
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import type { Project } from "@/types/project";
+import type { Dispatch, SetStateAction } from "react";
+
+interface Props {
+  title: Project["title"];
+  setTitle: Dispatch<SetStateAction<Project["title"]>>;
+
+  blurb: Project["blurb"];
+  setBlurb: Dispatch<SetStateAction<Project["blurb"]>>;
+
+  description: Project["description"];
+  setDescription: Dispatch<SetStateAction<Project["description"]>>;
+
+  techStack: Project["techStack"];
+  setTechStack: Dispatch<SetStateAction<Project["techStack"]>>;
+
+  level: Project["level"];
+  setLevel: Dispatch<SetStateAction<Project["level"]>>;
+
+  maxMembers: Project["maxMembers"];
+  setMaxMembers: Dispatch<SetStateAction<Project["maxMembers"]>>;
+
+  lookingFor: Project["lookingFor"];
+  setLookingFor: Dispatch<SetStateAction<Project["lookingFor"]>>;
+
+  broadcast: string;
+  setBroadcast: Dispatch<SetStateAction<string>>;
+}
+
+export default function CreateProjectDetailsForm({
+  title,
+  setTitle,
+  blurb,
+  setBlurb,
+  description,
+  setDescription,
+  techStack,
+  setTechStack,
+  level,
+  setLevel,
+  maxMembers,
+  setMaxMembers,
+  lookingFor,
+  setLookingFor,
+  broadcast,
+  setBroadcast,
+}: Props) {
+  const [customTech, setCustomTech] = useState("");
+
+  const allTech = [
+    "Rust",
+    "Solana",
+    "Wasm",
+    "React",
+    "Node.js",
+    "Go",
+    "Python",
+    "TypeScript",
+    "PostgreSQL",
+  ];
+
+  const levels: Project["level"][] = [
+    "beginner",
+    "intermediate",
+    "advanced",
+    "chaos",
+  ];
+
+  const toggleTech = (tech: string) => {
+    if (techStack.includes(tech)) {
+      setTechStack((prev) => prev.filter((t) => t !== tech));
+    } else {
+      setTechStack((prev) => [...prev, tech]);
+    }
+  };
+
+  const addCustomTech = () => {
+    const trimmed = customTech.trim();
+    if (!trimmed || techStack.includes(trimmed)) return;
+    setTechStack([...techStack, trimmed]);
+    setCustomTech("");
+  };
+
+  return (
+    <div className="space-y-8">
+      {/* TITLE */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+          Project Title
+        </label>
+        <Input
+          required
+          value={title}
+          maxLength={75}
+          onChange={(e) => setTitle(e.target.value)}
+          className="py-5 text-[17px] min-w-0"
+        />
+      </div>
+
+      {/* BLURB */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+          Blurb (Short Pitch)
+        </label>
+        <Textarea
+          required
+          rows={2}
+          value={blurb}
+          maxLength={110}
+          onChange={(e) => setBlurb(e.target.value)}
+          className="py-4 text-[15px] resize-none"
+        />
+      </div>
+
+      {/* DESCRIPTION */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+          Full Description
+        </label>
+        <Textarea
+          required
+          rows={6}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="py-5 text-[16px] resize-none"
+        />
+      </div>
+
+      {/* DIFFICULTY */}
+      <div className="space-y-4">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground block">
+          Difficulty Level
+        </label>
+
+        <div className="flex gap-2 flex-wrap">
+          {levels.map((lvl) => (
+            <Badge
+              key={lvl}
+              onClick={() => setLevel(lvl)}
+              className={`cursor-pointer ${
+                level === lvl
+                  ? "bg-purple text-white"
+                  : "bg-card border-border text-muted-foreground hover:bg-purple/20"
+              }`}
+            >
+              {lvl}
+            </Badge>
+          ))}
+        </div>
+      </div>
+
+      {/* TECH STACK */}
+      <div className="space-y-4">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground block">
+          Tech Stack
+        </label>
+
+        <div className="flex flex-wrap gap-2">
+          {allTech.map((tech) => {
+            const selected = techStack.includes(tech);
+
+            return (
+              <Badge
+                key={tech}
+                onClick={() => toggleTech(tech)}
+                className={`cursor-pointer ${
+                  selected
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card border-border text-muted-foreground hover:bg-primary/20"
+                }`}
+              >
+                {tech}
+              </Badge>
+            );
+          })}
+        </div>
+
+        {/* Custom Tech Input */}
+        <div className="flex gap-2">
+          <Input
+            placeholder="Add custom tech..."
+            value={customTech}
+            maxLength={20}
+            onChange={(e) => setCustomTech(e.target.value)}
+          />
+          <Badge
+            onClick={addCustomTech}
+            className="cursor-pointer bg-purple text-white"
+          >
+            Add
+          </Badge>
+        </div>
+      </div>
+
+      {/* MAX MEMBERS */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+          Max Members
+        </label>
+        <Input
+          type="number"
+          value={maxMembers}
+          min={2}
+          max={50}
+          onChange={(e) => setMaxMembers(Number(e.target.value))}
+        />
+      </div>
+
+      {/* Looking for */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+          Who are you looking for?
+        </label>
+
+        <Textarea
+          required
+          rows={2}
+          value={lookingFor}
+          maxLength={200}
+          onChange={(e) => setLookingFor(e.target.value)}
+          className="py-4 text-[15px] resize-none"
+        />
+
+        <div className="text-right text-xs text-muted-foreground">
+          {lookingFor.length}/200
+        </div>
+      </div>
+
+      {/* BROADCAST LINK */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+          Broadcast Discussion Link <span className="text-red-500">*</span>
+        </label>
+
+        <div className="flex gap-2">
+          <Textarea
+            required
+            rows={2}
+            placeholder="Paste Discord / Telegram / Slack link..."
+            value={broadcast}
+            onChange={(e) => setBroadcast(e.target.value)}
+            className="resize-none"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

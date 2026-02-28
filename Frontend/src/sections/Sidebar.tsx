@@ -3,16 +3,22 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarLink from "./SidebarLink";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+}
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  const location = useLocation();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,21 +30,20 @@ export default function Sidebar() {
         }
 
         const res = await axios.get(`${API}/users/me`, {
-          headers: {
-            "x-auth-token": token,
-          },
+          headers: { "x-auth-token": token },
         });
 
         setUser(res.data);
-        localStorage.setItem("user", JSON.stringify(res.data));
-      } catch (err) {
+      } catch {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        navigate("/auth");
       }
     };
 
     fetchUser();
-  }, []);
+  }, [navigate]);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -47,11 +52,11 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* ================= MOBILE ================= */}
-      <div className="lg:hidden top-4">
+      {/* MOBILE */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" className="mt-4">
+            <Button variant="ghost">
               <span className="material-symbols-rounded">menu</span>
             </Button>
           </SheetTrigger>
@@ -60,32 +65,40 @@ export default function Sidebar() {
             side="left"
             className="w-64 bg-sidebar text-sidebar-foreground p-0 border-sidebar-border"
           >
-            <SidebarContent onLogout={handleLogout} user={user} />
+            <SidebarContent
+              user={user}
+              onLogout={handleLogout}
+              pathname={location.pathname}
+            />
           </SheetContent>
         </Sheet>
       </div>
 
-      {/* ================= DESKTOP ================= */}
+      {/* DESKTOP */}
       <aside className="hidden lg:flex w-64 bg-sidebar text-sidebar-foreground flex-col fixed inset-y-0 left-0 border-r border-sidebar-border">
-        <SidebarContent onLogout={handleLogout} user={user} />
+        <SidebarContent
+          user={user}
+          onLogout={handleLogout}
+          pathname={location.pathname}
+        />
       </aside>
     </>
   );
 }
 
-/* ================= REUSABLE CONTENT ================= */
-
 function SidebarContent({
-  onLogout,
   user,
+  onLogout,
+  pathname,
 }: {
+  user: User | null;
   onLogout: () => void;
-  user: any;
+  pathname: string;
 }) {
   return (
     <>
       {/* Logo */}
-      <Link to={"/"}>
+      <Link to="/">
         <div className="p-8 flex items-center gap-3">
           <div className="size-10 bg-purple rounded-sm flex items-center justify-center shadow-lg shadow-primary/20">
             <span className="material-symbols-rounded text-primary-foreground">
@@ -100,32 +113,40 @@ function SidebarContent({
 
       {/* Navigation */}
       <nav className="flex-1 px-4 mt-4 space-y-1">
-        <Link to={"/projects"}>
+        <Link to="/projects">
           <SidebarLink
             icon={<span className="material-symbols-rounded">dashboard</span>}
             label="Discovery"
-            active
+            active={pathname.startsWith("/projects")}
           />
         </Link>
+
         <SidebarLink
           icon={<span className="material-symbols-rounded">groups</span>}
           label="My Teams"
+          active={pathname.startsWith("/teams")}
         />
+
         <SidebarLink
           icon={<span className="material-symbols-rounded">folder</span>}
           label="Resources"
+          active={pathname.startsWith("/resources")}
         />
-        <Link to={"/activity"}>
+
+        <Link to="/activity">
           <SidebarLink
             icon={
               <span className="material-symbols-rounded">notifications</span>
             }
             label="Activity"
+            active={pathname.startsWith("/activity")}
           />
         </Link>
+
         <SidebarLink
           icon={<span className="material-symbols-rounded">settings</span>}
           label="Settings"
+          active={pathname.startsWith("/settings")}
         />
       </nav>
 
@@ -142,11 +163,11 @@ function SidebarContent({
 
       {/* User */}
       <div className="p-4 border-t border-sidebar-border flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30"></div>
+        <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30" />
 
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold truncate">
-            {user?.name || "Loading..."}
+            {user?.name ?? "Loading..."}
           </p>
           <p className="text-xs text-muted-foreground truncate">
             {user?.email}

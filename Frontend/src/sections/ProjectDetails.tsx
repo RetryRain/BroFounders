@@ -1,12 +1,12 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import type { ProjectCardProps } from "./ProjectCard";
+import { Button } from "@/components/ui/button";
+import type { Project } from "../types/project";
 import { ProjectDetailsHeader } from "./ProjectDetailsHeader";
 import { ProjectDetailsBody } from "./ProjectDetailsBody";
 import { ProjectDetailsSidebar } from "./ProjectDetailsSidebar";
-import { Button } from "@/components/ui/button";
 
 interface ProjectDetailsProps {
-  project: ProjectCardProps | null;
+  project: Project | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -17,8 +17,6 @@ export default function ProjectDetails({
   onOpenChange,
 }: ProjectDetailsProps) {
   if (!project) return null;
-
-  const { title, description, tags, members, maxMembers, status } = project;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -36,7 +34,7 @@ export default function ProjectDetails({
           border-0 sm:border sm:border-white/10
         "
       >
-        {/* Mobile-only close button — sidebar (which holds the close btn) is hidden on mobile */}
+        {/* Mobile Close Button */}
         <div className="md:hidden absolute top-4 right-4 z-50">
           <Button
             size="icon"
@@ -47,28 +45,18 @@ export default function ProjectDetails({
             <span className="material-symbols-rounded">close</span>
           </Button>
         </div>
-        {/* overflow-hidden here — each column manages its own scroll */}
+
+        {/* Layout */}
         <div className="flex h-full flex-col md:flex-row overflow-hidden">
-          {/* LEFT COLUMN — scrolls independently, header scrolls with body */}
+          {/* LEFT COLUMN — scrollable */}
           <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-purple/40 scrollbar-track-transparent">
-            <ProjectDetailsHeader
-              title={title}
-              description={description}
-              status={status}
-            />
-            <ProjectDetailsBody
-              description={description}
-              tags={tags}
-              members={members}
-              maxMembers={maxMembers}
-              status={status}
-            />
+            <ProjectDetailsHeader project={project} />
+            <ProjectDetailsBody project={project} />
           </div>
 
-          {/* RIGHT COLUMN — never scrolls, so close button stays pinned */}
+          {/* RIGHT COLUMN — fixed */}
           <ProjectDetailsSidebar
-            members={members}
-            maxMembers={maxMembers}
+            project={project}
             onClose={() => onOpenChange(false)}
           />
         </div>
