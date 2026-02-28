@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export function DiscoveryHeader() {
   return (
@@ -28,10 +29,12 @@ export function DiscoveryHeader() {
         </div>
 
         {/* Button */}
-        <Button className="w-full sm:w-auto h-12 gap-2 bg-purple text-base font-bold hover:bg-purple/70 rounded-2xl">
-          <span className="material-symbols-rounded">add_circle</span>
-          Host Project
-        </Button>
+        <Link to={"create-project"}>
+          <Button className="w-full sm:w-auto h-12 gap-2 bg-purple text-base font-bold hover:bg-purple/70 rounded-2xl">
+            <span className="material-symbols-rounded">add_circle</span>
+            Host Project
+          </Button>
+        </Link>
       </div>
     </div>
   );
