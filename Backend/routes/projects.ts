@@ -9,18 +9,21 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const page = Math.max(parseInt(req.query.page as string) || 1, 1);
   const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
-  // max 50 per request to prevent abuse
-
   const skip = (page - 1) * limit;
 
+  const search = (req.query.search as string)?.trim() || "";
+
+  const filter = search ? { $text: { $search: search } } : {};
+
   const [projects, total] = await Promise.all([
-    Project.find()
+    Project.find(filter, search ? { score: { $meta: "textScore" } } : {})
       .select("-broadcast")
       .populate("user", "name")
-      .sort({ createdAt: -1 })
+      .sort(search ? { score: { $meta: "textScore" } } : { createdAt: -1 })
       .skip(skip)
       .limit(limit),
-    Project.countDocuments(),
+
+    Project.countDocuments(filter),
   ]);
 
   res.send({
@@ -31,21 +34,31 @@ router.get("/", async (req, res) => {
   });
 });
 
-// Get my projects (paginated)
+// Get my projects (paginated + search)
 router.get("/me", auth, async (req, res) => {
   const page = Math.max(parseInt(req.query.page as string) || 1, 1);
   const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
-
   const skip = (page - 1) * limit;
 
+  const search = (req.query.search as string) || "";
   const user = (req as any).user;
 
+  // Base filter (only my projects)
+  const filter: any = { user: user._id };
+
+  // Add text search if provided
+  if (search) {
+    filter.$text = { $search: search };
+  }
+
   const [projects, total] = await Promise.all([
-    Project.find({ user: user._id })
-      .sort({ createdAt: -1 })
+    Project.find(filter)
+      .select(search ? { score: { $meta: "textScore" } } : {})
+      .sort(search ? { score: { $meta: "textScore" } } : { createdAt: -1 })
       .skip(skip)
       .limit(limit),
-    Project.countDocuments({ user: user._id }),
+
+    Project.countDocuments(filter),
   ]);
 
   res.send({

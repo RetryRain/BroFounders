@@ -99,6 +99,23 @@ projectSchema.index(
   { expireAfterSeconds: 60 * 60 * 24 * 10 }, // 10 days
 );
 
+projectSchema.index(
+  {
+    title: "text",
+    blurb: "text",
+    techStack: "text",
+    description: "text",
+  },
+  {
+    weights: {
+      title: 5,
+      techStack: 4,
+      blurb: 2,
+      description: 1,
+    },
+  },
+);
+
 function validateProject(project: any) {
   const schema = Joi.object({
     title: Joi.string().min(3).max(100).required(),

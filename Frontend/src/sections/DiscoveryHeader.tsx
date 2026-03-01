@@ -2,7 +2,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-export function DiscoveryHeader() {
+interface Props {
+  search: string;
+  setSearch: (v: string) => void;
+}
+
+export function DiscoveryHeader({ search, setSearch }: Props) {
   return (
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
       {/* LEFT */}
@@ -23,6 +28,8 @@ export function DiscoveryHeader() {
             search
           </span>
           <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="Search tech stacks..."
             className="pl-10 h-12 rounded-2xl w-full"
           />

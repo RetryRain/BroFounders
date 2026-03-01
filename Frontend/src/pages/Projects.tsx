@@ -19,6 +19,8 @@ export default function Projects() {
   const [open, setOpen] = useState(false);
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const handleSelect = (project: Project) => {
     setSelectedProject(project);
@@ -33,7 +35,9 @@ export default function Projects() {
       try {
         setLoading(true);
 
-        const res = await axios.get(`${API}/projects?page=${page}&limit=12`);
+        const res = await axios.get(
+          `${API}/projects?page=${page}&limit=12&search=${encodeURIComponent(debouncedSearch)}`,
+        );
 
         setProjects(res.data.data);
         setPages(res.data.pages);
@@ -46,11 +50,23 @@ export default function Projects() {
     };
 
     fetchProjects();
-  }, [page]);
+  }, [page, debouncedSearch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
 
   return (
     <DashboardLayout>
-      <DiscoveryHeader />
+      <DiscoveryHeader search={search} setSearch={setSearch} />
       <ProjectGrid
         projects={projects}
         page={page}
