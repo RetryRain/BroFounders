@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
 import { Project } from "../models/project";
 import { User } from "../models/users"; // adjust path if needed
+import dotenv from "dotenv";
+import path from "path";
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/halfass";
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+
+const MONGO_URI = process.env.MONGO_URI as string;
 
 const techStacks = [
   ["React", "Node.js", "MongoDB"],

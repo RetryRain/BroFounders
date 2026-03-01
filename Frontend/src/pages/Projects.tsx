@@ -17,12 +17,17 @@ export default function Projects() {
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [open, setOpen] = useState(false);
+  const storedUser = localStorage.getItem("user");
+  const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
   const handleSelect = (project: Project) => {
     setSelectedProject(project);
     setOpen(true);
   };
 
+  const handleProjectDeleted = (id: string) => {
+    setProjects((prev) => prev.filter((p) => p._id !== id));
+  };
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -59,6 +64,8 @@ export default function Projects() {
         project={selectedProject}
         open={open}
         onOpenChange={setOpen}
+        currentUser={currentUser}
+        onProjectDeleted={handleProjectDeleted}
       />
     </DashboardLayout>
   );

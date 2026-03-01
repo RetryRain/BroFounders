@@ -34,13 +34,27 @@ export default function RegisterPanel() {
       return alert("Passwords do not match.");
 
     try {
+      // 1️⃣ Register
       const res = await axios.post(`${API}/users`, {
         name: form.name,
         email: form.email,
         password: form.password,
       });
 
-      localStorage.setItem("token", res.data.token);
+      const token = res.data.token;
+
+      // 2️⃣ Store token
+      localStorage.setItem("token", token);
+
+      // 3️⃣ Fetch user profile
+      const me = await axios.get(`${API}/users/me`, {
+        headers: { "x-auth-token": token },
+      });
+
+      // 4️⃣ Store user
+      localStorage.setItem("user", JSON.stringify(me.data));
+
+      // 5️⃣ Go to dashboard
       navigate("/projects");
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -50,6 +64,7 @@ export default function RegisterPanel() {
       }
     }
   };
+
   return (
     <div className="mx-auto w-full max-w-md">
       <div className="mb-8">
@@ -58,6 +73,7 @@ export default function RegisterPanel() {
           Start building projects with the community.
         </p>
       </div>
+
       <Card className="p-8 space-y-6 shadow-xl border">
         <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Name */}
@@ -72,6 +88,7 @@ export default function RegisterPanel() {
               required
             />
           </div>
+
           {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
@@ -83,6 +100,7 @@ export default function RegisterPanel() {
               required
             />
           </div>
+
           {/* Password */}
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
@@ -94,6 +112,7 @@ export default function RegisterPanel() {
               required
             />
           </div>
+
           {/* Confirm Password */}
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -105,6 +124,7 @@ export default function RegisterPanel() {
               required
             />
           </div>
+
           {/* Terms */}
           <div className="flex items-start space-x-2">
             <Checkbox
@@ -114,10 +134,7 @@ export default function RegisterPanel() {
                 setForm((prev) => ({ ...prev, terms: Boolean(checked) }))
               }
             />
-            <Label
-              htmlFor="terms"
-              className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed"
-            >
+            <Label htmlFor="terms" className="text-sm text-muted-foreground">
               I agree to the{" "}
               <a href="#" className="text-primary hover:underline">
                 Terms of Service
@@ -128,40 +145,14 @@ export default function RegisterPanel() {
               </a>
             </Label>
           </div>
+
           {/* Submit */}
           <Button type="submit" className="w-full cursor-pointer">
             Create Account →
           </Button>
-          {/* Separator */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div>
-          {/* Social */}
-          <div className="grid grid-cols-2 gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full cursor-pointer"
-            >
-              Google
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full cursor-pointer"
-            >
-              GitHub
-            </Button>
-          </div>
         </form>
       </Card>
+
       <p className="mt-8 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link

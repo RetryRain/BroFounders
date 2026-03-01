@@ -4,8 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarLink from "./SidebarLink";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useMemo } from "react";
 
 interface User {
   _id: string;
@@ -13,36 +12,15 @@ interface User {
   email: string;
 }
 
-const API = import.meta.env.VITE_API_URL;
-
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          navigate("/auth");
-          return;
-        }
-
-        const res = await axios.get(`${API}/users/me`, {
-          headers: { "x-auth-token": token },
-        });
-
-        setUser(res.data);
-      } catch {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        navigate("/auth");
-      }
-    };
-
-    fetchUser();
-  }, [navigate]);
+  // 🔥 Just read from localStorage — no fetching
+  const user: User | null = useMemo(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

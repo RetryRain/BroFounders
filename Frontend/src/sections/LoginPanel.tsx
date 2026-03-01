@@ -28,13 +28,26 @@ export default function LoginPanel() {
     e.preventDefault();
 
     try {
+      // 1️⃣ Login
       const res = await axios.post(`${API}/auth`, {
         email: form.email,
         password: form.password,
       });
 
-      localStorage.setItem("token", res.data.token);
+      const token = res.data.token;
 
+      // 2️⃣ Store token
+      localStorage.setItem("token", token);
+
+      // 3️⃣ Fetch user profile
+      const me = await axios.get(`${API}/users/me`, {
+        headers: { "x-auth-token": token },
+      });
+
+      // 4️⃣ Store user
+      localStorage.setItem("user", JSON.stringify(me.data));
+
+      // 5️⃣ Navigate
       navigate("/projects");
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -53,6 +66,7 @@ export default function LoginPanel() {
           Enter your details to access your projects.
         </p>
       </div>
+
       <Card className="p-8 space-y-6 shadow-xl border">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email */}
@@ -63,8 +77,10 @@ export default function LoginPanel() {
               id="email"
               type="email"
               placeholder="name@company.com"
+              required
             />
           </div>
+
           {/* Password */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -76,8 +92,14 @@ export default function LoginPanel() {
                 Forgot password?
               </a>
             </div>
-            <Input onChange={handleChange} id="password" type="password" />
+            <Input
+              onChange={handleChange}
+              id="password"
+              type="password"
+              required
+            />
           </div>
+
           {/* Remember */}
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -94,10 +116,12 @@ export default function LoginPanel() {
               Remember me for 30 days
             </Label>
           </div>
+
           {/* Submit */}
           <Button type="submit" className="w-full cursor-pointer">
             Sign In →
           </Button>
+
           {/* Separator */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
@@ -109,6 +133,7 @@ export default function LoginPanel() {
               </span>
             </div>
           </div>
+
           {/* Social */}
           <div className="grid grid-cols-2 gap-4">
             <Button type="button" className="w-full cursor-pointer">
@@ -120,6 +145,7 @@ export default function LoginPanel() {
           </div>
         </form>
       </Card>
+
       <p className="mt-8 text-center text-sm text-muted-foreground">
         Don't have an account?{" "}
         <Link
@@ -129,19 +155,6 @@ export default function LoginPanel() {
           Sign up for free
         </Link>
       </p>
-      <div className="mt-12 flex items-center justify-center gap-6 text-xs text-muted-foreground">
-        <a href="#" className="hover:text-primary">
-          Privacy Policy
-        </a>
-        <span className="h-1 w-1 rounded-full bg-muted-foreground"></span>
-        <a href="#" className="hover:text-primary">
-          Terms of Service
-        </a>
-        <span className="h-1 w-1 rounded-full bg-muted-foreground"></span>
-        <a href="#" className="hover:text-primary">
-          Contact Support
-        </a>
-      </div>
     </div>
   );
 }

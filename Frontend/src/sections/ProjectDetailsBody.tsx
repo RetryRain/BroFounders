@@ -3,9 +3,14 @@ import type { Project } from "../types/project";
 
 interface Props {
   project: Project;
+  currentUser: {
+    _id: string;
+    isAdmin?: boolean;
+  } | null;
+  onDelete: (id: string) => void;
 }
 
-export function ProjectDetailsBody({ project }: Props) {
+export function ProjectDetailsBody({ project, currentUser, onDelete }: Props) {
   const {
     description,
     techStack,
@@ -18,6 +23,13 @@ export function ProjectDetailsBody({ project }: Props) {
 
   const memberCount = members.length;
   const percentage = (memberCount / maxMembers) * 100;
+  const isHost =
+    currentUser &&
+    project.user &&
+    String(currentUser._id) === String(project.user._id);
+  const isAdmin = currentUser?.isAdmin;
+  const canDelete =
+    isAdmin || (isHost && (status === "open" || status === "in-progress"));
 
   return (
     <div className="px-6 py-6 sm:p-10 overflow-y-auto flex-1 text-foreground min-h-0">
@@ -150,10 +162,10 @@ export function ProjectDetailsBody({ project }: Props) {
           Share Project
         </Button>
 
-        {status === "open" && (
-          <Button className="bg-purple hover:bg-purple/90 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg shadow-xl shadow-purple/40 w-full sm:w-auto">
-            <span className="material-symbols-rounded mr-2">rocket_launch</span>
-            Join Project
+        {canDelete && (
+          <Button variant="destructive" onClick={() => onDelete(project._id)}>
+            <span className="material-symbols-rounded mr-2">delete</span>
+            Delete Project
           </Button>
         )}
       </div>

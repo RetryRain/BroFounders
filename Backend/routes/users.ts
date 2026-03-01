@@ -18,7 +18,7 @@ router.get("/", auth, admin, async (req, res) => {
 router.get("/me", auth, async (req, res) => {
   const userId = (req as any).user._id;
 
-  const user = await User.findById(userId).select("-password -_id");
+  const user = await User.findById(userId).select("-password");
 
   if (!user) return res.status(404).send("User not found.");
 

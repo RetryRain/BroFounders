@@ -4,19 +4,48 @@ import type { Project } from "../types/project";
 import { ProjectDetailsHeader } from "./ProjectDetailsHeader";
 import { ProjectDetailsBody } from "./ProjectDetailsBody";
 import { ProjectDetailsSidebar } from "./ProjectDetailsSidebar";
+import axios from "axios";
 
 interface ProjectDetailsProps {
   project: Project | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  currentUser: {
+    _id: string;
+    isAdmin?: boolean;
+  } | null;
+  onProjectDeleted: (id: string) => void;
 }
+
+const API = import.meta.env.VITE_API_URL;
 
 export default function ProjectDetails({
   project,
   open,
   onOpenChange,
+  currentUser,
+  onProjectDeleted,
 }: ProjectDetailsProps) {
   if (!project) return null;
+
+  const handleDelete = async (id: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      await axios.delete(`${API}/projects/${id}`, {
+        headers: { "x-auth-token": token },
+      });
+
+      // Remove from parent state
+      onProjectDeleted(id);
+
+      // Close modal
+      onOpenChange(false);
+    } catch (err: any) {
+      console.error("Delete failed:", err?.response?.data || err.message);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -48,13 +77,18 @@ export default function ProjectDetails({
 
         {/* Layout */}
         <div className="flex h-full flex-col md:flex-row overflow-hidden">
-          {/* LEFT COLUMN — scrollable */}
+          {/* LEFT COLUMN */}
           <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-purple/40 scrollbar-track-transparent">
             <ProjectDetailsHeader project={project} />
-            <ProjectDetailsBody project={project} />
+
+            <ProjectDetailsBody
+              project={project}
+              currentUser={currentUser}
+              onDelete={handleDelete}
+            />
           </div>
 
-          {/* RIGHT COLUMN — fixed */}
+          {/* RIGHT COLUMN */}
           <ProjectDetailsSidebar
             project={project}
             onClose={() => onOpenChange(false)}
