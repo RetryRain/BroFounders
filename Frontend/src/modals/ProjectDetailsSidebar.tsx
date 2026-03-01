@@ -99,6 +99,28 @@ export function ProjectDetailsSidebar({ project, onClose }: Props) {
           )}
         </div>
       </section>
+      <div className="mb-6">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+          Project ID
+        </p>
+
+        <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl px-3 py-2">
+          <div className="text-xs font-mono text-white/80 truncate max-w-45">
+            {project._id}
+          </div>
+
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(project._id);
+            }}
+            className="text-white/50 hover:text-purple transition"
+          >
+            <span className="material-symbols-rounded text-sm">
+              content_copy
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

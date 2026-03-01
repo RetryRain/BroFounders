@@ -13,13 +13,25 @@ router.get("/", async (req, res) => {
 
   const search = (req.query.search as string)?.trim() || "";
 
-  const filter = search ? { $text: { $search: search } } : {};
+  let filter: any = {};
+  let sort: any = { createdAt: -1 };
+  let projection: any = {};
+
+  if (search) {
+    if (mongoose.Types.ObjectId.isValid(search)) {
+      filter = { _id: search };
+    } else {
+      filter = { $text: { $search: search } };
+      sort = { score: { $meta: "textScore" } };
+      projection = { score: { $meta: "textScore" } };
+    }
+  }
 
   const [projects, total] = await Promise.all([
-    Project.find(filter, search ? { score: { $meta: "textScore" } } : {})
+    Project.find(filter, projection)
       .select("-broadcast")
       .populate("user", "name")
-      .sort(search ? { score: { $meta: "textScore" } } : { createdAt: -1 })
+      .sort(sort)
       .skip(skip)
       .limit(limit),
 
