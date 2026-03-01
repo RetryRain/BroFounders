@@ -3,7 +3,7 @@ import axios from "axios";
 import DashboardLayout from "../sections/DashboardLayout";
 import { DiscoveryHeader } from "../sections/DiscoveryHeader";
 import ProjectGrid from "../sections/ProjectGrid";
-import ProjectDetails from "../sections/ProjectDetails";
+import ProjectDetails from "../modals/ProjectDetails";
 import type { Project } from "../types/project";
 
 const API = import.meta.env.VITE_API_URL;
