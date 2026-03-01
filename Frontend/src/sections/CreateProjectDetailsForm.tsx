@@ -51,7 +51,7 @@ export default function CreateProjectDetailsForm({
 }: Props) {
   const [customTech, setCustomTech] = useState("");
 
-  const allTech = [
+  const defaultTech = [
     "Rust",
     "Solana",
     "Wasm",
@@ -62,6 +62,8 @@ export default function CreateProjectDetailsForm({
     "TypeScript",
     "PostgreSQL",
   ];
+
+  const allTech = Array.from(new Set([...defaultTech, ...techStack]));
 
   const levels: Project["level"][] = [
     "beginner",
@@ -90,7 +92,7 @@ export default function CreateProjectDetailsForm({
       {/* TITLE */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Project Title
+          Project Title <span className="text-red-500">*</span>
         </label>
         <Input
           required
@@ -104,7 +106,7 @@ export default function CreateProjectDetailsForm({
       {/* BLURB */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Blurb (Short Pitch)
+          Blurb (Short Pitch) <span className="text-red-500">*</span>
         </label>
         <Textarea
           required
@@ -119,7 +121,7 @@ export default function CreateProjectDetailsForm({
       {/* DESCRIPTION */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Full Description
+          Full Description <span className="text-red-500">*</span>
         </label>
         <Textarea
           required
@@ -133,7 +135,7 @@ export default function CreateProjectDetailsForm({
       {/* DIFFICULTY */}
       <div className="space-y-4">
         <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground block">
-          Difficulty Level
+          Difficulty Level <span className="text-red-500">*</span>
         </label>
 
         <div className="flex gap-2 flex-wrap">
@@ -156,7 +158,7 @@ export default function CreateProjectDetailsForm({
       {/* TECH STACK */}
       <div className="space-y-4">
         <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground block">
-          Tech Stack
+          Tech Stack <span className="text-red-500">*</span>
         </label>
 
         <div className="flex flex-wrap gap-2">
@@ -199,7 +201,7 @@ export default function CreateProjectDetailsForm({
       {/* MAX MEMBERS */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Max Members
+          Max Members <span className="text-red-500">*</span>
         </label>
         <Input
           type="number"
@@ -213,7 +215,7 @@ export default function CreateProjectDetailsForm({
       {/* Looking for */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Who are you looking for?
+          Who are you looking for? <span className="text-red-500">*</span>
         </label>
 
         <Textarea

@@ -3,9 +3,14 @@ import { Button } from "@/components/ui/button";
 interface Props {
   onLaunch: () => void;
   submitting: boolean;
+  title: string;
+  mode: "create" | "edit";
 }
-
-export default function CreateProjectHeader({ onLaunch, submitting }: Props) {
+export default function CreateProjectHeader({
+  onLaunch,
+  submitting,
+  mode,
+}: Props) {
   return (
     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
       {/* LEFT */}
@@ -38,7 +43,13 @@ export default function CreateProjectHeader({ onLaunch, submitting }: Props) {
           disabled={submitting}
           className="w-full sm:w-auto h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-base font-bold rounded-full disabled:opacity-50"
         >
-          {submitting ? "Launching..." : "Launch Project"}
+          {submitting
+            ? mode === "edit"
+              ? "Updating..."
+              : "Launching..."
+            : mode === "edit"
+              ? "Update Project"
+              : "Launch Project"}
         </Button>
       </div>
     </div>

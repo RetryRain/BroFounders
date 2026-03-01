@@ -8,9 +8,15 @@ interface Props {
     isAdmin?: boolean;
   } | null;
   onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
-export function ProjectDetailsBody({ project, currentUser, onDelete }: Props) {
+export function ProjectDetailsBody({
+  project,
+  currentUser,
+  onEdit,
+  onDelete,
+}: Props) {
   const {
     description,
     techStack,
@@ -30,6 +36,7 @@ export function ProjectDetailsBody({ project, currentUser, onDelete }: Props) {
   const isAdmin = currentUser?.isAdmin;
   const canDelete =
     isAdmin || (isHost && (status === "open" || status === "in-progress"));
+  const canUpdate = isAdmin || (isHost && status === "open");
 
   return (
     <div className="px-6 py-6 sm:p-10 overflow-y-auto flex-1 text-foreground min-h-0">
@@ -161,6 +168,13 @@ export function ProjectDetailsBody({ project, currentUser, onDelete }: Props) {
           <span className="material-symbols-rounded mr-2">share</span>
           Share Project
         </Button>
+
+        {canUpdate && (
+          <Button variant="outline" onClick={() => onEdit(project._id)}>
+            <span className="material-symbols-rounded mr-2">edit</span>
+            Edit Project
+          </Button>
+        )}
 
         {canDelete && (
           <Button variant="destructive" onClick={() => onDelete(project._id)}>

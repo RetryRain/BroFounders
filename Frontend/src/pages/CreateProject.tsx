@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { Project } from "@/types/project";
 
 import DashboardLayout from "@/sections/DashboardLayout";
 import CreateProjectHeader from "@/sections/CreateProjectHeader";
 import CreateProjectLayout from "@/sections/CreateProjectLayout";
+import Toast from "@/modals/Toast";
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function CreateProject() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEdit = !!id;
 
   // =========================
   // FORM STATE
@@ -19,7 +22,6 @@ export default function CreateProject() {
   const [blurb, setBlurb] = useState("");
   const [description, setDescription] = useState("");
   const [techStack, setTechStack] = useState<string[]>([]);
-
   const [level, setLevel] = useState<Project["level"]>("intermediate");
   const [maxMembers, setMaxMembers] = useState(5);
   const [goals, setGoals] = useState<string[]>(["", "", "", ""]);
@@ -27,10 +29,61 @@ export default function CreateProject() {
   const [broadcast, setBroadcast] = useState("");
 
   // =========================
-  // SUBMIT STATE
+  // UI STATE
   // =========================
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  // Toast (system errors only)
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("error");
+  const [toastMessage, setToastMessage] = useState("");
+
+  // =========================
+  // FETCH PROJECT (EDIT MODE)
+  // =========================
+  useEffect(() => {
+    if (!isEdit) return;
+
+    const fetchProject = async () => {
+      try {
+        setLoading(true);
+
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const res = await axios.get(`${API}/projects/${id}`, {
+          headers: { "x-auth-token": token },
+        });
+
+        const p = res.data;
+
+        setTitle(p.title);
+        setBlurb(p.blurb);
+        setDescription(p.description);
+        setTechStack(p.techStack);
+        setLevel(p.level);
+        setMaxMembers(p.maxMembers);
+
+        // Always ensure 4 goals
+        const paddedGoals = [...p.goals];
+        while (paddedGoals.length < 4) {
+          paddedGoals.push("");
+        }
+        setGoals(paddedGoals);
+
+        setLookingFor(p.lookingFor);
+        setBroadcast(p.broadcast);
+      } catch (err: any) {
+        setError(err?.response?.data || "Failed to load project.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [id, isEdit]);
 
   // =========================
   // SUBMIT HANDLER
@@ -42,14 +95,29 @@ export default function CreateProject() {
 
       const token = localStorage.getItem("token");
       if (!token) {
-        setError("You must be logged in.");
+        setToastType("error");
+        setToastMessage("Session expired. Please log in again.");
+        setToastOpen(true);
+
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 3000);
+
         return;
       }
+
+      // if (!token) {
+      //   navigate("/auth/login", {
+      //     state: { error: "Please log in to continue." },
+      //   });
+      //   return;
+      // }
 
       const cleanedGoals = goals
         .map((g) => g.trim())
         .filter((g) => g.length > 0);
 
+      // Inline validation errors
       if (!title || !blurb || !description || !lookingFor || !broadcast) {
         setError("Please fill all required fields.");
         return;
@@ -65,45 +133,71 @@ export default function CreateProject() {
         return;
       }
 
-      await axios.post(
-        `${API}/projects`,
-        {
-          title,
-          blurb,
-          description,
-          techStack,
-          level,
-          goals: cleanedGoals,
-          lookingFor,
-          maxMembers,
-          broadcast,
-        },
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        },
-      );
+      const payload = {
+        title,
+        blurb,
+        description,
+        techStack,
+        level,
+        goals: cleanedGoals,
+        lookingFor,
+        maxMembers,
+        broadcast,
+      };
 
-      navigate("/projects");
+      if (isEdit) {
+        await axios.put(`${API}/projects/${id}`, payload, {
+          headers: { "x-auth-token": token },
+        });
+      } else {
+        await axios.post(`${API}/projects`, payload, {
+          headers: { "x-auth-token": token },
+        });
+      }
+
+      navigate("/projects", {
+        state: {
+          success: isEdit ? "updated" : "created",
+        },
+      });
     } catch (err: any) {
-      setError(err?.response?.data || "Failed to launch project.");
+      setToastType("error");
+      setToastMessage(
+        err?.response?.data || "Something went wrong. Please try again.",
+      );
+      setToastOpen(true);
     } finally {
       setSubmitting(false);
     }
   };
 
+  // =========================
+  // LOADING STATE
+  // =========================
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="p-10 text-center text-muted-foreground">
+          Loading project...
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
-      {/* HEADER */}
-      <CreateProjectHeader onLaunch={handleSubmit} submitting={submitting} />
+      <CreateProjectHeader
+        onLaunch={handleSubmit}
+        submitting={submitting}
+        title={isEdit ? "Update Project" : "Launch Project"}
+        mode={isEdit ? "edit" : "create"}
+      />
 
-      {/* ERROR DISPLAY */}
+      {/* Inline Validation Error */}
       {error && (
         <div className="mb-6 text-red-400 text-sm font-medium">{error}</div>
       )}
 
-      {/* FORM + PREVIEW */}
       <CreateProjectLayout
         title={title}
         setTitle={setTitle}
@@ -123,6 +217,14 @@ export default function CreateProject() {
         setLookingFor={setLookingFor}
         broadcast={broadcast}
         setBroadcast={setBroadcast}
+      />
+
+      {/* System Toast */}
+      <Toast
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        type={toastType}
+        message={toastMessage}
       />
     </DashboardLayout>
   );

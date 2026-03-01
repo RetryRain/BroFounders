@@ -6,6 +6,7 @@ import { ProjectDetailsBody } from "./ProjectDetailsBody";
 import { ProjectDetailsSidebar } from "./ProjectDetailsSidebar";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -41,6 +42,13 @@ export default function ProjectDetails({
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleEdit = (id: string) => {
+    onOpenChange(false);
+    navigate(`/projects/edit/${id}`);
+  };
 
   const handleDelete = async () => {
     try {
@@ -101,6 +109,7 @@ export default function ProjectDetails({
               <ProjectDetailsBody
                 project={project}
                 currentUser={currentUser}
+                onEdit={handleEdit}
                 onDelete={() => setDeleteOpen(true)}
               />
             </div>
