@@ -98,12 +98,13 @@ function SidebarContent({
             active={pathname.startsWith("/projects")}
           />
         </Link>
-
-        <SidebarLink
-          icon={<span className="material-symbols-rounded">groups</span>}
-          label="My Teams"
-          active={pathname.startsWith("/teams")}
-        />
+        <Link to="/my-teams">
+          <SidebarLink
+            icon={<span className="material-symbols-rounded">groups</span>}
+            label="My Teams"
+            active={pathname.startsWith("/my-teams")}
+          />
+        </Link>
 
         <SidebarLink
           icon={<span className="material-symbols-rounded">folder</span>}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import DashboardLayout from "../sections/DashboardLayout";
-import { DiscoveryHeader } from "../sections/DiscoveryHeader";
-import ProjectGrid from "../sections/ProjectGrid";
+import DashboardLayout from "../sections/Dashboard/DashboardLayout";
+import { DiscoveryHeader } from "../sections/Discovery/Discovery";
+import ProjectGrid from "../sections/Discovery/ProjectGrid";
 import ProjectDetails from "../modals/ProjectDetails";
 import type { Project } from "../types/project";
 import { useLocation } from "react-router-dom";

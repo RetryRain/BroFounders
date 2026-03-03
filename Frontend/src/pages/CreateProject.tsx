@@ -3,9 +3,9 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Project } from "@/types/project";
 
-import DashboardLayout from "@/sections/DashboardLayout";
-import CreateProjectHeader from "@/sections/CreateProjectHeader";
-import CreateProjectLayout from "@/sections/CreateProjectLayout";
+import DashboardLayout from "@/sections/Dashboard/DashboardLayout";
+import CreateProjectHeader from "@/sections/CreateProject/CreateProjectHeader";
+import CreateProjectLayout from "@/sections/CreateProject/CreateProjectLayout";
 import Toast from "@/modals/Toast";
 
 const API = import.meta.env.VITE_API_URL;

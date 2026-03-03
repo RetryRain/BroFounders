@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import DashboardLayout from "../sections/DashboardLayout";
-import ActivityHeader from "@/sections/ActivityHeader";
-import ActivityCard from "@/sections/ActivityCard";
-import ActivityStatus from "@/sections/ActivityStatus";
+import DashboardLayout from "../sections/Dashboard/DashboardLayout";
+import ActivityHeader from "@/sections/Activity/ActivityHeader";
+import ActivityCard from "@/sections/Activity/ActivityCard";
+import ActivityStatus from "@/sections/Activity/ActivityStatus";
 import Toast from "@/modals/Toast";
 
 const API = import.meta.env.VITE_API_URL;

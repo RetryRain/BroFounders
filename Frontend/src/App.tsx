@@ -3,10 +3,11 @@ import LandingPage from "./pages/LandingPage";
 import Authentication from "./pages/Authentication";
 import Projects from "./pages/Projects";
 import Activity from "./pages/Activity";
-import LoginPanel from "./sections/LoginPanel";
-import RegisterPanel from "./sections/RegisterPanel";
+import LoginPanel from "./sections/Authentication/LoginPanel";
+import RegisterPanel from "./sections/Authentication/RegisterPanel";
 import ProtectedRoute from "./sections/ProtectedRoute";
 import CreateProject from "./pages/CreateProject";
+import MyTeams from "./pages/MyTeams";
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="projects" element={<Projects />} />
             <Route path="projects/create-project" element={<CreateProject />} />
-            <Route path="/projects/edit/:id" element={<CreateProject />} />
+            <Route path="projects/edit/:id" element={<CreateProject />} />
+            <Route path="my-teams" element={<MyTeams />} />
             <Route path="activity" element={<Activity />} />
           </Route>
         </Routes>
