@@ -122,6 +122,41 @@ router.get("/project/:projectId", auth, async (req, res) => {
   });
 });
 
+// Get interests for all my projects
+router.get("/received/me", auth, async (req, res) => {
+  const loggedInUser = (req as any).user;
+
+  // find my projects
+  const myProjects = await Project.find({ user: loggedInUser._id }).select(
+    "_id",
+  );
+
+  const projectIds = myProjects.map((p) => p._id);
+
+  const interests = await Interest.find({
+    project: { $in: projectIds },
+  })
+    .populate("user", "name email")
+    .populate("project", "title status")
+    .sort({ createdAt: -1 });
+
+  res.send(interests);
+});
+
+// Accepted projects (projects I joined)
+router.get("/accepted/me", auth, async (req, res) => {
+  const loggedInUser = (req as any).user;
+
+  const interests = await Interest.find({
+    user: loggedInUser._id,
+    status: "accepted",
+  })
+    .populate("project")
+    .sort({ createdAt: -1 });
+
+  res.send(interests);
+});
+
 // Response
 router.patch("/:interestId", auth, async (req, res) => {
   const session = await mongoose.startSession();

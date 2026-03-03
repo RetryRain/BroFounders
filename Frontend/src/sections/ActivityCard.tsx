@@ -1,11 +1,24 @@
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import RequestItem from "./RequestItem";
 import SentApplicationItem from "./SentApplicationItem";
 
-export default function ActivityCard() {
-  const [activeTab, setActiveTab] = useState<"sent" | "received">("received");
+interface Props {
+  activeTab: "sent" | "received";
+  setActiveTab: (tab: "sent" | "received") => void;
+  sent: any[];
+  received: any[];
+  loading: boolean;
+  onRespond: (id: string, status: "accepted" | "rejected") => void;
+}
 
+export default function ActivityCard({
+  activeTab,
+  setActiveTab,
+  sent,
+  received,
+  loading,
+  onRespond,
+}: Props) {
   return (
     <Card className="glass-card rounded-2xl overflow-hidden border-white/10 bg-white/5">
       {/* Tabs */}
@@ -20,7 +33,7 @@ export default function ActivityCard() {
         >
           Sent Applications
           <span className="ml-2 bg-white/10 text-[10px] px-1.5 py-0.5 rounded-md">
-            3
+            {sent.length}
           </span>
         </button>
 
@@ -34,37 +47,38 @@ export default function ActivityCard() {
         >
           Received Requests
           <span className="ml-2 bg-purple/20 text-purple text-[10px] px-1.5 py-0.5 rounded-md">
-            2
+            {received.length}
           </span>
         </button>
       </div>
 
       {/* Content */}
       <div className="divide-y divide-white/5">
-        {activeTab === "received" ? (
-          <>
-            <RequestItem />
-            <RequestItem />
-          </>
+        {loading ? (
+          <div className="p-6 text-sm text-muted-foreground">Loading...</div>
+        ) : activeTab === "received" ? (
+          received.length > 0 ? (
+            received.map((item) => (
+              <RequestItem
+                key={item._id}
+                interest={item}
+                onRespond={onRespond}
+              />
+            ))
+          ) : (
+            <div className="p-6 text-sm text-muted-foreground">
+              No requests yet.
+            </div>
+          )
+        ) : sent.length > 0 ? (
+          sent.map((item) => (
+            <SentApplicationItem key={item._id} interest={item} />
+          ))
         ) : (
-          <>
-            <SentApplicationItem />
-            <SentApplicationItem />
-            <SentApplicationItem />
-          </>
+          <div className="p-6 text-sm text-muted-foreground">
+            No applications sent.
+          </div>
         )}
-      </div>
-
-      {/* Footer */}
-      <div className="p-4 bg-white/5 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-muted-foreground">
-        <p>
-          {activeTab === "received"
-            ? "Showing 2 pending hosting requests"
-            : "Showing 3 submitted applications"}
-        </p>
-        <button className="text-purple hover:underline">
-          Clear all notifications
-        </button>
       </div>
     </Card>
   );
