@@ -4,9 +4,10 @@ import type { Project } from "../types/project";
 interface Props {
   project: Project;
   onClose: () => void;
+  onJoin: () => void;
 }
 
-export function ProjectDetailsSidebar({ project, onClose }: Props) {
+export function ProjectDetailsSidebar({ project, onClose, onJoin }: Props) {
   const { members, maxMembers, status } = project;
 
   const memberCount = members.length;
@@ -90,7 +91,10 @@ export function ProjectDetailsSidebar({ project, onClose }: Props) {
 
           {/* Join Button (Desktop) */}
           {status === "open" && (
-            <Button className="mt-6 w-full bg-purple hover:bg-purple/90 text-white rounded-2xl font-black text-base shadow-xl shadow-purple/40">
+            <Button
+              onClick={onJoin}
+              className="mt-6 w-full bg-purple hover:bg-purple/90 text-white rounded-2xl font-black text-base shadow-xl shadow-purple/40"
+            >
               <span className="material-symbols-rounded mr-2">
                 rocket_launch
               </span>

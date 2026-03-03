@@ -24,15 +24,27 @@ export function DiscoveryHeader({ search, setSearch }: Props) {
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
         {/* Search */}
         <div className="relative w-full sm:w-72">
+          {/* Search Icon */}
           <span className="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
             search
           </span>
+
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search tech stacks..."
-            className="pl-10 h-12 rounded-2xl w-full"
+            className="pl-10 pr-10 h-12 rounded-2xl w-full"
           />
+
+          {/* Clear Button */}
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-purple transition"
+            >
+              <span className="material-symbols-rounded text-sm">close</span>
+            </button>
+          )}
         </div>
 
         {/* Button */}

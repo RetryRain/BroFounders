@@ -17,6 +17,8 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import JoinRequestModal from "@/modals/JoinRequestModal";
+import Toast from "./Toast";
 
 interface ProjectDetailsProps {
   project: Project | null;
@@ -42,6 +44,11 @@ export default function ProjectDetails({
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [joinOpen, setJoinOpen] = useState(false);
+  const [joining, setJoining] = useState(false);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("success");
+  const [toastMessage, setToastMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -71,8 +78,52 @@ export default function ProjectDetails({
     }
   };
 
+  const handleJoinRequest = async (message: string) => {
+    try {
+      setJoining(true);
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setToastType("error");
+        setToastMessage("You must be logged in.");
+        setToastOpen(true);
+        return;
+      }
+
+      await axios.post(
+        `${API}/interests/${project._id}`,
+        { message },
+        { headers: { "x-auth-token": token } },
+      );
+
+      setToastType("success");
+      setToastMessage("Join request sent successfully.");
+      setToastOpen(true);
+
+      setJoinOpen(false);
+    } catch (err: any) {
+      setToastType("error");
+      setToastMessage(err?.response?.data || "Failed to send join request.");
+      setToastOpen(true);
+    } finally {
+      setJoining(false);
+    }
+  };
+
   return (
     <>
+      <Toast
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        type={toastType}
+        message={toastMessage}
+      />
+      <JoinRequestModal
+        open={joinOpen}
+        onClose={() => setJoinOpen(false)}
+        onSubmit={handleJoinRequest}
+        loading={joining}
+      />
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           showCloseButton={false}
@@ -118,6 +169,7 @@ export default function ProjectDetails({
             <ProjectDetailsSidebar
               project={project}
               onClose={() => onOpenChange(false)}
+              onJoin={() => setJoinOpen(true)}
             />
           </div>
         </DialogContent>

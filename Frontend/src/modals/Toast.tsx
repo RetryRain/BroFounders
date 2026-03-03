@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface Props {
   open: boolean;
@@ -18,32 +19,45 @@ export default function Toast({ open, onClose, type, message }: Props) {
     return () => clearTimeout(timer);
   }, [open, onClose]);
 
-  if (!open) return null;
-
   const isSuccess = type === "success";
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-9999 animate-in fade-in slide-in-from-top-4">
-      <div
-        className={`shadow-2xl rounded-2xl px-6 py-4 flex items-center gap-4 backdrop-blur-xl border
-        ${
-          isSuccess
-            ? "bg-card border-white/10"
-            : "bg-red-500/10 border-red-500/30"
-        }`}
+    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent
+        showCloseButton={false}
+        className="
+          top-6
+          translate-y-0
+          left-1/2
+          -translate-x-1/2
+          fixed
+          w-auto
+          max-w-fit
+          p-0
+          border-0
+          bg-transparent
+          shadow-none
+        "
       >
-        <span
-          className={`material-symbols-rounded text-2xl ${
-            isSuccess ? "text-purple" : "text-red-400"
+        <div
+          className={`shadow-2xl rounded-2xl px-6 py-4 flex items-center gap-4 backdrop-blur-xl border
+          ${
+            isSuccess
+              ? "bg-card border-white/10"
+              : "bg-red-500/10 border-red-500/30"
           }`}
         >
-          {isSuccess ? "check_circle" : "error"}
-        </span>
+          <span
+            className={`material-symbols-rounded text-2xl ${
+              isSuccess ? "text-purple" : "text-red-400"
+            }`}
+          >
+            {isSuccess ? "check_circle" : "error"}
+          </span>
 
-        <div className="flex flex-col">
           <span className="text-white font-semibold text-sm">{message}</span>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
