@@ -8,6 +8,7 @@ import RegisterPanel from "./sections/Authentication/RegisterPanel";
 import ProtectedRoute from "./sections/ProtectedRoute";
 import CreateProject from "./pages/CreateProject";
 import MyTeams from "./pages/MyTeams";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="projects/edit/:id" element={<CreateProject />} />
             <Route path="my-teams" element={<MyTeams />} />
             <Route path="activity" element={<Activity />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
       </BrowserRouter>

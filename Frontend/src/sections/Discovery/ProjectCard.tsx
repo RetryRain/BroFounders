@@ -20,6 +20,7 @@ export default function ProjectCard({ project, onClick }: Props) {
       "bg-orange-400/20 text-orange-400 border border-orange-400/30",
     closed: "bg-slate-500/20 text-slate-400 border border-slate-500/30",
   };
+
   const levelStyle: Record<Project["level"], string> = {
     beginner: "bg-emerald-500/15 text-emerald-400 border border-emerald-400/30",
     intermediate: "bg-blue-500/15 text-blue-400 border border-blue-400/30",
@@ -30,21 +31,22 @@ export default function ProjectCard({ project, onClick }: Props) {
   return (
     <Card
       onClick={onClick}
-      className="glass-card rounded-2xl p-0 hover:-translate-y-1 transition-all cursor-pointer group border-white/10 bg-card-background shadow-none"
+      className="glass-card rounded-2xl cursor-pointer group border-white/10 bg-card-background hover:-translate-y-1 transition-all"
     >
-      <CardContent className="p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex gap-2">
+      <CardContent className="p-5 sm:p-6">
+        {/* STATUS ROW */}
+        <div className="flex justify-between items-start mb-4 flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2">
             <Badge
-              className={`uppercase text-[10px] tracking-widest font-bold px-2.5 py-1 rounded-full ${statusStyle[status]}`}
+              className={`uppercase text-[9px] sm:text-[10px] tracking-widest font-bold px-2 py-1 rounded-full ${statusStyle[status]}`}
             >
               {status.replace("-", " ")}
             </Badge>
 
             <Badge
-              className={`uppercase text-[10px] tracking-widest font-bold px-2.5 py-1 rounded-full ${levelStyle[level]}`}
+              className={`uppercase text-[9px] sm:text-[10px] tracking-widest font-bold px-2 py-1 rounded-full ${levelStyle[level]}`}
             >
-              {level.charAt(0).toUpperCase() + level.slice(1)}
+              {level}
             </Badge>
           </div>
 
@@ -58,19 +60,22 @@ export default function ProjectCard({ project, onClick }: Props) {
           </Button>
         </div>
 
-        <h3 className="text-xl font-bold text-white mb-2 wrap-break-word">
+        {/* TITLE */}
+        <h3 className="text-lg sm:text-xl font-bold text-white mb-2 wrap-break-word">
           {title}
         </h3>
 
-        <p className="text-sm line-clamp-2 mb-6 wrap-break-word">
+        {/* DESCRIPTION */}
+        <p className="text-sm line-clamp-2 mb-5 sm:mb-6 wrap-break-word">
           {blurb || "Add a short project pitch..."}
         </p>
 
+        {/* TECH STACK */}
         <div className="flex flex-wrap gap-2">
           {techStack.slice(0, 6).map((tech) => (
             <Badge
               key={tech}
-              className="px-3 py-1 bg-purple/30 rounded-xs text-indigo-bloom text-xs font-semibold border border-indigo-bloom/20 max-w-full"
+              className="px-2.5 py-1 bg-purple/30 text-indigo-bloom text-xs font-semibold border border-indigo-bloom/20"
             >
               {tech}
             </Badge>
@@ -78,8 +83,9 @@ export default function ProjectCard({ project, onClick }: Props) {
         </div>
       </CardContent>
 
-      <CardFooter className="px-6 py-6 pt-0 border-t border-white/5 flex justify-between items-center">
-        <span className="text-sm font-medium">
+      {/* FOOTER */}
+      <CardFooter className="px-5 sm:px-6 py-5 pt-0 border-t border-white/5 flex justify-between items-center">
+        <span className="text-xs sm:text-sm font-medium">
           {memberCount}/{maxMembers} Members
         </span>
 

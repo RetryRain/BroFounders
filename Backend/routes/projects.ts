@@ -81,6 +81,17 @@ router.get("/me", auth, async (req, res) => {
   });
 });
 
+// Get projects created by me
+router.get("/my-teams", auth, async (req, res) => {
+  const user = (req as any).user;
+
+  const projects = await Project.find({
+    members: user._id,
+  }).sort({ createdAt: -1 });
+
+  res.send(projects);
+});
+
 // Get by ID
 router.get("/:id", auth, async (req, res) => {
   const id = req.params.id as string;

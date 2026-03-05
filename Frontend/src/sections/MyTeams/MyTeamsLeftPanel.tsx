@@ -1,17 +1,68 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-export default function MyTeamsLeftPanel() {
+const API = import.meta.env.VITE_API_URL;
+
+interface Project {
+  _id: string;
+  title: string;
+  members: string[];
+}
+
+interface Props {
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+}
+
+export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
+  const [teams, setTeams] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const res = await axios.get(`${API}/projects/my-teams`, {
+          headers: { "x-auth-token": token },
+        });
+
+        setTeams(res.data);
+      } catch (err) {
+        console.error("Failed to load teams");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeams();
+  }, []);
+
   return (
     <Card className="bg-white/5 border-white/10 p-6 rounded-2xl">
       <h3 className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-6">
         Active Squads
       </h3>
 
-      <div className="space-y-3">
-        <SquadItem active />
-        <SquadItem />
-        <SquadItem />
+      <div className="space-y-2">
+        {loading ? (
+          <p className="text-sm text-muted-foreground">Loading...</p>
+        ) : teams.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No active squads yet.</p>
+        ) : (
+          teams.map((team) => (
+            <SquadItem
+              key={team._id}
+              title={team.title}
+              memberCount={team.members?.length ?? 0}
+              active={selectedId === team._id}
+              onClick={() => onSelect(team._id)}
+            />
+          ))
+        )}
       </div>
 
       <Button
@@ -25,26 +76,29 @@ export default function MyTeamsLeftPanel() {
   );
 }
 
-/* ================= Squad Item Component ================= */
-function SquadItem({ active = false }: { active?: boolean }) {
+/* ================= Squad Item ================= */
+function SquadItem({
+  title,
+  memberCount,
+  active,
+  onClick,
+}: {
+  title: string;
+  memberCount: number;
+  active: boolean;
+  onClick: () => void;
+}) {
   return (
     <div
-      className={`p-4 rounded-xl cursor-pointer transition ${
+      onClick={onClick}
+      className={`px-4 py-3 rounded-lg cursor-pointer transition ${
         active ? "bg-white/5 border border-purple/30" : "hover:bg-white/5"
       }`}
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <h4 className="text-sm font-bold text-white truncate">
-            Decentralized Asset Hub
-          </h4>
-          <p className="text-[10px] text-muted-foreground mt-1">4 Online</p>
-        </div>
-
-        <span className="material-symbols-rounded text-purple text-sm">
-          chevron_right
-        </span>
-      </div>
+      <p className="text-sm font-semibold text-white truncate">{title}</p>
+      <p className="text-[10px] text-muted-foreground mt-1">
+        {memberCount} Members
+      </p>
     </div>
   );
 }

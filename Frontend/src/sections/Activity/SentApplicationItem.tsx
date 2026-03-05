@@ -10,26 +10,22 @@ export default function SentApplicationItem({ interest }: Props) {
   };
 
   return (
-    <div className="p-6 hover:bg-white/5 transition-colors flex flex-col md:flex-row gap-6">
-      <div className="flex-1">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-3">
-          <div>
-            <h4 className="text-lg font-bold text-white">
-              {interest.project.title}
-            </h4>
-          </div>
+    <div className="p-4 sm:p-6 hover:bg-white/5 transition-colors flex flex-col gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4">
+        <h4 className="text-base sm:text-lg font-bold text-white wrap-break-word">
+          {interest.project.title}
+        </h4>
 
-          <span
-            className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${statusColors[interest.status]}`}
-          >
-            {interest.status}
-          </span>
-        </div>
-
-        <p className="text-sm text-foreground/80 italic mb-4">
-          "{interest.message}"
-        </p>
+        <span
+          className={`self-start text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${statusColors[interest.status]}`}
+        >
+          {interest.status}
+        </span>
       </div>
+
+      <p className="text-sm text-foreground/80 italic wrap-break-word">
+        "{interest.message}"
+      </p>
     </div>
   );
 }

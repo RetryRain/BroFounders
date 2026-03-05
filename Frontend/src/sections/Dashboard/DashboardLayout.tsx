@@ -1,4 +1,6 @@
 import Sidebar from "./Sidebar";
+import MobileNav from "./MobileNav";
+import MobileHeader from "./MobileHeader";
 
 export default function DashboardLayout({
   children,
@@ -6,9 +8,22 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto min-h-screen bg-dark-background text-foreground">
+    <div className="min-h-screen bg-dark-background text-foreground">
+      {/* DESKTOP SIDEBAR */}
       <Sidebar />
-      <main className="lg:ml-64 p-6 lg:p-8">{children}</main>
+
+      {/* MOBILE HEADER */}
+      <div className="lg:hidden">
+        <MobileHeader />
+      </div>
+
+      {/* MAIN CONTENT */}
+      <main className="lg:ml-64 p-5 lg:p-8 pb-24 lg:pb-8">{children}</main>
+
+      {/* MOBILE BOTTOM NAV */}
+      <div className="lg:hidden">
+        <MobileNav />
+      </div>
     </div>
   );
 }

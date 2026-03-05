@@ -30,28 +30,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* MOBILE */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost">
-              <span className="material-symbols-rounded">menu</span>
-            </Button>
-          </SheetTrigger>
-
-          <SheetContent
-            side="left"
-            className="w-64 bg-sidebar text-sidebar-foreground p-0 border-sidebar-border"
-          >
-            <SidebarContent
-              user={user}
-              onLogout={handleLogout}
-              pathname={location.pathname}
-            />
-          </SheetContent>
-        </Sheet>
-      </div>
-
       {/* DESKTOP */}
       <aside className="hidden lg:flex w-64 bg-sidebar text-sidebar-foreground flex-col fixed inset-y-0 left-0 border-r border-sidebar-border">
         <SidebarContent
@@ -108,8 +86,8 @@ function SidebarContent({
 
         <SidebarLink
           icon={<span className="material-symbols-rounded">folder</span>}
-          label="Resources"
-          active={pathname.startsWith("/resources")}
+          label="Showcase"
+          active={pathname.startsWith("/showcase")}
         />
 
         <Link to="/activity">
@@ -121,12 +99,13 @@ function SidebarContent({
             active={pathname.startsWith("/activity")}
           />
         </Link>
-
-        <SidebarLink
-          icon={<span className="material-symbols-rounded">settings</span>}
-          label="Settings"
-          active={pathname.startsWith("/settings")}
-        />
+        <Link to="/settings">
+          <SidebarLink
+            icon={<span className="material-symbols-rounded">settings</span>}
+            label="Settings"
+            active={pathname.startsWith("/settings")}
+          />
+        </Link>
       </nav>
 
       {/* Storage */}
