@@ -31,7 +31,15 @@ export default function MyTeams() {
           headers: { "x-auth-token": token },
         });
 
-        setProject(res.data);
+        const projectData = res.data;
+
+        setProject(projectData);
+
+        // 📱 MOBILE → open modal directly
+        if (window.innerWidth < 1024) {
+          setDetailsProject(projectData);
+          setDetailsOpen(true);
+        }
       } catch {
         console.error("Failed to fetch project");
       }
@@ -60,7 +68,7 @@ export default function MyTeams() {
           <MyTeamsLeftPanel selectedId={selectedId} onSelect={setSelectedId} />
         </div>
 
-        {/* RIGHT PANEL */}
+        {/* RIGHT PANEL (desktop only really used) */}
         <div className="flex-1 lg:overflow-y-auto">
           {project ? (
             <MyTeamsRightPanel
@@ -80,6 +88,7 @@ export default function MyTeams() {
         onOpenChange={setDetailsOpen}
         currentUser={currentUser}
         onProjectDeleted={handleProjectDeleted}
+        hideJoin
       />
     </DashboardLayout>
   );

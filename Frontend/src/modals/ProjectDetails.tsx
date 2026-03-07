@@ -20,6 +20,7 @@ import {
 import JoinRequestModal from "@/modals/JoinRequestModal";
 import Toast from "./Toast";
 
+const API = import.meta.env.VITE_API_URL;
 interface ProjectDetailsProps {
   project: Project | null;
   open: boolean;
@@ -28,16 +29,16 @@ interface ProjectDetailsProps {
     _id: string;
     isAdmin?: boolean;
   } | null;
+  hideJoin?: boolean;
   onProjectDeleted: (id: string) => void;
 }
-
-const API = import.meta.env.VITE_API_URL;
 
 export default function ProjectDetails({
   project,
   open,
   onOpenChange,
   currentUser,
+  hideJoin = false,
   onProjectDeleted,
 }: ProjectDetailsProps) {
   if (!project) return null;
@@ -170,6 +171,7 @@ export default function ProjectDetails({
               project={project}
               onClose={() => onOpenChange(false)}
               onJoin={() => setJoinOpen(true)}
+              hideJoin={hideJoin}
             />
           </div>
         </DialogContent>

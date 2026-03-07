@@ -1,7 +1,6 @@
 import "material-symbols/rounded.css";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SidebarLink from "./SidebarLink";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMemo } from "react";
@@ -83,12 +82,6 @@ function SidebarContent({
             active={pathname.startsWith("/my-teams")}
           />
         </Link>
-
-        <SidebarLink
-          icon={<span className="material-symbols-rounded">folder</span>}
-          label="Showcase"
-          active={pathname.startsWith("/showcase")}
-        />
 
         <Link to="/activity">
           <SidebarLink

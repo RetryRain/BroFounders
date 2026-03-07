@@ -5,9 +5,15 @@ interface Props {
   project: Project;
   onClose: () => void;
   onJoin: () => void;
+  hideJoin?: boolean;
 }
 
-export function ProjectDetailsSidebar({ project, onClose, onJoin }: Props) {
+export function ProjectDetailsSidebar({
+  project,
+  onClose,
+  onJoin,
+  hideJoin = false,
+}: Props) {
   const { members, maxMembers, status } = project;
 
   const memberCount = members.length;
@@ -90,7 +96,7 @@ export function ProjectDetailsSidebar({ project, onClose, onJoin }: Props) {
           </p>
 
           {/* Join Button (Desktop) */}
-          {status === "open" && (
+          {status === "open" && !hideJoin && (
             <Button
               onClick={onJoin}
               className="mt-6 w-full bg-purple hover:bg-purple/90 text-white rounded-2xl font-black text-base shadow-xl shadow-purple/40"
@@ -103,6 +109,8 @@ export function ProjectDetailsSidebar({ project, onClose, onJoin }: Props) {
           )}
         </div>
       </section>
+
+      {/* Project ID */}
       <div className="mb-6">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
           Project ID
@@ -114,9 +122,7 @@ export function ProjectDetailsSidebar({ project, onClose, onJoin }: Props) {
           </div>
 
           <button
-            onClick={() => {
-              navigator.clipboard.writeText(project._id);
-            }}
+            onClick={() => navigator.clipboard.writeText(project._id)}
             className="text-white/50 hover:text-purple transition"
           >
             <span className="material-symbols-rounded text-sm">

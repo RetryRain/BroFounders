@@ -126,7 +126,7 @@ router.post("/", auth, async (req, res) => {
     status: "open",
   });
 
-  if (openProjectsCount >= 10) {
+  if (openProjectsCount >= 5) {
     return res
       .status(400)
       .send("You can only have a maximum of 10 open projects.");

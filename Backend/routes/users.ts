@@ -43,17 +43,24 @@ router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details?.[0]?.message);
 
-  const existingUser = await User.findOne({ email: req.body.email });
+  const { name, email, password } = req.body;
+
+  // Password validation
+  if (!password || password.length < 5)
+    return res.status(400).send("Password must be at least 5 characters long.");
+
+  const existingUser = await User.findOne({ email });
   if (existingUser) return res.status(400).send("User already registered.");
 
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
   const user = await User.create({
-    name: req.body.name,
-    email: req.body.email,
+    name,
+    email,
     password: hashedPassword,
   });
+
   const token = jwt.sign(
     { _id: user._id, isAdmin: user.isAdmin },
     process.env.JWT_SECRET as string,

@@ -9,31 +9,36 @@ import ProtectedRoute from "./sections/ProtectedRoute";
 import CreateProject from "./pages/CreateProject";
 import MyTeams from "./pages/MyTeams";
 import Settings from "./pages/Settings";
+import PasswordReset from "./pages/PasswordReset";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="auth" element={<Authentication />}>
-            <Route index element={<LoginPanel />} />
-            <Route path="login" element={<LoginPanel />} />
-            <Route path="register" element={<RegisterPanel />} />
-          </Route>
+    <BrowserRouter>
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<LandingPage />} />
 
-          {/* Protected Section */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="projects" element={<Projects />} />
-            <Route path="projects/create-project" element={<CreateProject />} />
-            <Route path="projects/edit/:id" element={<CreateProject />} />
-            <Route path="my-teams" element={<MyTeams />} />
-            <Route path="activity" element={<Activity />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+        {/* Auth */}
+        <Route path="auth" element={<Authentication />}>
+          <Route index element={<LoginPanel />} />
+          <Route path="login" element={<LoginPanel />} />
+          <Route path="register" element={<RegisterPanel />} />
+        </Route>
+
+        {/* Password Reset */}
+        <Route path="reset-password/:token" element={<PasswordReset />} />
+
+        {/* Protected */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="projects" element={<Projects />} />
+          <Route path="projects/create-project" element={<CreateProject />} />
+          <Route path="projects/edit/:id" element={<CreateProject />} />
+          <Route path="my-teams" element={<MyTeams />} />
+          <Route path="activity" element={<Activity />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -5,15 +5,15 @@ import users from "../routes/users";
 import auth from "../routes/auth";
 import interests from "../routes/interest";
 import error from "../middleware/error";
+import passwordReset from "../routes/passwordReset";
 
 export default function (app: express.Application) {
-  
   app.use(
-  cors({
-    origin: "http://localhost:5173", // your frontend
-    credentials: true,
-  })
-);
+    cors({
+      origin: "http://localhost:5173", // your frontend
+      credentials: true,
+    }),
+  );
 
   app.use(express.json());
 
@@ -21,6 +21,7 @@ export default function (app: express.Application) {
   app.use("/users", users);
   app.use("/auth", auth);
   app.use("/interests", interests);
+  app.use("/auth", passwordReset);
 
   app.use(error); // error middleware last
 }
