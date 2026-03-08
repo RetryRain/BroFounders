@@ -6,7 +6,12 @@ import { Project } from "../models/project";
 
 const router = express.Router();
 
-// Submit interest to a project
+/*
+==============================
+Submit interest to a project
+POST /interests/:projectId
+==============================
+*/
 router.post("/:projectId", auth, async (req, res) => {
   const projectId = req.params.projectId as string;
 
@@ -43,7 +48,12 @@ router.post("/:projectId", auth, async (req, res) => {
   }
 });
 
-// My interests
+/*
+==============================
+My interests (projects I applied to)
+GET /interests/me
+==============================
+*/
 router.get("/me", auth, async (req, res) => {
   const page = Math.max(parseInt(req.query.page as string) || 1, 1);
   const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
@@ -53,25 +63,29 @@ router.get("/me", auth, async (req, res) => {
 
   const filter = { user: loggedInUser._id };
 
-  const [interests, total] = await Promise.all([
-    Interest.find(filter)
-      .populate("project", "title status")
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit),
+  const interests = await Interest.find(filter)
+    .populate("project", "title status")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
 
-    Interest.countDocuments(filter),
-  ]);
+  // remove interests whose project was deleted
+  const filtered = interests.filter((i) => i.project);
 
   res.send({
-    total,
+    total: filtered.length,
     page,
-    pages: Math.ceil(total / limit),
-    data: interests,
+    pages: Math.ceil(filtered.length / limit),
+    data: filtered,
   });
 });
 
-// Get interests
+/*
+==============================
+Get interests for a project
+GET /interests/project/:projectId
+==============================
+*/
 router.get("/project/:projectId", auth, async (req, res) => {
   const projectId = req.params.projectId as string;
 
@@ -122,11 +136,15 @@ router.get("/project/:projectId", auth, async (req, res) => {
   });
 });
 
-// Get interests for all my projects
+/*
+==============================
+Interests received for my projects
+GET /interests/received/me
+==============================
+*/
 router.get("/received/me", auth, async (req, res) => {
   const loggedInUser = (req as any).user;
 
-  // find my projects
   const myProjects = await Project.find({ user: loggedInUser._id }).select(
     "_id",
   );
@@ -140,10 +158,18 @@ router.get("/received/me", auth, async (req, res) => {
     .populate("project", "title status")
     .sort({ createdAt: -1 });
 
-  res.send(interests);
+  // remove deleted projects
+  const filtered = interests.filter((i) => i.project);
+
+  res.send(filtered);
 });
 
-// Accepted projects (projects I joined)
+/*
+==============================
+Accepted projects (teams I joined)
+GET /interests/accepted/me
+==============================
+*/
 router.get("/accepted/me", auth, async (req, res) => {
   const loggedInUser = (req as any).user;
 
@@ -154,10 +180,15 @@ router.get("/accepted/me", auth, async (req, res) => {
     .populate("project")
     .sort({ createdAt: -1 });
 
-  res.send(interests);
+  res.send(interests.filter((i) => i.project));
 });
 
-// Response
+/*
+==============================
+Respond to interest
+PATCH /interests/:interestId
+==============================
+*/
 router.patch("/:interestId", auth, async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -180,6 +211,11 @@ router.patch("/:interestId", auth, async (req, res) => {
     if (!interest) {
       await session.abortTransaction();
       return res.status(404).send("Interest not found.");
+    }
+
+    if (!interest.project) {
+      await session.abortTransaction();
+      return res.status(400).send("Project no longer exists.");
     }
 
     const loggedInUser = (req as any).user;

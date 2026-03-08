@@ -62,7 +62,7 @@ export default function ProjectCard({ project, onClick }: Props) {
 
         {/* TITLE */}
         <h3 className="text-lg sm:text-xl font-bold text-white mb-2 wrap-break-word">
-          {title}
+          {title || "Title Here"}
         </h3>
 
         {/* DESCRIPTION */}

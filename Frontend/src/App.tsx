@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import LandingPage from "./pages/LandingPage";
 import Authentication from "./pages/Authentication";
 import Projects from "./pages/Projects";
@@ -10,25 +11,27 @@ import CreateProject from "./pages/CreateProject";
 import MyTeams from "./pages/MyTeams";
 import Settings from "./pages/Settings";
 import PasswordReset from "./pages/PasswordReset";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public */}
+        {/* PUBLIC */}
         <Route path="/" element={<LandingPage />} />
 
-        {/* Auth */}
+        {/* AUTH */}
         <Route path="auth" element={<Authentication />}>
           <Route index element={<LoginPanel />} />
           <Route path="login" element={<LoginPanel />} />
           <Route path="register" element={<RegisterPanel />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
 
-        {/* Password Reset */}
-        <Route path="reset-password/:token" element={<PasswordReset />} />
+        {/* PASSWORD RESET */}
+        <Route path="/reset-password/:token" element={<PasswordReset />} />
 
-        {/* Protected */}
+        {/* PROTECTED */}
         <Route element={<ProtectedRoute />}>
           <Route path="projects" element={<Projects />} />
           <Route path="projects/create-project" element={<CreateProject />} />

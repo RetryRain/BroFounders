@@ -2,9 +2,11 @@ import { Card } from "@/components/ui/card";
 import RequestItem from "./RequestItem";
 import SentApplicationItem from "./SentApplicationItem";
 
+type Tab = "sent" | "received";
+
 interface Props {
-  activeTab: "sent" | "received";
-  setActiveTab: (tab: "sent" | "received") => void;
+  activeTab: Tab;
+  setActiveTab: (tab: Tab) => void;
   sent: any[];
   received: any[];
   loading: boolean;
@@ -19,21 +21,19 @@ export default function ActivityCard({
   loading,
   onRespond,
 }: Props) {
+  const tabs: { key: Tab; label: string; count: number }[] = [
+    { key: "sent", label: "Sent Applications", count: sent.length },
+    { key: "received", label: "Received Requests", count: received.length },
+  ];
+
   return (
     <Card className="rounded-2xl overflow-hidden border-white/10 bg-white/5">
       {/* Tabs */}
       <div className="flex border-b border-white/10 bg-white/5">
-        {[
-          { key: "sent", label: "Sent Applications", count: sent.length },
-          {
-            key: "received",
-            label: "Received Requests",
-            count: received.length,
-          },
-        ].map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.key}
-            onClick={() => setActiveTab(tab.key as any)}
+            onClick={() => setActiveTab(tab.key)}
             className={`flex-1 relative px-4 sm:px-6 py-3 sm:py-4 text-sm font-semibold transition-colors ${
               activeTab === tab.key
                 ? "text-purple after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-purple"
@@ -53,8 +53,8 @@ export default function ActivityCard({
       {/* Content */}
       <div className="divide-y divide-white/5">
         {loading ? (
-          <div className="p-4 sm:p-6 text-sm text-muted-foreground">
-            Loading...
+          <div className="flex items-center justify-center py-12">
+            <div className="w-6 h-6 border-2 border-purple border-t-transparent rounded-full animate-spin" />
           </div>
         ) : activeTab === "received" ? (
           received.length > 0 ? (
@@ -66,8 +66,9 @@ export default function ActivityCard({
               />
             ))
           ) : (
-            <div className="p-4 sm:p-6 text-sm text-muted-foreground">
-              No requests yet.
+            <div className="p-4 sm:p-6 text-sm text-muted-foreground text-center">
+              <p>No requests yet.</p>
+              <p>Don't hesitate, just do it :)</p>
             </div>
           )
         ) : sent.length > 0 ? (
@@ -75,8 +76,9 @@ export default function ActivityCard({
             <SentApplicationItem key={item._id} interest={item} />
           ))
         ) : (
-          <div className="p-4 sm:p-6 text-sm text-muted-foreground">
-            No applications sent.
+          <div className="p-4 sm:p-6 text-sm text-muted-foreground text-center">
+            <p>No applications sent.</p>
+            <p>Don't be shy, join a team :)</p>
           </div>
         )}
       </div>

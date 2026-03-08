@@ -154,7 +154,7 @@ export default function ProjectDetails({
 
           {/* Layout */}
           <div className="flex h-full flex-col md:flex-row overflow-hidden">
-            {/* LEFT COLUMN */}
+            {/* LEFT COLUMN — on mobile this scrolls and sidebar flows in at the bottom */}
             <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-purple/40 scrollbar-track-transparent">
               <ProjectDetailsHeader project={project} />
 
@@ -164,15 +164,27 @@ export default function ProjectDetails({
                 onEdit={handleEdit}
                 onDelete={() => setDeleteOpen(true)}
               />
+
+              {/* Sidebar flows inline on mobile */}
+              <div className="md:hidden">
+                <ProjectDetailsSidebar
+                  project={project}
+                  onClose={() => onOpenChange(false)}
+                  onJoin={() => setJoinOpen(true)}
+                  hideJoin={hideJoin}
+                />
+              </div>
             </div>
 
-            {/* RIGHT COLUMN */}
-            <ProjectDetailsSidebar
-              project={project}
-              onClose={() => onOpenChange(false)}
-              onJoin={() => setJoinOpen(true)}
-              hideJoin={hideJoin}
-            />
+            {/* RIGHT COLUMN — desktop only fixed sidebar */}
+            <div className="hidden md:flex h-full">
+              <ProjectDetailsSidebar
+                project={project}
+                onClose={() => onOpenChange(false)}
+                onJoin={() => setJoinOpen(true)}
+                hideJoin={hideJoin}
+              />
+            </div>
           </div>
         </DialogContent>
       </Dialog>

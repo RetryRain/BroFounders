@@ -17,18 +17,8 @@ export function ProjectDetailsBody({
   onEdit,
   onDelete,
 }: Props) {
-  const {
-    description,
-    techStack,
-    goals,
-    members,
-    maxMembers,
-    status,
-    lookingFor,
-  } = project;
+  const { description, techStack, goals, status, lookingFor } = project;
 
-  const memberCount = members.length;
-  const percentage = (memberCount / maxMembers) * 100;
   const isHost =
     currentUser &&
     project.user &&
@@ -52,7 +42,7 @@ export function ProjectDetailsBody({
               key={tech}
               className="flex items-center gap-2 bg-white/5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-white/10"
             >
-              <span className="material-symbols-rounded text-xs">code</span>
+              <span className="material-symbols-rounded text-xs">stacks</span>
               <span className="text-[11px] sm:text-xs font-extrabold text-white">
                 {tech}
               </span>
@@ -61,10 +51,10 @@ export function ProjectDetailsBody({
         </div>
       </div>
 
-      {/* Learning Outcomes (Goals from backend) */}
+      {/* (Goals from backend) */}
       <div className="mb-8 sm:mb-12">
         <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-4 sm:mb-6 uppercase tracking-widest">
-          Learning Outcomes
+          Goals
         </h3>
 
         <div className="grid grid-cols-1 gap-3 sm:gap-4">
@@ -74,10 +64,10 @@ export function ProjectDetailsBody({
               className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-sidebar/10 border border-sidebar/20"
             >
               <span className="material-symbols-rounded text-purple bg-white p-1.5 sm:p-2 rounded-xl shadow-sm shrink-0">
-                school
+                target
               </span>
               <div>
-                <p className="text-xs sm:text-sm text-muted-foreground">
+                <p className="text-sm md:text-base text-muted-foreground">
                   {goal}
                 </p>
               </div>
@@ -106,57 +96,6 @@ export function ProjectDetailsBody({
         <p className="text-base sm:text-lg font-medium text-foreground/80">
           {lookingFor}
         </p>
-      </div>
-
-      {/* Mobile Availability */}
-      <div className="md:hidden mb-8">
-        <h3 className="text-purple font-extrabold text-[10px] mb-4 uppercase tracking-widest opacity-80">
-          Availability
-        </h3>
-
-        <div className="bg-white/5 p-5 rounded-[2rem] border border-white/10 flex items-center gap-6">
-          <div className="relative flex items-center justify-center shrink-0">
-            <svg className="w-20 h-20">
-              <circle
-                className="text-white/10"
-                cx="40"
-                cy="40"
-                r="34"
-                stroke="currentColor"
-                strokeWidth="8"
-                fill="transparent"
-              />
-              <circle
-                className="text-purple transition-all duration-500"
-                cx="40"
-                cy="40"
-                r="34"
-                stroke="currentColor"
-                strokeWidth="8"
-                fill="transparent"
-                strokeDasharray={2 * Math.PI * 34}
-                strokeDashoffset={
-                  2 * Math.PI * 34 - (percentage / 100) * 2 * Math.PI * 34
-                }
-                strokeLinecap="round"
-                transform="rotate(-90 40 40)"
-              />
-            </svg>
-
-            <div className="absolute flex flex-col items-center">
-              <span className="text-lg font-black text-white leading-none">
-                {memberCount}/{maxMembers}
-              </span>
-              <span className="text-[8px] font-black text-purple/60 uppercase tracking-widest mt-0.5">
-                Slots
-              </span>
-            </div>
-          </div>
-
-          <p className="text-sm font-bold text-muted-foreground">
-            Join {memberCount} others exploring this stack
-          </p>
-        </div>
       </div>
 
       {/* Footer */}

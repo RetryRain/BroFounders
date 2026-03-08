@@ -32,22 +32,26 @@ export default function ProjectGrid({
 }: Props) {
   if (loading)
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-6">
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="h-44 sm:h-48 bg-card animate-pulse rounded-2xl"
+            className="h-40 sm:h-48 bg-card animate-pulse rounded-2xl"
           />
         ))}
       </div>
     );
 
   if (error)
-    return <div className="text-sm text-muted-foreground">{error}</div>;
+    return (
+      <div className="text-xs sm:text-sm text-muted-foreground">{error}</div>
+    );
 
   if (!projects.length)
     return (
-      <div className="text-sm text-muted-foreground">No projects found.</div>
+      <div className="text-xs sm:text-sm text-muted-foreground">
+        No projects found.
+      </div>
     );
 
   return (
@@ -65,7 +69,7 @@ export default function ProjectGrid({
 
       {/* PAGINATION */}
       <Pagination>
-        <PaginationContent className="flex-wrap justify-center gap-1 sm:gap-2">
+        <PaginationContent className="flex-wrap justify-center gap-1 sm:gap-2 text-sm">
           <PaginationItem>
             <PaginationPrevious
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
@@ -78,7 +82,6 @@ export default function ProjectGrid({
           {Array.from({ length: pages }).map((_, i) => {
             const p = i + 1;
 
-            /* hide long ranges on mobile */
             if (pages > 5 && Math.abs(page - p) > 2) return null;
 
             return (
@@ -86,7 +89,7 @@ export default function ProjectGrid({
                 <PaginationLink
                   isActive={page === p}
                   onClick={() => setPage(p)}
-                  className="cursor-pointer"
+                  className="cursor-pointer text-xs sm:text-sm px-2 sm:px-3"
                 >
                   {p}
                 </PaginationLink>

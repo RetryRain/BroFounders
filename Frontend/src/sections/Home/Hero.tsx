@@ -3,22 +3,22 @@ import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
-    <section className="max-w-300 w-full px-6 md:px-10 py-10 md:py-15 mx-auto">
-      <div className="flex flex-col lg:flex-row gap-16 items-center">
+    <section className="max-w-300 w-full px-6 sm:px-8 md:px-10 py-10 sm:py-12 md:py-16 mx-auto">
+      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
         {/* LEFT */}
-        <div className="flex flex-col gap-8 lg:w-3/5">
+        <div className="flex flex-col gap-6 sm:gap-8 lg:w-3/5">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-secondary text-background px-4 py-1.5 rounded-full w-fit border border-white/40 shadow-xl shadow-primary/20">
-            <span className="material-symbols-rounded text-base">
+          <div className="inline-flex items-center gap-2 bg-secondary text-background px-3 sm:px-4 py-1.5 rounded-full w-fit border border-white/40 shadow-xl shadow-primary/20">
+            <span className="material-symbols-rounded text-sm sm:text-base">
               rocket_launch
             </span>
-            <span className="text-xs font-black uppercase tracking-[0.2em]">
+            <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em]">
               Join 5,000+ Builders
             </span>
           </div>
 
           {/* Heading */}
-          <h1 className="text-white text-6xl md:text-8xl font-black leading-[0.9] tracking-tighter">
+          <h1 className="text-white text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tighter">
             CODE <br />
             <span className="text-transparent bg-clip-text bg-linear-to-r from-accent via-secondary to-white">
               WITHOUT LIMITS.
@@ -26,7 +26,7 @@ export default function Hero() {
           </h1>
 
           {/* Paragraph */}
-          <p className="text-foreground text-xl md:text-2xl max-w-xl leading-relaxed font-normal">
+          <p className="text-foreground text-base sm:text-xl md:text-2xl max-w-xl leading-relaxed font-normal">
             Master any stack.{" "}
             <span className="text-white font-bold underline decoration-accent decoration-2 underline-offset-4">
               Build real projects
@@ -35,19 +35,20 @@ export default function Hero() {
           </p>
 
           {/* Buttons */}
-          <div className="flex flex-wrap gap-6 mt-4">
-            <Link to={"/projects"}>
-              <button className="group flex h-16 px-10 items-center justify-center rounded-full bg-primary text-white text-xl font-black shadow-2xl shadow-primary/50 hover:-translate-y-0.5 transition-all border border-white/20 cursor-pointer">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 mt-2 sm:mt-4">
+            <Link to="/projects">
+              <button className="group flex h-12 sm:h-14 md:h-16 px-6 sm:px-8 md:px-10 items-center justify-center rounded-full bg-primary text-white text-sm sm:text-lg md:text-xl font-black shadow-2xl shadow-primary/50 hover:-translate-y-0.5 transition-all border border-white/20 cursor-pointer">
                 FIND PROJECTS
-                <span className="material-symbols-rounded ml-2 text-lg group-hover:translate-x-1 transition-transform">
+                <span className="material-symbols-rounded ml-2 text-base group-hover:translate-x-1 transition-transform">
                   arrow_forward
                 </span>
               </button>
             </Link>
-            <Link to={"/projects"}>
-              <button className="flex h-16 px-10 items-center justify-center rounded-full bg-white/10 text-white text-xl font-black border-2 border-white/40 hover:bg-white/20 transition-all backdrop-blur-sm cursor-pointer">
+
+            <Link to="/projects">
+              <button className="flex h-12 sm:h-14 md:h-16 px-6 sm:px-8 md:px-10 items-center justify-center rounded-full bg-white/10 text-white text-sm sm:text-lg md:text-xl font-black border-2 border-white/40 hover:bg-white/20 transition-all backdrop-blur-sm cursor-pointer">
                 HOST A SQUAD
-                <span className="material-symbols-rounded ml-2 text-lg group-hover:translate-x-1 transition-transform">
+                <span className="material-symbols-rounded ml-2 text-base group-hover:translate-x-1 transition-transform">
                   edit
                 </span>
               </button>
@@ -65,17 +66,13 @@ export default function Hero() {
 
             <div className="z-10 flex flex-col items-center gap-4">
               <span
-                className="material-symbols-rounded
-                          text-white
-                          drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]
-                          transition-transform duration-500
-                          group-hover:scale-110
-                          "
+                className="material-symbols-rounded text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-transform duration-500 group-hover:scale-110"
                 style={{ fontSize: 320 }}
               >
                 terminal
               </span>
-              <div className="px-8 py-4 bg-background rounded-xl border border-white/30 text-sm font-mono text-green-500 font-bold">
+
+              <div className="px-6 py-3 bg-background rounded-xl border border-white/30 text-xs sm:text-sm font-mono text-green-500 font-bold">
                 git checkout -b feature/world-class
               </div>
             </div>

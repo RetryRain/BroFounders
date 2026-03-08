@@ -34,7 +34,6 @@ export default function RegisterPanel() {
       return alert("Passwords do not match.");
 
     try {
-      // 1️⃣ Register
       const res = await axios.post(`${API}/users`, {
         name: form.name,
         email: form.email,
@@ -43,18 +42,14 @@ export default function RegisterPanel() {
 
       const token = res.data.token;
 
-      // 2️⃣ Store token
       localStorage.setItem("token", token);
 
-      // 3️⃣ Fetch user profile
       const me = await axios.get(`${API}/users/me`, {
         headers: { "x-auth-token": token },
       });
 
-      // 4️⃣ Store user
       localStorage.setItem("user", JSON.stringify(me.data));
 
-      // 5️⃣ Go to dashboard
       navigate("/projects");
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -66,23 +61,24 @@ export default function RegisterPanel() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2">Create Account</h2>
-        <p className="text-muted-foreground">
+    <div className="mx-auto w-full max-w-md px-2 sm:px-0">
+      {/* Header */}
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2">Create Account</h2>
+        <p className="text-sm sm:text-base text-muted-foreground">
           Start building projects with the community.
         </p>
       </div>
 
-      <Card className="p-8 space-y-6 shadow-xl border">
-        <form className="space-y-6" onSubmit={handleSubmit}>
+      {/* Card */}
+      <Card className="p-5 sm:p-8 space-y-6 shadow-xl border">
+        <form className="space-y-5 sm:space-y-6" onSubmit={handleSubmit}>
           {/* Name */}
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
             <Input
               id="name"
               type="text"
-              placeholder="John Doe"
               value={form.name}
               onChange={handleChange}
               required
@@ -153,7 +149,8 @@ export default function RegisterPanel() {
         </form>
       </Card>
 
-      <p className="mt-8 text-center text-sm text-muted-foreground">
+      {/* Footer */}
+      <p className="mt-6 sm:mt-8 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link
           to="/auth/login"

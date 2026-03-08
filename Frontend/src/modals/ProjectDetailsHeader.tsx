@@ -7,6 +7,7 @@ interface Props {
 
 export function ProjectDetailsHeader({ project }: Props) {
   const { title, blurb, status, level } = project;
+
   const levelStyle: Record<Project["level"], string> = {
     beginner: "bg-emerald-500/15 text-emerald-400 border border-emerald-400/30",
     intermediate: "bg-blue-500/15 text-blue-400 border border-blue-400/30",
@@ -22,14 +23,14 @@ export function ProjectDetailsHeader({ project }: Props) {
   };
 
   return (
-    <div className="bg-sidebar px-6 py-6 sm:px-10 sm:py-10 flex justify-between items-start">
-      <div className="flex flex-col gap-2 sm:gap-3">
+    <div className="bg-sidebar px-5 py-6 sm:px-10 sm:py-10 flex justify-between items-start">
+      <div className="flex flex-col gap-3">
         {/* Desktop Badges */}
         <div className="hidden sm:flex gap-3">
           <Badge
             className={`uppercase tracking-widest text-[11px] px-4 py-1.5 rounded-full ${statusStyle[status]}`}
           >
-            {status} Project
+            {status}
           </Badge>
 
           <Badge
@@ -39,18 +40,28 @@ export function ProjectDetailsHeader({ project }: Props) {
           </Badge>
         </div>
 
-        {/* Mobile Level Badge */}
-        <Badge className="sm:hidden self-start bg-white/10 text-muted-foreground border border-white/10 uppercase tracking-widest text-[10px] px-3 py-1 rounded-full">
-          {level} Level
-        </Badge>
+        {/* Mobile Badges */}
+        <div className="sm:hidden flex flex-wrap gap-x-2 gap-y-2">
+          <Badge
+            className={`uppercase tracking-wide text-[10px] px-3 py-1 rounded-full ${statusStyle[status]}`}
+          >
+            {status}
+          </Badge>
+
+          <Badge
+            className={`uppercase tracking-wide text-[10px] px-3 py-1 rounded-full ${levelStyle[level]}`}
+          >
+            {level}
+          </Badge>
+        </div>
 
         {/* Title */}
-        <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight">
+        <h2 className="text-xl sm:text-4xl font-black text-white leading-tight">
           {title}
         </h2>
 
-        {/* Blurb instead of full description */}
-        <p className="text-sm sm:text-base text-muted-foreground font-medium">
+        {/* Blurb */}
+        <p className="text-xs sm:text-base text-muted-foreground font-medium leading-relaxed">
           {blurb}
         </p>
       </div>

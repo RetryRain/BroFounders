@@ -3,7 +3,6 @@ import axios from "axios";
 import DashboardLayout from "../sections/Dashboard/DashboardLayout";
 import ActivityHeader from "@/sections/Activity/ActivityHeader";
 import ActivityCard from "@/sections/Activity/ActivityCard";
-import ActivityStatus from "@/sections/Activity/ActivityStatus";
 import Toast from "@/modals/Toast";
 
 const API = import.meta.env.VITE_API_URL;
@@ -103,8 +102,6 @@ export default function Activity() {
         loading={loading}
         onRespond={handleResponse}
       />
-
-      <ActivityStatus />
     </DashboardLayout>
   );
 }

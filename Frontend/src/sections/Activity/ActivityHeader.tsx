@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-
 export default function ActivityHeader() {
   return (
     <header className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-6 mb-8 sm:mb-10">
@@ -11,11 +9,6 @@ export default function ActivityHeader() {
           Manage your applications and hosting requests in one place.
         </p>
       </div>
-
-      <Button className="bg-secondary text-background hover:bg-secondary/90 rounded-full font-bold gap-2 w-full sm:w-auto">
-        <span className="material-symbols-rounded">history</span>
-        View History
-      </Button>
     </header>
   );
 }

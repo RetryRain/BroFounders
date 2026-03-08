@@ -16,7 +16,7 @@ export default function RequestItem({ interest, onRespond }: Props) {
     <div className="p-4 sm:p-6 hover:bg-white/5 transition-colors flex flex-col sm:flex-row gap-4 sm:gap-6">
       {/* Avatar */}
       <div className="shrink-0">
-        <div className="size-12 sm:size-14 rounded-full bg-purple/20 border border-purple/30 flex items-center justify-center text-purple font-bold text-lg sm:text-xl">
+        <div className="size-11 sm:size-14 rounded-full bg-purple/20 border border-purple/30 flex items-center justify-center text-purple font-bold text-base sm:text-xl">
           {initials}
         </div>
       </div>
@@ -25,11 +25,11 @@ export default function RequestItem({ interest, onRespond }: Props) {
       <div className="flex-1 min-w-0">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
           <div className="min-w-0">
-            <h4 className="text-base sm:text-lg font-bold text-white truncate">
+            <h4 className="text-sm sm:text-lg font-bold text-white truncate">
               {interest.user.name}
             </h4>
 
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
               Applied for{" "}
               <span className="text-purple font-medium">
                 {interest.project.title}
@@ -58,13 +58,13 @@ export default function RequestItem({ interest, onRespond }: Props) {
           )}
 
           {interest.status !== "pending" && (
-            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground self-start sm:self-auto">
               {interest.status}
             </span>
           )}
         </div>
 
-        <p className="text-sm text-foreground/80 italic wrap-break-word">
+        <p className="text-xs sm:text-sm text-foreground/80 italic wrap-break-word">
           "{interest.message}"
         </p>
       </div>

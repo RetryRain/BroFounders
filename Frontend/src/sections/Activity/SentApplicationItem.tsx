@@ -10,21 +10,23 @@ export default function SentApplicationItem({ interest }: Props) {
   };
 
   return (
-    <div className="p-4 sm:p-6 hover:bg-white/5 transition-colors flex flex-col gap-4">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4">
-        <h4 className="text-base sm:text-lg font-bold text-white wrap-break-word">
-          {interest.project.title}
+    <div className="p-4 sm:p-6 hover:bg-white/5 transition-colors flex flex-col gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-4">
+        <h4 className="text-sm sm:text-lg font-bold text-white wrap-break-word">
+          {interest.project?.title || "Deleted Project"}
         </h4>
 
         <span
-          className={`self-start text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${statusColors[interest.status]}`}
+          className={`self-start text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full whitespace-nowrap ${
+            statusColors[interest.status] || ""
+          }`}
         >
           {interest.status}
         </span>
       </div>
 
-      <p className="text-sm text-foreground/80 italic wrap-break-word">
-        "{interest.message}"
+      <p className="text-xs sm:text-sm text-foreground/80 italic wrap-break-word">
+        {interest.message || "No message provided"}
       </p>
     </div>
   );

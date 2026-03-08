@@ -1,6 +1,5 @@
 import "material-symbols/rounded.css";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import SidebarLink from "./SidebarLink";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMemo } from "react";
@@ -101,14 +100,24 @@ function SidebarContent({
         </Link>
       </nav>
 
-      {/* Storage */}
+      {/* Feedback */}
       <div className="p-4 mt-auto">
-        <div className="rounded-xl p-4 bg-card border border-border backdrop-blur-sm">
-          <p className="text-xs text-muted-foreground mb-2 uppercase font-bold tracking-wider">
-            Storage
+        <div className="rounded-xl p-4 bg-card border border-border backdrop-blur-sm flex flex-col gap-3">
+          <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider">
+            Feedback
           </p>
-          <Progress value={62} className="h-2 mb-2" />
-          <p className="text-xs text-muted-foreground">6.2GB of 10GB used</p>
+
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Found a bug or have an idea? We'd love to hear it.
+          </p>
+
+          <Button
+            variant="outline"
+            className="w-full text-xs font-bold"
+            onClick={() => window.open("https://forms.gle/your-form", "_blank")}
+          >
+            Send Feedback
+          </Button>
         </div>
       </div>
 

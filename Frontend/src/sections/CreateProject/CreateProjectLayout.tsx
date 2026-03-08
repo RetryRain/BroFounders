@@ -53,7 +53,6 @@ export default function CreateProjectLayout({
   broadcast,
   setBroadcast,
 }: Props) {
-  // Live Preview Project
   const previewProject: Project = {
     _id: "preview",
     title,
@@ -64,7 +63,7 @@ export default function CreateProjectLayout({
     lookingFor,
     members: [],
     maxMembers,
-    broadcast: broadcast,
+    broadcast,
     status: "open",
     level,
     user: { _id: "preview-user", name: "You" },
@@ -72,7 +71,7 @@ export default function CreateProjectLayout({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
       {/* LEFT — FORM */}
       <div className="lg:col-span-7">
         <CreateProjectDetailsForm
@@ -95,10 +94,17 @@ export default function CreateProjectLayout({
         />
       </div>
 
-      {/* RIGHT — LIVE PREVIEW */}
-      <div className="lg:col-span-5">
-        <ProjectCard project={previewProject} onClick={() => {}} />
+      {/* RIGHT */}
+      <div className="lg:col-span-5 space-y-6">
         <GoalsCard goals={goals} setGoals={setGoals} />
+
+        <div>
+          <h3 className="text-purple font-extrabold text-[11px] mb-3 uppercase tracking-widest">
+            Preview
+          </h3>
+
+          <ProjectCard project={previewProject} onClick={() => {}} />
+        </div>
       </div>
     </div>
   );

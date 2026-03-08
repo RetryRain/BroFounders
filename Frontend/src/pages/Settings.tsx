@@ -58,9 +58,7 @@ export default function Settings() {
       const res = await axios.put(
         `${API}/users/${user._id}`,
         { name, email },
-        {
-          headers: { "x-auth-token": token },
-        },
+        { headers: { "x-auth-token": token } },
       );
 
       const updatedUser = res.data;
@@ -78,9 +76,7 @@ export default function Settings() {
     try {
       setSendingReset(true);
 
-      await axios.post(`${API}/auth/forgot-password`, {
-        email,
-      });
+      await axios.post(`${API}/auth/forgot-password`, { email });
 
       alert("Password reset email sent.");
     } catch {
@@ -124,48 +120,55 @@ export default function Settings() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-2xl mx-auto py-10 px-4">
+      <div className="max-w-2xl mx-auto py-8 sm:py-10 px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
             Manage Your Profile
           </h1>
-          <p className="text-muted-foreground">
+
+          <p className="text-xs sm:text-sm text-muted-foreground">
             Update your personal information and account security.
           </p>
         </div>
 
         {/* Profile Card */}
-        <Card className="bg-white/5 border-white/10 rounded-2xl mb-8">
-          <CardContent className="p-6 space-y-6">
+        <Card className="bg-white/5 border-white/10 rounded-2xl mb-6 sm:mb-8">
+          <CardContent className="p-5 sm:p-6 space-y-6">
             {/* Name */}
-            <div className="flex justify-between items-center border-b border-white/10 pb-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-5">
               <div>
-                <p className="font-semibold text-white">Display Name</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="font-semibold text-white text-sm sm:text-base">
+                  Display Name
+                </p>
+
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   How you appear to squad members.
                 </p>
               </div>
 
               <Input
-                className="w-64 bg-white/5 border-white/10"
+                className="w-full sm:w-64 bg-white/5 border-white/10"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
 
             {/* Email */}
-            <div className="flex justify-between items-center border-b border-white/10 pb-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-5">
               <div>
-                <p className="font-semibold text-white">Email Address</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="font-semibold text-white text-sm sm:text-base">
+                  Email Address
+                </p>
+
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Primary email for notifications.
                 </p>
               </div>
 
               <Input
                 type="email"
-                className="w-64 bg-white/5 border-white/10"
+                className="w-full sm:w-64 bg-white/5 border-white/10"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -173,19 +176,21 @@ export default function Settings() {
 
             {/* Password Reset */}
             <div>
-              <p className="font-semibold text-white mb-2">Password</p>
+              <p className="font-semibold text-white text-sm sm:text-base mb-2">
+                Password
+              </p>
 
               <Button
                 onClick={handleSendReset}
                 disabled={sendingReset}
-                className="bg-purple hover:bg-purple/90 text-white"
+                className="bg-purple hover:bg-purple/90 text-white w-full sm:w-auto"
               >
                 {sendingReset
                   ? "Sending reset email..."
                   : "Send Password Reset Email"}
               </Button>
 
-              <p className="text-xs text-muted-foreground mt-2">
+              <p className="text-[11px] sm:text-xs text-muted-foreground mt-2">
                 We'll send a secure link to your email to reset your password.
               </p>
             </div>
@@ -193,11 +198,11 @@ export default function Settings() {
         </Card>
 
         {/* Actions */}
-        <div className="flex justify-end gap-4 mb-10">
+        <div className="flex flex-col sm:flex-row sm:justify-end gap-3 sm:gap-4 mb-8">
           <Button
             variant="ghost"
             onClick={handleCancel}
-            className="text-muted-foreground hover:text-white"
+            className="text-muted-foreground hover:text-white w-full sm:w-auto"
           >
             Cancel
           </Button>
@@ -205,7 +210,7 @@ export default function Settings() {
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="bg-purple hover:bg-purple/90 text-white px-6"
+            className="bg-purple hover:bg-purple/90 text-white px-6 w-full sm:w-auto"
           >
             {saving ? "Saving..." : "Save Changes"}
           </Button>
@@ -213,19 +218,19 @@ export default function Settings() {
 
         {/* Danger Zone */}
         <Card className="rounded-2xl border border-red-500/30 bg-red-500/5">
-          <CardContent className="p-6">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">
+          <CardContent className="p-5 sm:p-6">
+            <h2 className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-red-400 mb-3">
               Danger Zone
             </h2>
 
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-xs sm:text-sm text-muted-foreground mb-4">
               Once you delete your account, there is no going back.
             </p>
 
             <Button
               variant="outline"
               onClick={() => setDeleteOpen(true)}
-              className="border-red-500/40 text-red-400 hover:bg-red-500/20"
+              className="border-red-500/40 text-red-400 hover:bg-red-500/20 w-full sm:w-auto"
             >
               Delete Account
             </Button>
@@ -237,12 +242,12 @@ export default function Settings() {
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent className="bg-card border border-white/10 rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-red-400 flex items-center gap-2">
+            <AlertDialogTitle className="text-red-400 flex items-center gap-2 text-sm sm:text-base">
               <span className="material-symbols-rounded">warning</span>
               Delete Account
             </AlertDialogTitle>
 
-            <AlertDialogDescription className="text-muted-foreground mt-2">
+            <AlertDialogDescription className="text-xs sm:text-sm text-muted-foreground mt-2">
               This action cannot be undone. All your projects and activity will
               be permanently removed.
             </AlertDialogDescription>

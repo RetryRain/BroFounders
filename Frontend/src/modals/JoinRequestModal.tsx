@@ -12,7 +12,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onSubmit: (message: string) => void;
-  loading?: boolean; // 👈 add this
+  loading?: boolean;
 }
 
 export default function JoinRequestModal({
@@ -27,31 +27,33 @@ export default function JoinRequestModal({
     if (!message.trim()) return;
     onSubmit(message.trim());
     setMessage("");
-    onClose();
   };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="bg-card border border-white/10 rounded-3xl p-8 max-w-lg">
+      <DialogContent
+        showCloseButton={false}
+        className="bg-card border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 w-[92vw] sm:max-w-lg"
+      >
         <DialogHeader>
-          <DialogTitle className="text-white text-xl font-bold">
+          <DialogTitle className="text-white text-lg sm:text-xl font-bold">
             Why should the host accept you?
           </DialogTitle>
         </DialogHeader>
 
-        <div className="mt-6 space-y-6">
+        <div className="mt-4 sm:mt-6 space-y-5 sm:space-y-6">
           <Textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Tell them what you bring to the table..."
-            className="bg-white/5 border-white/10 focus:ring-purple rounded-2xl min-h-30 text-sm"
+            className="bg-white/5 border-white/10 focus:ring-purple rounded-xl sm:rounded-2xl min-h-24 sm:min-h-30 text-sm"
           />
 
           <div className="flex justify-end gap-3">
             <Button
               variant="ghost"
               onClick={onClose}
-              className="text-muted-foreground"
+              className="text-muted-foreground text-sm"
             >
               Cancel
             </Button>
@@ -59,8 +61,13 @@ export default function JoinRequestModal({
             <Button
               onClick={handleSubmit}
               disabled={loading}
-              className="bg-purple hover:bg-purple/90 text-white rounded-xl font-bold disabled:opacity-50"
+              className="bg-purple hover:bg-purple/90 text-white rounded-lg sm:rounded-xl font-bold text-sm flex items-center gap-2 disabled:opacity-60"
             >
+              {loading && (
+                <span className="material-symbols-rounded animate-spin text-sm">
+                  progress_activity
+                </span>
+              )}
               {loading ? "Sending..." : "Send Request"}
             </Button>
           </div>

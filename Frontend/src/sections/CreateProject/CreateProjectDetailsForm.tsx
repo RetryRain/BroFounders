@@ -88,53 +88,56 @@ export default function CreateProjectDetailsForm({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* TITLE */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
           Project Title <span className="text-red-500">*</span>
         </label>
+
         <Input
           required
           value={title}
           maxLength={75}
           onChange={(e) => setTitle(e.target.value)}
-          className="py-5 text-[17px] min-w-0"
+          className="py-4 sm:py-5 text-sm sm:text-[17px]"
         />
       </div>
 
       {/* BLURB */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
           Blurb (Short Pitch) <span className="text-red-500">*</span>
         </label>
+
         <Textarea
           required
           rows={2}
           value={blurb}
           maxLength={110}
           onChange={(e) => setBlurb(e.target.value)}
-          className="py-4 text-[15px] resize-none"
+          className="py-3 sm:py-4 text-sm sm:text-[15px] resize-none"
         />
       </div>
 
       {/* DESCRIPTION */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
           Full Description <span className="text-red-500">*</span>
         </label>
+
         <Textarea
           required
           rows={6}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="py-5 text-[16px] resize-none"
+          className="py-4 sm:py-5 text-sm sm:text-[16px] resize-none"
         />
       </div>
 
       {/* DIFFICULTY */}
-      <div className="space-y-4">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground block">
+      <div className="space-y-3 sm:space-y-4">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground block">
           Difficulty Level <span className="text-red-500">*</span>
         </label>
 
@@ -143,7 +146,7 @@ export default function CreateProjectDetailsForm({
             <Badge
               key={lvl}
               onClick={() => setLevel(lvl)}
-              className={`cursor-pointer ${
+              className={`cursor-pointer text-xs sm:text-sm ${
                 level === lvl
                   ? "bg-purple text-white"
                   : "bg-card border-border text-muted-foreground hover:bg-purple/20"
@@ -156,8 +159,8 @@ export default function CreateProjectDetailsForm({
       </div>
 
       {/* TECH STACK */}
-      <div className="space-y-4">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground block">
+      <div className="space-y-3 sm:space-y-4">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground block">
           Tech Stack <span className="text-red-500">*</span>
         </label>
 
@@ -169,7 +172,7 @@ export default function CreateProjectDetailsForm({
               <Badge
                 key={tech}
                 onClick={() => toggleTech(tech)}
-                className={`cursor-pointer ${
+                className={`cursor-pointer text-xs sm:text-sm ${
                   selected
                     ? "bg-primary text-primary-foreground"
                     : "bg-card border-border text-muted-foreground hover:bg-primary/20"
@@ -182,16 +185,18 @@ export default function CreateProjectDetailsForm({
         </div>
 
         {/* Custom Tech Input */}
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <Input
             placeholder="Add custom tech..."
             value={customTech}
             maxLength={20}
             onChange={(e) => setCustomTech(e.target.value)}
+            className="flex-1"
           />
+
           <Badge
             onClick={addCustomTech}
-            className="cursor-pointer bg-purple text-white"
+            className="cursor-pointer bg-purple text-white rounded-full px-4 py-2 whitespace-nowrap"
           >
             Add
           </Badge>
@@ -200,9 +205,10 @@ export default function CreateProjectDetailsForm({
 
       {/* MAX MEMBERS */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
           Max Members <span className="text-red-500">*</span>
         </label>
+
         <Input
           type="number"
           value={maxMembers}
@@ -212,9 +218,9 @@ export default function CreateProjectDetailsForm({
         />
       </div>
 
-      {/* Looking for */}
+      {/* LOOKING FOR */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
           Who are you looking for? <span className="text-red-500">*</span>
         </label>
 
@@ -224,7 +230,7 @@ export default function CreateProjectDetailsForm({
           value={lookingFor}
           maxLength={200}
           onChange={(e) => setLookingFor(e.target.value)}
-          className="py-4 text-[15px] resize-none"
+          className="py-3 sm:py-4 text-sm sm:text-[15px] resize-none"
         />
 
         <div className="text-right text-xs text-muted-foreground">
@@ -232,22 +238,20 @@ export default function CreateProjectDetailsForm({
         </div>
       </div>
 
-      {/* BROADCAST LINK */}
+      {/* BROADCAST */}
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
           Broadcast Discussion Link <span className="text-red-500">*</span>
         </label>
 
-        <div className="flex gap-2">
-          <Textarea
-            required
-            rows={2}
-            placeholder="Paste Discord / Telegram / Slack link..."
-            value={broadcast}
-            onChange={(e) => setBroadcast(e.target.value)}
-            className="resize-none"
-          />
-        </div>
+        <Textarea
+          required
+          rows={2}
+          placeholder="Paste Discord / Telegram / Slack link..."
+          value={broadcast}
+          onChange={(e) => setBroadcast(e.target.value)}
+          className="resize-none text-sm"
+        />
       </div>
     </div>
   );
