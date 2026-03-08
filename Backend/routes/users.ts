@@ -96,7 +96,8 @@ router.put("/:id", auth, async (req, res) => {
   const updates: any = {};
 
   if (req.body.name) updates.name = req.body.name;
-  if (req.body.email) updates.email = req.body.email;
+
+  if (req.body.email) return res.status(400).send("Email cannot be changed.");
 
   if (req.body.password) {
     const salt = await bcrypt.genSalt(10);

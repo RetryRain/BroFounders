@@ -46,7 +46,6 @@ function validateUser(user: any) {
 function validateUserUpdate(user: any) {
   const schema = Joi.object({
     name: Joi.string().min(3).max(50),
-    email: Joi.string().min(5).max(255).email(),
     password: Joi.string().min(5).max(1024),
   }).min(1); // at least one field required
 

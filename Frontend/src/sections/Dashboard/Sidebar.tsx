@@ -104,7 +104,7 @@ function SidebarContent({
       <div className="p-4 mt-auto">
         <div className="rounded-xl p-4 bg-card border border-border backdrop-blur-sm flex flex-col gap-3">
           <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider">
-            Feedback
+            Feedback?!
           </p>
 
           <p className="text-xs text-muted-foreground leading-relaxed">
@@ -123,7 +123,14 @@ function SidebarContent({
 
       {/* User */}
       <div className="p-4 border-t border-sidebar-border flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30" />
+        <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-purple">
+          {user?.name
+            ?.split(" ")
+            .map((n) => n[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase() || "?"}
+        </div>
 
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold truncate">

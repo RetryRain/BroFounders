@@ -29,7 +29,6 @@ export default function Settings() {
   const [user, setUser] = useState<User | null>(null);
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
 
   const [saving, setSaving] = useState(false);
   const [sendingReset, setSendingReset] = useState(false);
@@ -43,8 +42,9 @@ export default function Settings() {
     const parsed = JSON.parse(stored);
     setUser(parsed);
     setName(parsed.name);
-    setEmail(parsed.email);
   }, []);
+
+  const hasChanges = user && name !== user.name;
 
   const handleSave = async () => {
     try {
@@ -57,14 +57,16 @@ export default function Settings() {
 
       const res = await axios.put(
         `${API}/users/${user._id}`,
-        { name, email },
+        { name },
         { headers: { "x-auth-token": token } },
       );
 
       const updatedUser = res.data;
 
       localStorage.setItem("user", JSON.stringify(updatedUser));
+
       setUser(updatedUser);
+      setName(updatedUser.name);
     } catch {
       console.error("Failed to update profile");
     } finally {
@@ -74,9 +76,13 @@ export default function Settings() {
 
   const handleSendReset = async () => {
     try {
+      if (!user) return;
+
       setSendingReset(true);
 
-      await axios.post(`${API}/auth/forgot-password`, { email });
+      await axios.post(`${API}/auth/forgot-password`, {
+        email: user.email,
+      });
 
       alert("Password reset email sent.");
     } catch {
@@ -115,7 +121,6 @@ export default function Settings() {
     if (!user) return;
 
     setName(user.name);
-    setEmail(user.email);
   };
 
   return (
@@ -135,6 +140,34 @@ export default function Settings() {
         {/* Profile Card */}
         <Card className="bg-white/5 border-white/10 rounded-2xl mb-6 sm:mb-8">
           <CardContent className="p-5 sm:p-6 space-y-6">
+            {/* User ID */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-5">
+              <div>
+                <p className="font-semibold text-white text-sm sm:text-base">
+                  User ID
+                </p>
+
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Your unique account identifier.
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl px-3 py-2 w-full sm:w-64">
+                <div className="text-xs font-mono text-white/80 truncate">
+                  {user?._id}
+                </div>
+
+                <button
+                  onClick={() => navigator.clipboard.writeText(user?._id || "")}
+                  className="text-white/50 hover:text-purple transition"
+                >
+                  <span className="material-symbols-rounded text-sm">
+                    content_copy
+                  </span>
+                </button>
+              </div>
+            </div>
+
             {/* Name */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-5">
               <div>
@@ -168,9 +201,9 @@ export default function Settings() {
 
               <Input
                 type="email"
-                className="w-full sm:w-64 bg-white/5 border-white/10"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                readOnly
+                className="w-full sm:w-64 bg-white/5 border-white/10 opacity-70 cursor-not-allowed"
+                value={user?.email || ""}
               />
             </div>
 
@@ -197,24 +230,26 @@ export default function Settings() {
           </CardContent>
         </Card>
 
-        {/* Actions */}
-        <div className="flex flex-col sm:flex-row sm:justify-end gap-3 sm:gap-4 mb-8">
-          <Button
-            variant="ghost"
-            onClick={handleCancel}
-            className="text-muted-foreground hover:text-white w-full sm:w-auto"
-          >
-            Cancel
-          </Button>
+        {/* Save / Cancel */}
+        {hasChanges && (
+          <div className="flex flex-col sm:flex-row sm:justify-end gap-3 sm:gap-4 mb-8">
+            <Button
+              variant="ghost"
+              onClick={handleCancel}
+              className="text-muted-foreground hover:text-white w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
 
-          <Button
-            onClick={handleSave}
-            disabled={saving}
-            className="bg-purple hover:bg-purple/90 text-white px-6 w-full sm:w-auto"
-          >
-            {saving ? "Saving..." : "Save Changes"}
-          </Button>
-        </div>
+            <Button
+              onClick={handleSave}
+              disabled={saving}
+              className="bg-purple hover:bg-purple/90 text-white px-6 w-full sm:w-auto"
+            >
+              {saving ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
+        )}
 
         {/* Danger Zone */}
         <Card className="rounded-2xl border border-red-500/30 bg-red-500/5">

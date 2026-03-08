@@ -162,6 +162,11 @@ router.put("/:id", auth, async (req, res) => {
   const updateData = { ...req.body };
   if (req.body.status === "closed") {
     updateData.closedAt = new Date();
+
+    await mongoose.model("Interest").deleteMany({
+      project: id,
+      status: "pending",
+    });
   }
 
   // handle reopening (optional safety)

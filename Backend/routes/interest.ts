@@ -24,8 +24,8 @@ router.post("/:projectId", auth, async (req, res) => {
   const project = await Project.findById(projectId);
   if (!project) return res.status(404).send("Project not found.");
 
-  if (project.status === "closed")
-    return res.status(400).send("Project is closed.");
+  if (project.status !== "open")
+    return res.status(400).send("Project is not accepting members.");
 
   const loggedInUser = (req as any).user;
 
