@@ -9,9 +9,10 @@ import RegisterPanel from "./sections/Authentication/RegisterPanel";
 import ProtectedRoute from "./sections/ProtectedRoute";
 import CreateProject from "./pages/CreateProject";
 import MyTeams from "./pages/MyTeams";
-import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 import PasswordReset from "./pages/PasswordReset";
 import ForgotPassword from "./pages/ForgotPassword";
+import NotificationLoader from "./sections/NotificationLoader";
 
 function App() {
   return (
@@ -23,7 +24,6 @@ function App() {
         {/* AUTH */}
         <Route path="auth" element={<Authentication />}>
           <Route index element={<LoginPanel />} />
-          <Route path="login" element={<LoginPanel />} />
           <Route path="register" element={<RegisterPanel />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
@@ -38,9 +38,10 @@ function App() {
           <Route path="projects/edit/:id" element={<CreateProject />} />
           <Route path="my-teams" element={<MyTeams />} />
           <Route path="activity" element={<Activity />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
+      <NotificationLoader />
     </BrowserRouter>
   );
 }

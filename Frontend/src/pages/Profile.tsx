@@ -25,7 +25,7 @@ interface User {
   isAdmin?: boolean;
 }
 
-export default function Settings() {
+export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
 
   const [name, setName] = useState("");

@@ -4,6 +4,7 @@ import DashboardLayout from "../sections/Dashboard/DashboardLayout";
 import ActivityHeader from "@/sections/Activity/ActivityHeader";
 import ActivityCard from "@/sections/Activity/ActivityCard";
 import Toast from "@/modals/Toast";
+import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -17,6 +18,8 @@ export default function Activity() {
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastType] = useState<"success" | "error">("error");
   const [toastMessage, setToastMessage] = useState("");
+
+  const setUnreadActivity = useNotificationStore((s) => s.setUnreadActivity);
 
   const showToast = (type: "success" | "error", message: string) => {
     setToastType(type);
@@ -38,12 +41,20 @@ export default function Activity() {
         const res = await axios.get(`${API}/interests/me`, {
           headers: { "x-auth-token": token },
         });
+
         setSent(res.data.data);
       } else {
         const res = await axios.get(`${API}/interests/received/me`, {
           headers: { "x-auth-token": token },
         });
+
         setReceived(res.data);
+
+        const hasPending = res.data.some(
+          (item: any) => item.status === "pending",
+        );
+
+        setUnreadActivity(hasPending);
       }
     } catch (err: any) {
       showToast("error", err?.response?.data || "Failed to fetch activity.");
@@ -55,6 +66,11 @@ export default function Activity() {
   useEffect(() => {
     fetchData();
   }, [activeTab]);
+
+  // clear notification when page opens
+  useEffect(() => {
+    setUnreadActivity(false);
+  }, []);
 
   const handleResponse = async (
     interestId: string,
@@ -72,12 +88,14 @@ export default function Activity() {
 
       showToast("success", `Request ${status}.`);
 
-      // update state instead of reload
-      setReceived((prev) =>
-        prev.map((item) =>
-          item._id === interestId ? { ...item, status } : item,
-        ),
+      const updated = received.map((item) =>
+        item._id === interestId ? { ...item, status } : item,
       );
+
+      setReceived(updated);
+
+      const hasPending = updated.some((item) => item.status === "pending");
+      setUnreadActivity(hasPending);
     } catch (err: any) {
       showToast("error", err?.response?.data || "Failed to respond.");
     }

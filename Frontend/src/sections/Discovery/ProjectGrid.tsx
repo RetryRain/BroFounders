@@ -49,8 +49,8 @@ export default function ProjectGrid({
 
   if (!projects.length)
     return (
-      <div className="text-xs sm:text-sm text-muted-foreground">
-        No projects found.
+      <div className="md:text-6xl text-4xl text-muted-foreground text-center">
+        Create a project and team up!
       </div>
     );
 

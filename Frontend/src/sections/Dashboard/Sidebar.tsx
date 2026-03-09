@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import SidebarLink from "./SidebarLink";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMemo } from "react";
+import { useNotificationStore } from "@/store/notifications";
 
 interface User {
   _id: string;
@@ -14,7 +15,6 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 🔥 Just read from localStorage — no fetching
   const user: User | null = useMemo(() => {
     const stored = localStorage.getItem("user");
     return stored ? JSON.parse(stored) : null;
@@ -28,7 +28,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* DESKTOP */}
       <aside className="hidden lg:flex w-64 bg-sidebar text-sidebar-foreground flex-col fixed inset-y-0 left-0 border-r border-sidebar-border">
         <SidebarContent
           user={user}
@@ -49,6 +48,10 @@ function SidebarContent({
   onLogout: () => void;
   pathname: string;
 }) {
+  const hasUnreadActivity = useNotificationStore((s) => s.hasUnreadActivity);
+
+  const hasNewTeam = useNotificationStore((s) => s.hasNewTeam);
+
   return (
     <>
       {/* Logo */}
@@ -74,9 +77,18 @@ function SidebarContent({
             active={pathname.startsWith("/projects")}
           />
         </Link>
+
         <Link to="/my-teams">
           <SidebarLink
-            icon={<span className="material-symbols-rounded">groups</span>}
+            icon={
+              <div className="relative">
+                <span className="material-symbols-rounded">groups</span>
+
+                {hasNewTeam && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                )}
+              </div>
+            }
             label="My Teams"
             active={pathname.startsWith("/my-teams")}
           />
@@ -85,17 +97,26 @@ function SidebarContent({
         <Link to="/activity">
           <SidebarLink
             icon={
-              <span className="material-symbols-rounded">notifications</span>
+              <div className="relative">
+                <span className="material-symbols-rounded">notifications</span>
+
+                {hasUnreadActivity && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                )}
+              </div>
             }
             label="Activity"
             active={pathname.startsWith("/activity")}
           />
         </Link>
-        <Link to="/settings">
+
+        <Link to="/profile">
           <SidebarLink
-            icon={<span className="material-symbols-rounded">settings</span>}
-            label="Settings"
-            active={pathname.startsWith("/settings")}
+            icon={
+              <span className="material-symbols-rounded">account_circle</span>
+            }
+            label="Profile"
+            active={pathname.startsWith("/profile")}
           />
         </Link>
       </nav>

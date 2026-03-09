@@ -87,6 +87,10 @@ export default function CreateProjectDetailsForm({
     setCustomTech("");
   };
 
+  const formatTitle = (value: string) => {
+    return value.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* TITLE */}
@@ -99,7 +103,7 @@ export default function CreateProjectDetailsForm({
           required
           value={title}
           maxLength={75}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(formatTitle(e.target.value))}
           className="py-4 sm:py-5 text-sm sm:text-[17px]"
         />
       </div>
@@ -184,7 +188,6 @@ export default function CreateProjectDetailsForm({
           })}
         </div>
 
-        {/* Custom Tech Input */}
         <div className="flex items-center gap-2">
           <Input
             placeholder="Add custom tech..."

@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import RequestItem from "./RequestItem";
 import SentApplicationItem from "./SentApplicationItem";
+import { useNotificationStore } from "@/store/notifications";
 
 type Tab = "sent" | "received";
 
@@ -21,14 +22,15 @@ export default function ActivityCard({
   loading,
   onRespond,
 }: Props) {
-  const tabs: { key: Tab; label: string; count: number }[] = [
-    { key: "sent", label: "Sent Applications", count: sent.length },
-    { key: "received", label: "Received Requests", count: received.length },
+  const hasUnreadActivity = useNotificationStore((s) => s.hasUnreadActivity);
+
+  const tabs: { key: Tab; label: string }[] = [
+    { key: "sent", label: "Sent Applications" },
+    { key: "received", label: "Received Requests" },
   ];
 
   return (
     <Card className="rounded-2xl overflow-hidden border-white/10 bg-white/5">
-      {/* Tabs */}
       <div className="flex border-b border-white/10 bg-white/5">
         {tabs.map((tab) => (
           <button
@@ -42,15 +44,15 @@ export default function ActivityCard({
           >
             <span className="flex items-center justify-center gap-2">
               {tab.label}
-              <span className="bg-white/10 text-[10px] px-1.5 py-0.5 rounded-md">
-                {tab.count}
-              </span>
+
+              {tab.key === "received" && hasUnreadActivity && (
+                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+              )}
             </span>
           </button>
         ))}
       </div>
 
-      {/* Content */}
       <div className="divide-y divide-white/5">
         {loading ? (
           <div className="flex items-center justify-center py-12">

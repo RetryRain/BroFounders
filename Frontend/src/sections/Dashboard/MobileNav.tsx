@@ -1,7 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
+import { useNotificationStore } from "@/store/notifications";
 
 export default function MobileNav() {
   const location = useLocation();
+
+  const hasUnreadActivity = useNotificationStore((s) => s.hasUnreadActivity);
+
+  const hasNewTeam = useNotificationStore((s) => s.hasNewTeam);
 
   const navItem = (to: string, icon: string, label: string) => {
     const active = location.pathname.startsWith(to);
@@ -13,7 +18,18 @@ export default function MobileNav() {
           active ? "text-purple" : "text-foreground/50"
         }`}
       >
-        <span className="material-symbols-rounded">{icon}</span>
+        <div className="relative">
+          <span className="material-symbols-rounded">{icon}</span>
+
+          {to === "/activity" && hasUnreadActivity && (
+            <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          )}
+
+          {to === "/my-teams" && hasNewTeam && (
+            <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          )}
+        </div>
+
         <span className="text-[10px] font-bold uppercase tracking-tight">
           {label}
         </span>

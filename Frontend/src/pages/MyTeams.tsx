@@ -6,6 +6,7 @@ import MyTeamsRightPanel from "@/sections/MyTeams/MyTeamsRightPanel";
 import EmptyTeamsState from "@/sections/EmptyTeamsState";
 import ProjectDetails from "@/modals/ProjectDetails";
 import type { Project } from "@/types/project";
+import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -16,8 +17,14 @@ export default function MyTeams() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [detailsProject, setDetailsProject] = useState<Project | null>(null);
 
+  const setNewTeam = useNotificationStore((s) => s.setNewTeam);
+
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
+
+  useEffect(() => {
+    setNewTeam(false);
+  }, []);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -35,7 +42,6 @@ export default function MyTeams() {
 
         setProject(projectData);
 
-        // 📱 MOBILE → open modal directly
         if (window.innerWidth < 1024) {
           setDetailsProject(projectData);
           setDetailsOpen(true);
@@ -63,12 +69,10 @@ export default function MyTeams() {
   return (
     <DashboardLayout>
       <div className="lg:h-[calc(100vh-6rem)] lg:overflow-hidden flex flex-col lg:flex-row gap-6 lg:gap-8">
-        {/* LEFT PANEL */}
         <div className="w-full lg:w-[320px] lg:shrink-0 lg:overflow-y-auto">
           <MyTeamsLeftPanel selectedId={selectedId} onSelect={setSelectedId} />
         </div>
 
-        {/* RIGHT PANEL (desktop only really used) */}
         <div className="flex-1 lg:overflow-y-auto">
           {project ? (
             <MyTeamsRightPanel
@@ -81,7 +85,6 @@ export default function MyTeams() {
         </div>
       </div>
 
-      {/* PROJECT DETAILS MODAL */}
       <ProjectDetails
         project={detailsProject}
         open={detailsOpen}

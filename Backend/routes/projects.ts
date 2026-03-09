@@ -129,7 +129,7 @@ router.post("/", auth, async (req, res) => {
   if (openProjectsCount >= 5) {
     return res
       .status(400)
-      .send("You can only have a maximum of 10 open projects.");
+      .send("You can only have a maximum of 5 open projects.");
   }
 
   const { members, ...safeBody } = req.body;
