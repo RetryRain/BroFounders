@@ -7,7 +7,7 @@ interface Props {
   setSearch: (v: string) => void;
 }
 
-export function DiscoveryHeader({ search, setSearch }: Props) {
+export function ProjectsHeader({ search, setSearch }: Props) {
   return (
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 sm:gap-6 mb-8 sm:mb-10">
       {/* LEFT */}

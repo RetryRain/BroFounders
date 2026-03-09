@@ -42,7 +42,8 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
   }, []);
 
   return (
-    <Card className="bg-white/5 border-white/10 p-6 rounded-2xl">
+    // <Card className="bg-white/5 border-white/10 p-6 rounded-2xl">
+    <Card className="bg-white/5 border-white/10 p-6 rounded-2xl h-full">
       <h3 className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-6">
         Active Squads
       </h3>

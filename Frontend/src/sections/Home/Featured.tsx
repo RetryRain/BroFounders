@@ -1,4 +1,4 @@
-import ProjectCard from "@/sections/Discovery/ProjectCard";
+import ProjectCard from "@/sections/Projects/ProjectCard";
 import type { Project } from "@/types/project";
 
 export default function Featured() {

@@ -1,5 +1,5 @@
 import CreateProjectDetailsForm from "./CreateProjectDetailsForm";
-import ProjectCard from "../Discovery/ProjectCard";
+import ProjectCard from "../Projects/ProjectCard";
 import GoalsCard from "./GoalsCard";
 import type { Project } from "@/types/project";
 import type { Dispatch, SetStateAction } from "react";

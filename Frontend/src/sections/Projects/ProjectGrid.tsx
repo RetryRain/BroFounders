@@ -1,4 +1,4 @@
-import ProjectCard from "../Discovery/ProjectCard";
+import ProjectCard from "./ProjectCard";
 import type { Project } from "@/types/project";
 import type { Dispatch, SetStateAction } from "react";
 

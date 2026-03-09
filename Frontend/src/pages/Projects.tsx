@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardLayout from "../sections/Dashboard/DashboardLayout";
-import { DiscoveryHeader } from "../sections/Discovery/Discovery";
-import ProjectGrid from "../sections/Discovery/ProjectGrid";
+import { ProjectsHeader } from "../sections/Projects/ProjectsHeader";
+import ProjectGrid from "../sections/Projects/ProjectGrid";
 import ProjectDetails from "../modals/ProjectDetails";
 import type { Project } from "../types/project";
 import { useLocation } from "react-router-dom";
@@ -103,7 +103,7 @@ export default function Projects() {
 
   return (
     <DashboardLayout>
-      <DiscoveryHeader search={search} setSearch={setSearch} />
+      <ProjectsHeader search={search} setSearch={setSearch} />
 
       <ProjectGrid
         projects={projects}

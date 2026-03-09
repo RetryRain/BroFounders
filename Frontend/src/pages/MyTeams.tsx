@@ -41,11 +41,6 @@ export default function MyTeams() {
         const projectData = res.data;
 
         setProject(projectData);
-
-        if (window.innerWidth < 1024) {
-          setDetailsProject(projectData);
-          setDetailsOpen(true);
-        }
       } catch {
         console.error("Failed to fetch project");
       }
