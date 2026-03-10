@@ -21,6 +21,7 @@ import JoinRequestModal from "@/modals/JoinRequestModal";
 import Toast from "./Toast";
 
 const API = import.meta.env.VITE_API_URL;
+
 interface ProjectDetailsProps {
   project: Project | null;
   open: boolean;
@@ -31,6 +32,7 @@ interface ProjectDetailsProps {
   } | null;
   hideJoin?: boolean;
   onProjectDeleted: (id: string) => void;
+  showToast: (type: "success" | "error", message: string) => void;
 }
 
 export default function ProjectDetails({
@@ -40,6 +42,7 @@ export default function ProjectDetails({
   currentUser,
   hideJoin = false,
   onProjectDeleted,
+  showToast,
 }: ProjectDetailsProps) {
   if (!project) return null;
 
@@ -163,6 +166,7 @@ export default function ProjectDetails({
                 currentUser={currentUser}
                 onEdit={handleEdit}
                 onDelete={() => setDeleteOpen(true)}
+                showToast={showToast}
               />
 
               {/* Sidebar flows inline on mobile */}

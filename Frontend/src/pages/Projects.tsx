@@ -27,25 +27,34 @@ export default function Projects() {
 
   const location = useLocation();
 
-  // 🔥 Toast State (single system)
+  /* ---------------- Toast State ---------------- */
   const [toastOpen, setToastOpen] = useState(false);
   const [toastType, setToastType] = useState<"success" | "error">("success");
   const [toastMessage, setToastMessage] = useState("");
 
+  const showToast = (type: "success" | "error", message: string) => {
+    setToastType(type);
+    setToastMessage(message);
+    setToastOpen(true);
+  };
+
+  /* ---------------- Select Project ---------------- */
   const handleSelect = (project: Project) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("project", project._id);
+    window.history.replaceState({}, "", url);
+
     setSelectedProject(project);
     setOpen(true);
   };
 
+  /* ---------------- Delete Handler ---------------- */
   const handleProjectDeleted = (id: string) => {
     setProjects((prev) => prev.filter((p) => p._id !== id));
-
-    setToastType("success");
-    setToastMessage("Project deleted successfully");
-    setToastOpen(true);
+    showToast("success", "Project deleted successfully");
   };
 
-  // 🔥 Fetch Projects
+  /* ---------------- Fetch Projects ---------------- */
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -60,9 +69,7 @@ export default function Projects() {
         setProjects(res.data.data);
         setPages(res.data.pages);
       } catch {
-        setToastType("error");
-        setToastMessage("Failed to load projects");
-        setToastOpen(true);
+        showToast("error", "Failed to load projects");
       } finally {
         setLoading(false);
       }
@@ -71,7 +78,7 @@ export default function Projects() {
     fetchProjects();
   }, [page, debouncedSearch]);
 
-  // 🔥 Debounce Search
+  /* ---------------- Debounce Search ---------------- */
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
@@ -80,26 +87,48 @@ export default function Projects() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  // Reset to page 1 when searching
   useEffect(() => {
     setPage(1);
   }, [debouncedSearch]);
 
-  // 🔥 Success Navigation Toast (from create/edit)
+  /* ---------------- Navigation Toast ---------------- */
   useEffect(() => {
     if (location.state?.success) {
-      setToastType("success");
-      setToastMessage(
+      showToast(
+        "success",
         location.state.success === "updated"
           ? "Project updated successfully"
           : "Project launched successfully",
       );
-      setToastOpen(true);
 
-      // Prevent repeat on refresh
       window.history.replaceState({}, document.title);
     }
   }, [location.state]);
+
+  /* ---------------- Deep Link Modal Loader ---------------- */
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const projectId = params.get("project");
+
+    if (!projectId) return;
+
+    const fetchProject = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get(`${API}/projects/${projectId}`, {
+          headers: token ? { "x-auth-token": token } : {},
+        });
+
+        setSelectedProject(res.data);
+        setOpen(true);
+      } catch (err) {
+        console.error("Failed to load shared project", err);
+      }
+    };
+
+    fetchProject();
+  }, [location.search]);
 
   return (
     <DashboardLayout>
@@ -118,12 +147,20 @@ export default function Projects() {
       <ProjectDetails
         project={selectedProject}
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={(value) => {
+          setOpen(value);
+
+          if (!value) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("project");
+            window.history.replaceState({}, "", url.pathname);
+          }
+        }}
         currentUser={currentUser}
         onProjectDeleted={handleProjectDeleted}
+        showToast={showToast}
       />
 
-      {/* 🔥 Floating Toast */}
       <Toast
         open={toastOpen}
         onClose={() => setToastOpen(false)}

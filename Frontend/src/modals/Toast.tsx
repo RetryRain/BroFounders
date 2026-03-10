@@ -28,7 +28,7 @@ export default function Toast({ open, onClose, type, message }: Props) {
         className="
           fixed top-4 left-1/2 -translate-x-1/2
           translate-y-0
-          w-[92vw] sm:w-auto
+          w-[70vw] sm:w-auto
           max-w-sm
           p-0
           border-0

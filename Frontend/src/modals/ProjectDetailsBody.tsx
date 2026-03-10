@@ -9,6 +9,7 @@ interface Props {
   } | null;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  showToast: (type: "success" | "error", message: string) => void;
 }
 
 export function ProjectDetailsBody({
@@ -16,6 +17,7 @@ export function ProjectDetailsBody({
   currentUser,
   onEdit,
   onDelete,
+  showToast,
 }: Props) {
   const { description, techStack, goals, status, lookingFor } = project;
 
@@ -24,9 +26,29 @@ export function ProjectDetailsBody({
     project.user &&
     String(currentUser._id) === String(project.user._id);
   const isAdmin = currentUser?.isAdmin;
+
   const canDelete =
     isAdmin || (isHost && (status === "open" || status === "in-progress"));
   const canUpdate = isAdmin || (isHost && status === "open");
+
+  const handleShare = async () => {
+    const url = `${window.location.origin}/projects?project=${project._id}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: project.title,
+          text: project.blurb,
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        showToast("success", "Project link copied to clipboard");
+      }
+    } catch {
+      showToast("error", "Failed to share project");
+    }
+  };
 
   return (
     <div className="px-6 py-6 sm:p-10 overflow-y-auto flex-1 text-foreground min-h-0">
@@ -51,7 +73,7 @@ export function ProjectDetailsBody({
         </div>
       </div>
 
-      {/* (Goals from backend) */}
+      {/* Goals */}
       <div className="mb-8 sm:mb-12">
         <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-4 sm:mb-6 uppercase tracking-widest">
           Goals
@@ -66,11 +88,10 @@ export function ProjectDetailsBody({
               <span className="material-symbols-rounded text-purple bg-white p-1.5 sm:p-2 rounded-xl shadow-sm shrink-0">
                 target
               </span>
-              <div>
-                <p className="text-sm md:text-base text-muted-foreground">
-                  {goal}
-                </p>
-              </div>
+
+              <p className="text-sm md:text-base text-muted-foreground">
+                {goal}
+              </p>
             </div>
           ))}
         </div>
@@ -102,6 +123,7 @@ export function ProjectDetailsBody({
       <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 sm:pt-8 border-t border-white/10">
         <Button
           variant="ghost"
+          onClick={handleShare}
           className="text-muted-foreground hover:text-purple font-bold text-sm justify-center sm:justify-start"
         >
           <span className="material-symbols-rounded mr-2">share</span>
