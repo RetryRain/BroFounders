@@ -4,7 +4,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Toast from "@/modals/Toast";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
@@ -31,6 +32,31 @@ export default function LoginPanel() {
     setToastOpen(true);
   };
 
+  /*
+  Shared login logic
+  */
+  const loginWithToken = async (token: string) => {
+    localStorage.setItem("token", token);
+
+    const me = await axios.get(`${API}/users/me`, {
+      headers: { "x-auth-token": token },
+    });
+
+    localStorage.setItem("user", JSON.stringify(me.data));
+  };
+
+  /*
+  Detect GitHub OAuth errors
+  */
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+
+    if (error === "github") {
+      showToast("error", "GitHub login failed");
+    }
+  }, []);
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { id, value } = e.target;
     setForm((prev) => ({ ...prev, [id]: value }));
@@ -45,15 +71,7 @@ export default function LoginPanel() {
         password: form.password,
       });
 
-      const token = res.data.token;
-
-      localStorage.setItem("token", token);
-
-      const me = await axios.get(`${API}/users/me`, {
-        headers: { "x-auth-token": token },
-      });
-
-      localStorage.setItem("user", JSON.stringify(me.data));
+      await loginWithToken(res.data.token);
 
       navigate("/projects");
     } catch (err) {
@@ -95,6 +113,7 @@ export default function LoginPanel() {
                 Forgot password?
               </Link>
             </div>
+
             <Input
               onChange={handleChange}
               id="password"
@@ -115,6 +134,7 @@ export default function LoginPanel() {
                 }))
               }
             />
+
             <Label htmlFor="remember" className="text-sm text-muted-foreground">
               Remember me for 30 days
             </Label>
@@ -130,6 +150,7 @@ export default function LoginPanel() {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-border"></div>
             </div>
+
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-card px-2 text-muted-foreground">
                 Or continue with
@@ -137,11 +158,9 @@ export default function LoginPanel() {
             </div>
           </div>
 
-          {/* Social */}
+          {/* Social Login */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {/* <Button type="button" className="w-full cursor-pointer">
-              Google
-            </Button> */}
+            {/* Google */}
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
                 try {
@@ -149,19 +168,25 @@ export default function LoginPanel() {
                     token: credentialResponse.credential,
                   });
 
-                  localStorage.setItem("token", res.data.token);
-                  localStorage.setItem("user", JSON.stringify(res.data.user));
+                  await loginWithToken(res.data.token);
 
                   navigate("/projects");
                 } catch {
                   showToast("error", "Google login failed");
                 }
               }}
-              onError={() => {
-                console.log("Google Login Failed");
-              }}
+              onError={() => showToast("error", "Google login failed")}
             />
-            <Button type="button" className="w-full cursor-pointer">
+
+            {/* GitHub */}
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full cursor-pointer"
+              onClick={() => {
+                window.location.href = `${API}/auth/github`;
+              }}
+            >
               GitHub
             </Button>
           </div>

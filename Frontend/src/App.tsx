@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import PasswordReset from "./pages/PasswordReset";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotificationLoader from "./sections/NotificationLoader";
+import GithubSuccess from "./pages/githubSuccess";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="login" element={<LoginPanel />} />
           <Route path="register" element={<RegisterPanel />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="github-success" element={<GithubSuccess />} />
         </Route>
 
         {/* PASSWORD RESET */}
