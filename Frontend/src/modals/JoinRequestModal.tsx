@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -26,8 +26,14 @@ export default function JoinRequestModal({
   const handleSubmit = () => {
     if (!message.trim()) return;
     onSubmit(message.trim());
-    setMessage("");
   };
+
+  // Clear message only when modal closes
+  useEffect(() => {
+    if (!open) {
+      setMessage("");
+    }
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>

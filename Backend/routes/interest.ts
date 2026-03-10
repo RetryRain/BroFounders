@@ -69,7 +69,6 @@ router.get("/me", auth, async (req, res) => {
     .skip(skip)
     .limit(limit);
 
-  // remove interests whose project was deleted
   const filtered = interests.filter((i) => i.project);
 
   res.send({
@@ -158,7 +157,6 @@ router.get("/received/me", auth, async (req, res) => {
     .populate("project", "title status")
     .sort({ createdAt: -1 });
 
-  // remove deleted projects
   const filtered = interests.filter((i) => i.project);
 
   res.send(filtered);
@@ -244,8 +242,18 @@ router.patch("/:interestId", auth, async (req, res) => {
 
       project.members.push(interest.user);
 
-      if (project.members.length === project.maxMembers)
-        project.status = "closed";
+      /*
+      Team reached capacity → start project
+      */
+      if (project.members.length === project.maxMembers) {
+        const now = new Date();
+
+        project.status = "in-progress";
+        project.startedAt = now;
+
+        // schedule automatic close in 30 days
+        project.closeAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+      }
 
       await project.save({ session });
     }

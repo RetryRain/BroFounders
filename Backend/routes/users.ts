@@ -122,15 +122,57 @@ router.delete("/:id", auth, async (req, res) => {
 
   const loggedInUser = (req as any).user;
 
-  // User or Admin can delete
   if (loggedInUser._id.toString() !== id && !loggedInUser.isAdmin)
     return res.status(403).send("Access denied.");
 
-  const user = await User.findByIdAndDelete(id);
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  if (!user) return res.status(404).send("User not found.");
+  try {
+    const user = await User.findByIdAndDelete(id).session(session);
 
-  res.status(204).send();
+    if (!user) {
+      await session.abortTransaction();
+      return res.status(404).send("User not found.");
+    }
+
+    const Project = mongoose.model("Project");
+    const Interest = mongoose.model("Interest");
+
+    // find projects created by user
+    const projects = await Project.find({ user: id })
+      .select("_id")
+      .session(session);
+
+    const projectIds = projects.map((p) => p._id);
+
+    // delete interests related to those projects
+    await Interest.deleteMany({ project: { $in: projectIds } }).session(
+      session,
+    );
+
+    // delete projects created by user
+    await Project.deleteMany({ user: id }).session(session);
+
+    // remove user from project members
+    await Project.updateMany(
+      { members: id },
+      { $pull: { members: id } },
+    ).session(session);
+
+    // delete interests created by user
+    await Interest.deleteMany({ user: id }).session(session);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(204).send();
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+
+    res.status(500).send("Failed to delete user.");
+  }
 });
 
 export default router;

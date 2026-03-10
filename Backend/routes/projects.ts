@@ -5,7 +5,11 @@ import auth from "../middleware/auth";
 
 const router = express.Router();
 
-// Get all (paginated)
+/*
+==============================
+Get all (paginated)
+==============================
+*/
 router.get("/", async (req, res) => {
   const page = Math.max(parseInt(req.query.page as string) || 1, 1);
   const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
@@ -38,6 +42,29 @@ router.get("/", async (req, res) => {
     Project.countDocuments(filter),
   ]);
 
+  /*
+  ==============================
+  Auto close expired projects
+  ==============================
+  */
+
+  const now = new Date();
+
+  for (const project of projects) {
+    if (
+      project.status === "in-progress" &&
+      project.closeAt &&
+      project.closeAt <= now
+    ) {
+      await Project.findByIdAndUpdate(project._id, {
+        status: "closed",
+        closedAt: now,
+      });
+
+      project.status = "closed";
+    }
+  }
+
   res.send({
     total,
     page,
@@ -46,7 +73,11 @@ router.get("/", async (req, res) => {
   });
 });
 
-// Get my projects (paginated + search)
+/*
+==============================
+Get my projects
+==============================
+*/
 router.get("/me", auth, async (req, res) => {
   const page = Math.max(parseInt(req.query.page as string) || 1, 1);
   const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
@@ -55,10 +86,8 @@ router.get("/me", auth, async (req, res) => {
   const search = (req.query.search as string) || "";
   const user = (req as any).user;
 
-  // Base filter (only my projects)
   const filter: any = { user: user._id };
 
-  // Add text search if provided
   if (search) {
     filter.$text = { $search: search };
   }
@@ -81,7 +110,11 @@ router.get("/me", auth, async (req, res) => {
   });
 });
 
-// Get projects created by me
+/*
+==============================
+Get my teams
+==============================
+*/
 router.get("/my-teams", auth, async (req, res) => {
   const user = (req as any).user;
 
@@ -92,9 +125,14 @@ router.get("/my-teams", auth, async (req, res) => {
   res.send(projects);
 });
 
-// Get by ID
+/*
+==============================
+Get project by ID
+==============================
+*/
 router.get("/:id", auth, async (req, res) => {
   const id = req.params.id as string;
+
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(400).send("Invalid project ID.");
 
@@ -113,14 +151,17 @@ router.get("/:id", auth, async (req, res) => {
   res.send(project);
 });
 
-// Create
+/*
+==============================
+Create project
+==============================
+*/
 router.post("/", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details?.[0]?.message);
 
   const user = (req as any).user;
 
-  // Count open projects of this user
   const openProjectsCount = await Project.countDocuments({
     user: user._id,
     status: "open",
@@ -139,10 +180,15 @@ router.post("/", auth, async (req, res) => {
     user: user._id,
     members: [user._id],
   });
+
   res.status(201).send(await project.populate("user", "name"));
 });
 
-// Update
+/*
+==============================
+Update project
+==============================
+*/
 router.put("/:id", auth, async (req, res) => {
   const id = req.params.id as string;
 
@@ -154,12 +200,43 @@ router.put("/:id", auth, async (req, res) => {
 
   const loggedInUser = (req as any).user;
 
-  const filter = loggedInUser.isAdmin
-    ? { _id: id }
-    : { _id: id, user: loggedInUser._id, status: "open" };
+  const project = await Project.findById(id);
 
-  //  handle closing logic
-  const updateData = { ...req.body };
+  if (!project) return res.status(404).send("Project not found.");
+
+  if (!loggedInUser.isAdmin && project.user.toString() !== loggedInUser._id)
+    return res.status(403).send("Access denied.");
+
+  /*
+  Prevent shrinking team size
+  */
+
+  if (req.body.maxMembers && req.body.maxMembers < project.members.length) {
+    return res
+      .status(400)
+      .send("Max members cannot be lower than current team size.");
+  }
+
+  const updateData: any = { ...req.body };
+
+  /*
+  Reopen project if capacity increased
+  */
+
+  if (
+    req.body.maxMembers &&
+    req.body.maxMembers > project.maxMembers &&
+    project.status === "in-progress"
+  ) {
+    updateData.status = "open";
+    updateData.startedAt = null;
+    updateData.closeAt = null;
+  }
+
+  /*
+  Manual closing
+  */
+
   if (req.body.status === "closed") {
     updateData.closedAt = new Date();
 
@@ -169,22 +246,22 @@ router.put("/:id", auth, async (req, res) => {
     });
   }
 
-  // handle reopening (optional safety)
   if (req.body.status && req.body.status !== "closed") {
     updateData.closedAt = null;
   }
 
-  const project = await Project.findOneAndUpdate(filter, updateData, {
+  const updated = await Project.findByIdAndUpdate(id, updateData, {
     new: true,
   });
 
-  if (!project)
-    return res.status(404).send("Project not found or access denied.");
-
-  res.send(project);
+  res.send(updated);
 });
 
-// Delete
+/*
+==============================
+Delete project
+==============================
+*/
 router.delete("/:id", auth, async (req, res) => {
   const id = req.params.id as string;
 

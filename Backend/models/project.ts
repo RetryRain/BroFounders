@@ -9,17 +9,20 @@ const projectSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 100,
   },
+
   blurb: {
     type: String,
     required: true,
     maxlength: 300,
     trim: true,
   },
+
   level: {
     type: String,
     required: true,
     enum: ["beginner", "intermediate", "advanced", "chaos"],
   },
+
   goals: {
     type: [
       {
@@ -30,22 +33,26 @@ const projectSchema = new mongoose.Schema({
     ],
     required: true,
   },
+
   description: {
     type: String,
     required: true,
     minlength: 10,
     maxlength: 2000,
   },
+
   techStack: {
     type: [{ type: String, maxlength: 50 }],
     required: true,
   },
+
   lookingFor: {
     type: String,
     required: true,
     minlength: 3,
     maxlength: 200,
   },
+
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -58,32 +65,62 @@ const projectSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+
   maxMembers: {
     type: Number,
     required: true,
     min: 2,
     max: 50,
   },
+
   status: {
     type: String,
     enum: ["open", "in-progress", "closed"],
     default: "open",
   },
+
   broadcast: {
     type: String,
     required: true,
     trim: true,
     maxlength: 300,
   },
+
   createdAt: {
     type: Date,
     default: Date.now,
   },
+
+  /*
+  ============================
+  Project lifecycle
+  ============================
+  */
+
+  // when the team filled up
+  startedAt: {
+    type: Date,
+    default: null,
+  },
+
+  // when the project should auto close
+  closeAt: {
+    type: Date,
+    default: null,
+  },
+
+  // when the project actually closed
   closedAt: {
     type: Date,
+    default: null,
   },
 });
 
+/*
+==============================
+Delete interests when project deleted
+==============================
+*/
 projectSchema.pre("findOneAndDelete", async function (this: Query<any, any>) {
   const doc = await this.model.findOne(this.getFilter());
 
@@ -94,11 +131,18 @@ projectSchema.pre("findOneAndDelete", async function (this: Query<any, any>) {
   }
 });
 
-projectSchema.index(
-  { closedAt: 1 },
-  { expireAfterSeconds: 60 * 60 * 24 * 10 }, // 10 days
-);
+/*
+==============================
+TTL → delete closed projects after 30 days
+==============================
+*/
+projectSchema.index({ closedAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 30 });
 
+/*
+==============================
+Search index
+==============================
+*/
 projectSchema.index(
   {
     title: "text",
@@ -115,6 +159,12 @@ projectSchema.index(
     },
   },
 );
+
+/*
+==============================
+Validation
+==============================
+*/
 
 function validateProject(project: any) {
   const schema = Joi.object({
@@ -147,12 +197,13 @@ function validateProjectUpdate(project: any) {
     blurb: Joi.string().max(300),
     level: Joi.string().valid("beginner", "intermediate", "advanced", "chaos"),
     goals: Joi.array().items(Joi.string().max(300)).min(1).max(4),
-  }).min(1); // at least one field required
+  }).min(1);
 
   return schema.validate(project);
 }
 
 const Project = mongoose.model("Project", projectSchema);
+
 export {
   Project,
   validateProject as validate,
