@@ -14,7 +14,7 @@ export default function Toast({ open, onClose, type, message }: Props) {
 
     const timer = setTimeout(() => {
       onClose();
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [open, onClose]);

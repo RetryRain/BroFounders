@@ -64,7 +64,7 @@ router.post("/", async (req, res) => {
   const token = jwt.sign(
     { _id: user._id, isAdmin: user.isAdmin },
     process.env.JWT_SECRET as string,
-    { expiresIn: "1h" },
+    { expiresIn: "2h" },
   );
 
   res.status(201).send({

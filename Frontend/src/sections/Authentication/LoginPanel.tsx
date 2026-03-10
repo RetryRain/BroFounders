@@ -4,10 +4,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Toast from "@/modals/Toast";
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { GoogleLogin } from "@react-oauth/google";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -139,9 +139,28 @@ export default function LoginPanel() {
 
           {/* Social */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <Button type="button" className="w-full cursor-pointer">
+            {/* <Button type="button" className="w-full cursor-pointer">
               Google
-            </Button>
+            </Button> */}
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const res = await axios.post(`${API}/auth/google`, {
+                    token: credentialResponse.credential,
+                  });
+
+                  localStorage.setItem("token", res.data.token);
+                  localStorage.setItem("user", JSON.stringify(res.data.user));
+
+                  navigate("/projects");
+                } catch {
+                  showToast("error", "Google login failed");
+                }
+              }}
+              onError={() => {
+                console.log("Google Login Failed");
+              }}
+            />
             <Button type="button" className="w-full cursor-pointer">
               GitHub
             </Button>

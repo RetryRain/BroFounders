@@ -24,6 +24,7 @@ function App() {
         {/* AUTH */}
         <Route path="auth" element={<Authentication />}>
           <Route index element={<LoginPanel />} />
+          <Route path="login" element={<LoginPanel />} />
           <Route path="register" element={<RegisterPanel />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
