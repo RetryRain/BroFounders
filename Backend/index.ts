@@ -1,11 +1,13 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 import express from "express";
 import routes from "./startup/routes";
 import db from "./startup/db";
 
 const app = express();
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("HalfAss API running");

@@ -6,6 +6,10 @@ import { Resend } from "resend";
 
 const router = express.Router();
 
+if (!process.env.RESEND_API_KEY) {
+  throw new Error("RESEND_API_KEY is missing in environment variables");
+}
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 /*
@@ -42,8 +46,8 @@ router.post("/forgot-password", async (req, res) => {
       });
     }
 
-    // Always return success to avoid email enumeration
-    res.send("If that email exists, a reset link was sent.");
+    // Prevent email enumeration
+    res.send("Password reset link has been sent.");
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to process request.");
