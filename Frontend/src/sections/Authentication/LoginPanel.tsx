@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Toast from "@/modals/Toast";
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,6 +19,17 @@ export default function LoginPanel() {
     password: "",
     remember: false,
   });
+
+  /* Toast */
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("error");
+  const [toastMessage, setToastMessage] = useState("");
+
+  const showToast = (type: "success" | "error", message: string) => {
+    setToastType(type);
+    setToastMessage(message);
+    setToastOpen(true);
+  };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { id, value } = e.target;
@@ -46,9 +58,9 @@ export default function LoginPanel() {
       navigate("/projects");
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        alert(err.response?.data || "Login failed");
+        showToast("error", err.response?.data || "Login failed");
       } else {
-        alert("Something went wrong");
+        showToast("error", "Something went wrong");
       }
     }
   };
@@ -147,6 +159,14 @@ export default function LoginPanel() {
           Sign up for free
         </Link>
       </p>
+
+      {/* Toast */}
+      <Toast
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        type={toastType}
+        message={toastMessage}
+      />
     </div>
   );
 }

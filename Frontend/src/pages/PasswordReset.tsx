@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import Toast from "@/modals/Toast";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -12,11 +13,23 @@ export default function PasswordReset() {
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleReset = async () => {
-    if (password.length < 5)
-      return alert("Password must be at least 6 characters.");
+  /* Toast */
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("error");
+  const [toastMessage, setToastMessage] = useState("");
 
-    if (password !== confirm) return alert("Passwords do not match.");
+  const showToast = (type: "success" | "error", message: string) => {
+    setToastType(type);
+    setToastMessage(message);
+    setToastOpen(true);
+  };
+
+  const handleReset = async () => {
+    if (password.length < 6)
+      return showToast("error", "Password must be at least 6 characters.");
+
+    if (password !== confirm)
+      return showToast("error", "Passwords do not match.");
 
     try {
       setLoading(true);
@@ -26,10 +39,13 @@ export default function PasswordReset() {
         password,
       });
 
-      alert("Password reset successful.");
-      navigate("/auth");
+      showToast("success", "Password reset successful.");
+
+      setTimeout(() => {
+        navigate("/auth");
+      }, 1200);
     } catch {
-      alert("Invalid or expired reset link.");
+      showToast("error", "Invalid or expired reset link.");
     } finally {
       setLoading(false);
     }
@@ -64,6 +80,13 @@ export default function PasswordReset() {
           {loading ? "Resetting..." : "Reset Password"}
         </button>
       </div>
+
+      <Toast
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        type={toastType}
+        message={toastMessage}
+      />
     </div>
   );
 }

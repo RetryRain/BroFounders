@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Toast from "@/modals/Toast";
 
 import {
   AlertDialog,
@@ -27,13 +28,23 @@ interface User {
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
-
   const [name, setName] = useState("");
 
   const [saving, setSaving] = useState(false);
   const [sendingReset, setSendingReset] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  /* Toast */
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("success");
+  const [toastMessage, setToastMessage] = useState("");
+
+  const showToast = (type: "success" | "error", message: string) => {
+    setToastType(type);
+    setToastMessage(message);
+    setToastOpen(true);
+  };
 
   useEffect(() => {
     const stored = localStorage.getItem("user");
@@ -67,8 +78,10 @@ export default function Profile() {
 
       setUser(updatedUser);
       setName(updatedUser.name);
+
+      showToast("success", "Profile updated successfully");
     } catch {
-      console.error("Failed to update profile");
+      showToast("error", "Failed to update profile");
     } finally {
       setSaving(false);
     }
@@ -84,9 +97,9 @@ export default function Profile() {
         email: user.email,
       });
 
-      alert("Password reset email sent.");
+      showToast("success", "Password reset email sent.");
     } catch {
-      alert("Failed to send reset email.");
+      showToast("error", "Failed to send reset email.");
     } finally {
       setSendingReset(false);
     }
@@ -110,7 +123,7 @@ export default function Profile() {
 
       window.location.href = "/auth";
     } catch {
-      console.error("Failed to delete account");
+      showToast("error", "Failed to delete account");
     } finally {
       setDeleting(false);
       setDeleteOpen(false);
@@ -119,8 +132,12 @@ export default function Profile() {
 
   const handleCancel = () => {
     if (!user) return;
-
     setName(user.name);
+  };
+
+  const handleCopyId = () => {
+    navigator.clipboard.writeText(user?._id || "");
+    showToast("success", "User ID copied to clipboard");
   };
 
   return (
@@ -158,7 +175,7 @@ export default function Profile() {
                 </div>
 
                 <button
-                  onClick={() => navigator.clipboard.writeText(user?._id || "")}
+                  onClick={handleCopyId}
                   className="text-white/50 hover:text-purple transition"
                 >
                   <span className="material-symbols-rounded text-sm">
@@ -272,6 +289,13 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
+
+      <Toast
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        type={toastType}
+        message={toastMessage}
+      />
 
       {/* Delete Confirmation */}
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>

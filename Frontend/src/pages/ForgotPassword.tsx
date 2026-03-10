@@ -3,6 +3,7 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import Toast from "@/modals/Toast";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -12,6 +13,16 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
 
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("success");
+  const [toastMessage, setToastMessage] = useState("");
+
+  const showToast = (type: "success" | "error", message: string) => {
+    setToastType(type);
+    setToastMessage(message);
+    setToastOpen(true);
+  };
+
   const handleSend = async () => {
     if (!email) return;
 
@@ -20,10 +31,13 @@ export default function ForgotPassword() {
 
       await axios.post(`${API}/auth/forgot-password`, { email });
 
-      alert("If that email exists, a reset link was sent.");
-      navigate("/auth");
+      showToast("success", "Password reset link has been sent.");
+
+      setTimeout(() => {
+        navigate("/auth");
+      }, 3000);
     } catch {
-      alert("Failed to send reset email.");
+      showToast("error", "Failed to send reset email.");
     } finally {
       setSending(false);
     }
@@ -54,6 +68,13 @@ export default function ForgotPassword() {
           {sending ? "Sending..." : "Send Reset Link"}
         </Button>
       </div>
+
+      <Toast
+        open={toastOpen}
+        onClose={() => setToastOpen(false)}
+        type={toastType}
+        message={toastMessage}
+      />
     </div>
   );
 }
