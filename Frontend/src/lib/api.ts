@@ -17,4 +17,23 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+/* Handle expired token */
+api.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
+      if (!window.location.pathname.startsWith("/auth")) {
+        setTimeout(() => {
+          window.location.href = "/auth/login";
+        }, 3000);
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
+
 export default api;

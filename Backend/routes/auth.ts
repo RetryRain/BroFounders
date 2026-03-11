@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
 
   if (!validPassword) return res.status(400).send("Invalid email or password.");
 
-  const expiresIn = req.body.remember ? "30d" : "2h";
+  const expiresIn = req.body.remember ? "30d" : "6h";
 
   const token = jwt.sign(
     { _id: user._id, isAdmin: user.isAdmin },
