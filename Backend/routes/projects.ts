@@ -10,7 +10,7 @@ const router = express.Router();
 Get all (paginated)
 ==============================
 */
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const page = Math.max(parseInt(req.query.page as string) || 1, 1);
   const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
   const skip = (page - 1) * limit;

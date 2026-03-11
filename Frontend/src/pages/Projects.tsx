@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import DashboardLayout from "../sections/Dashboard/DashboardLayout";
 import { ProjectsHeader } from "../sections/Projects/ProjectsHeader";
 import ProjectGrid from "../sections/Projects/ProjectGrid";
@@ -7,8 +7,6 @@ import ProjectDetails from "../modals/ProjectDetails";
 import type { Project } from "../types/project";
 import { useLocation } from "react-router-dom";
 import { useNotificationStore } from "@/store/notifications";
-
-const API = import.meta.env.VITE_API_URL;
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -51,8 +49,8 @@ export default function Projects() {
       try {
         setLoading(true);
 
-        const res = await axios.get(
-          `${API}/projects?page=${page}&limit=12&search=${encodeURIComponent(
+        const res = await api.get(
+          `/projects?page=${page}&limit=12&search=${encodeURIComponent(
             debouncedSearch,
           )}`,
         );
@@ -105,11 +103,7 @@ export default function Projects() {
 
     const fetchProject = async () => {
       try {
-        const token = localStorage.getItem("token");
-
-        const res = await axios.get(`${API}/projects/${projectId}`, {
-          headers: token ? { "x-auth-token": token } : {},
-        });
+        const res = await api.get(`/projects/${projectId}`);
 
         setSelectedProject(res.data);
         setOpen(true);
