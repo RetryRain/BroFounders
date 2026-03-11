@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-
-const API = import.meta.env.VITE_API_URL;
 
 interface Project {
   _id: string;
@@ -23,13 +21,7 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const res = await axios.get(`${API}/projects/my-teams`, {
-          headers: { "x-auth-token": token },
-        });
-
+        const res = await api.get(`/projects/my-teams`);
         setTeams(res.data);
       } catch (err) {
         console.error("Failed to load teams");
@@ -42,7 +34,6 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
   }, []);
 
   return (
-    // <Card className="bg-white/5 border-white/10 p-6 rounded-2xl">
     <Card className="bg-white/5 border-white/10 p-6 rounded-2xl h-full">
       <h3 className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-6">
         Active Squads

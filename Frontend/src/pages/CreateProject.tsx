@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Project } from "@/types/project";
 
@@ -7,8 +7,6 @@ import DashboardLayout from "@/sections/Dashboard/DashboardLayout";
 import CreateProjectHeader from "@/sections/CreateProject/CreateProjectHeader";
 import CreateProjectLayout from "@/sections/CreateProject/CreateProjectLayout";
 import { useNotificationStore } from "@/store/notifications";
-
-const API = import.meta.env.VITE_API_URL;
 
 export default function CreateProject() {
   const navigate = useNavigate();
@@ -47,12 +45,7 @@ export default function CreateProject() {
       try {
         setLoading(true);
 
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const res = await axios.get(`${API}/projects/${id}`, {
-          headers: { "x-auth-token": token },
-        });
+        const res = await api.get(`/projects/${id}`);
 
         const p = res.data;
 
@@ -134,15 +127,11 @@ export default function CreateProject() {
       };
 
       if (isEdit) {
-        await axios.put(`${API}/projects/${id}`, payload, {
-          headers: { "x-auth-token": token },
-        });
+        await api.put(`/projects/${id}`, payload);
 
         showToast("success", "Project updated successfully.");
       } else {
-        await axios.post(`${API}/projects`, payload, {
-          headers: { "x-auth-token": token },
-        });
+        await api.post(`/projects`, payload);
 
         showToast("success", "Project created successfully.");
       }
@@ -162,9 +151,6 @@ export default function CreateProject() {
     }
   };
 
-  // =========================
-  // LOADING STATE
-  // =========================
   if (loading) {
     return (
       <DashboardLayout>

@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "@/lib/api";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNotificationStore } from "@/store/notifications";
 
@@ -37,7 +37,7 @@ export default function RegisterPanel() {
       return showToast("error", "Passwords do not match.");
 
     try {
-      const res = await axios.post(`${API}/users`, {
+      const res = await api.post(`/users`, {
         name: form.name,
         email: form.email,
         password: form.password,
@@ -47,15 +47,13 @@ export default function RegisterPanel() {
 
       localStorage.setItem("token", token);
 
-      const me = await axios.get(`${API}/users/me`, {
-        headers: { "x-auth-token": token },
-      });
+      const me = await api.get(`/users/me`);
 
       localStorage.setItem("user", JSON.stringify(me.data));
 
       navigate("/projects");
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
+    } catch (err: any) {
+      if (err?.response) {
         showToast("error", err.response?.data || "Request failed");
       } else {
         showToast("error", "Something unexpected happened");
@@ -168,7 +166,7 @@ export default function RegisterPanel() {
           <GoogleLogin
             onSuccess={async (credentialResponse) => {
               try {
-                const res = await axios.post(`${API}/auth/google`, {
+                const res = await api.post(`/auth/google`, {
                   token: credentialResponse.credential,
                 });
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import DashboardLayout from "@/sections/Dashboard/DashboardLayout";
 import MyTeamsLeftPanel from "@/sections/MyTeams/MyTeamsLeftPanel";
 import MyTeamsRightPanel from "@/sections/MyTeams/MyTeamsRightPanel";
@@ -7,8 +7,6 @@ import EmptyTeamsState from "@/sections/EmptyTeamsState";
 import ProjectDetails from "@/modals/ProjectDetails";
 import type { Project } from "@/types/project";
 import { useNotificationStore } from "@/store/notifications";
-
-const API = import.meta.env.VITE_API_URL;
 
 export default function MyTeams() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -32,12 +30,7 @@ export default function MyTeams() {
 
     const fetchProject = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const res = await axios.get(`${API}/projects/${selectedId}`, {
-          headers: { "x-auth-token": token },
-        });
+        const res = await api.get(`/projects/${selectedId}`);
 
         const projectData = res.data;
 

@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "@/lib/api";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNotificationStore } from "@/store/notifications";
 
@@ -28,9 +28,7 @@ export default function LoginPanel() {
   const loginWithToken = async (token: string) => {
     localStorage.setItem("token", token);
 
-    const me = await axios.get(`${API}/users/me`, {
-      headers: { "x-auth-token": token },
-    });
+    const me = await api.get(`/users/me`);
 
     localStorage.setItem("user", JSON.stringify(me.data));
   };
@@ -56,7 +54,7 @@ export default function LoginPanel() {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${API}/auth`, {
+      const res = await api.post(`/auth`, {
         email: form.email,
         password: form.password,
         remember: form.remember,
@@ -65,8 +63,8 @@ export default function LoginPanel() {
       await loginWithToken(res.data.token);
 
       navigate("/projects");
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
+    } catch (err: any) {
+      if (err?.response) {
         showToast("error", err.response?.data || "Login failed");
       } else {
         showToast("error", "Something went wrong");
@@ -155,7 +153,7 @@ export default function LoginPanel() {
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
                 try {
-                  const res = await axios.post(`${API}/auth/google`, {
+                  const res = await api.post(`/auth/google`, {
                     token: credentialResponse.credential,
                   });
 

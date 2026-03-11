@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import api from "@/lib/api";
 import { useNotificationStore } from "@/store/notifications";
-
-const API = import.meta.env.VITE_API_URL;
 
 export default function NotificationLoader() {
   const setUnreadActivity = useNotificationStore((s) => s.setUnreadActivity);
@@ -13,13 +11,8 @@ export default function NotificationLoader() {
   useEffect(() => {
     const checkNotifications = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
         /* Activity notifications */
-        const activityRes = await axios.get(`${API}/interests/received/me`, {
-          headers: { "x-auth-token": token },
-        });
+        const activityRes = await api.get(`/interests/received/me`);
 
         const hasPending = activityRes.data.some(
           (item: any) => item.status === "pending",
@@ -32,9 +25,7 @@ export default function NotificationLoader() {
         }
 
         /* Team notifications */
-        const teamRes = await axios.get(`${API}/projects/my-teams`, {
-          headers: { "x-auth-token": token },
-        });
+        const teamRes = await api.get(`/projects/my-teams`);
 
         const prevCount = localStorage.getItem("teamCount");
 

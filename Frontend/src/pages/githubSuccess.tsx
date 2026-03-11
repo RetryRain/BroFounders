@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-const API = import.meta.env.VITE_API_URL;
+import api from "@/lib/api";
 
 export default function GithubSuccess() {
   const navigate = useNavigate();
@@ -20,9 +18,7 @@ export default function GithubSuccess() {
       try {
         localStorage.setItem("token", token);
 
-        const me = await axios.get(`${API}/users/me`, {
-          headers: { "x-auth-token": token },
-        });
+        const me = await api.get(`/users/me`);
 
         localStorage.setItem("user", JSON.stringify(me.data));
 

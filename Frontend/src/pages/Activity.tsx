@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import DashboardLayout from "../sections/Dashboard/DashboardLayout";
 import ActivityHeader from "@/sections/Activity/ActivityHeader";
 import ActivityCard from "@/sections/Activity/ActivityCard";
 import { useNotificationStore } from "@/store/notifications";
-
-const API = import.meta.env.VITE_API_URL;
+import api from "@/lib/api";
 
 export default function Activity() {
   const [activeTab, setActiveTab] = useState<"sent" | "received">("received");
@@ -21,22 +19,12 @@ export default function Activity() {
     try {
       setLoading(true);
 
-      const token = localStorage.getItem("token");
-      if (!token) {
-        showToast("error", "You must be logged in.");
-        return;
-      }
-
       if (activeTab === "sent") {
-        const res = await axios.get(`${API}/interests/me`, {
-          headers: { "x-auth-token": token },
-        });
+        const res = await api.get(`/interests/me`);
 
         setSent(res.data.data);
       } else {
-        const res = await axios.get(`${API}/interests/received/me`, {
-          headers: { "x-auth-token": token },
-        });
+        const res = await api.get(`/interests/received/me`);
 
         setReceived(res.data);
 
@@ -67,14 +55,7 @@ export default function Activity() {
     status: "accepted" | "rejected",
   ) => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      await axios.patch(
-        `${API}/interests/${interestId}`,
-        { status },
-        { headers: { "x-auth-token": token } },
-      );
+      await api.patch(`/interests/${interestId}`, { status });
 
       showToast("success", `Request ${status}.`);
 

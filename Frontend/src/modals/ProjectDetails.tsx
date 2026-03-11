@@ -4,7 +4,6 @@ import type { Project } from "../types/project";
 import { ProjectDetailsHeader } from "./ProjectDetailsHeader";
 import { ProjectDetailsBody } from "./ProjectDetailsBody";
 import { ProjectDetailsSidebar } from "./ProjectDetailsSidebar";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -18,8 +17,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import JoinRequestModal from "@/modals/JoinRequestModal";
-
-const API = import.meta.env.VITE_API_URL;
+import api from "@/lib/api";
 
 interface ProjectDetailsProps {
   project: Project | null;
@@ -61,12 +59,7 @@ export default function ProjectDetails({
     try {
       setDeleting(true);
 
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      await axios.delete(`${API}/projects/${project._id}`, {
-        headers: { "x-auth-token": token },
-      });
+      await api.delete(`/projects/${project._id}`);
 
       showToast("success", "Project deleted successfully.");
 
@@ -85,17 +78,7 @@ export default function ProjectDetails({
     try {
       setJoining(true);
 
-      const token = localStorage.getItem("token");
-      if (!token) {
-        showToast("error", "You must be logged in.");
-        return;
-      }
-
-      await axios.post(
-        `${API}/interests/${project._id}`,
-        { message },
-        { headers: { "x-auth-token": token } },
-      );
+      await api.post(`/interests/${project._id}`, { message });
 
       showToast("success", "Join request sent successfully.");
 

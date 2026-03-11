@@ -2,7 +2,7 @@ import DashboardLayout from "@/sections/Dashboard/DashboardLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import api from "@/lib/api";
 import { useEffect, useState } from "react";
 import { useNotificationStore } from "@/store/notifications";
 
@@ -16,8 +16,6 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-
-const API = import.meta.env.VITE_API_URL;
 
 interface User {
   _id: string;
@@ -54,14 +52,7 @@ export default function Profile() {
 
       setSaving(true);
 
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      const res = await axios.put(
-        `${API}/users/${user._id}`,
-        { name },
-        { headers: { "x-auth-token": token } },
-      );
+      const res = await api.put(`/users/${user._id}`, { name });
 
       const updatedUser = res.data;
 
@@ -84,7 +75,7 @@ export default function Profile() {
 
       setSendingReset(true);
 
-      await axios.post(`${API}/auth/forgot-password`, {
+      await api.post(`/auth/forgot-password`, {
         email: user.email,
       });
 
@@ -102,12 +93,7 @@ export default function Profile() {
 
       setDeleting(true);
 
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      await axios.delete(`${API}/users/${user._id}`, {
-        headers: { "x-auth-token": token },
-      });
+      await api.delete(`/users/${user._id}`);
 
       localStorage.removeItem("token");
       localStorage.removeItem("user");
