@@ -10,6 +10,7 @@ function validateAuth(req: any) {
   const schema = Joi.object({
     email: Joi.string().min(5).email().required(),
     password: Joi.string().min(5).required(),
+    remember: Joi.boolean().optional(),
   });
 
   return schema.validate(req);
@@ -26,13 +27,15 @@ router.post("/", async (req, res) => {
 
   if (!validPassword) return res.status(400).send("Invalid email or password.");
 
+  const expiresIn = req.body.remember ? "30d" : "2h";
+
   const token = jwt.sign(
     { _id: user._id, isAdmin: user.isAdmin },
     process.env.JWT_SECRET as string,
-    { expiresIn: "1h" },
+    { expiresIn },
   );
 
-  res.send({token});
+  res.send({ token });
 });
 
 export default router;

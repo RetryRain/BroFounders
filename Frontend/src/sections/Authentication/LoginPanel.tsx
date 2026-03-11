@@ -59,6 +59,7 @@ export default function LoginPanel() {
       const res = await axios.post(`${API}/auth`, {
         email: form.email,
         password: form.password,
+        remember: form.remember,
       });
 
       await loginWithToken(res.data.token);
