@@ -27,6 +27,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+
+  isBanned: {
+    type: Boolean,
+    default: false,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -47,7 +53,7 @@ function validateUserUpdate(user: any) {
   const schema = Joi.object({
     name: Joi.string().min(3).max(50),
     password: Joi.string().min(5).max(1024),
-  }).min(1); // at least one field required
+  }).min(1);
 
   return schema.validate(user);
 }

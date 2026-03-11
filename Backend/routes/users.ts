@@ -175,4 +175,40 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+// BAN USER
+router.patch("/:id/ban", auth, admin, async (req, res) => {
+  const id = req.params.id as string;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(400).send("Invalid user ID.");
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    { isBanned: true },
+    { new: true },
+  ).select("-password");
+
+  if (!user) return res.status(404).send("User not found.");
+
+  res.send(user);
+});
+
+// UNBAN USER
+router.patch("/:id/unban", auth, admin, async (req, res) => {
+  const id = req.params.id as string;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(400).send("Invalid user ID.");
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    { isBanned: false },
+    { new: true },
+  ).select("-password");
+
+  if (!user) return res.status(404).send("User not found.");
+
+  res.send(user);
+});
+
 export default router;

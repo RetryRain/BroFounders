@@ -14,6 +14,7 @@ import PasswordReset from "./pages/PasswordReset";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotificationLoader from "./sections/NotificationLoader";
 import GithubSuccess from "./pages/githubSuccess";
+import SupremeLeader from "@/pages/SupremeLeader";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="my-teams" element={<MyTeams />} />
           <Route path="activity" element={<Activity />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="/supreme-leader" element={<SupremeLeader />} />
         </Route>
       </Routes>
       <NotificationLoader />
