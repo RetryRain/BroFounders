@@ -3,17 +3,18 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Toast from "@/modals/Toast";
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
+import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function RegisterPanel() {
   const navigate = useNavigate();
+  const showToast = useNotificationStore((s) => s.showToast);
 
   const [form, setForm] = useState({
     name: "",
@@ -22,17 +23,6 @@ export default function RegisterPanel() {
     confirmPassword: "",
     terms: false,
   });
-
-  /* Toast */
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("error");
-  const [toastMessage, setToastMessage] = useState("");
-
-  const showToast = (type: "success" | "error", message: string) => {
-    setToastType(type);
-    setToastMessage(message);
-    setToastOpen(true);
-  };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { id, value } = e.target;
@@ -193,7 +183,7 @@ export default function RegisterPanel() {
             onError={() => showToast("error", "Google signup failed")}
           />
 
-          {/* GitHub placeholder */}
+          {/* GitHub */}
           <Button
             type="button"
             className="w-full p-5 rounded-[5px] cursor-pointer flex items-center justify-center gap-2 h-10 bg-black text-white hover:bg-black/90 border border-neutral-700"
@@ -223,14 +213,6 @@ export default function RegisterPanel() {
           Sign in
         </Link>
       </p>
-
-      {/* Toast */}
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
-      />
     </div>
   );
 }

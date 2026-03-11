@@ -3,7 +3,6 @@ import axios from "axios";
 import DashboardLayout from "../sections/Dashboard/DashboardLayout";
 import ActivityHeader from "@/sections/Activity/ActivityHeader";
 import ActivityCard from "@/sections/Activity/ActivityCard";
-import Toast from "@/modals/Toast";
 import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
@@ -15,17 +14,8 @@ export default function Activity() {
   const [received, setReceived] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("error");
-  const [toastMessage, setToastMessage] = useState("");
-
   const setUnreadActivity = useNotificationStore((s) => s.setUnreadActivity);
-
-  const showToast = (type: "success" | "error", message: string) => {
-    setToastType(type);
-    setToastMessage(message);
-    setToastOpen(true);
-  };
+  const showToast = useNotificationStore((s) => s.showToast);
 
   const fetchData = async () => {
     try {
@@ -103,13 +93,6 @@ export default function Activity() {
 
   return (
     <DashboardLayout>
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
-      />
-
       <ActivityHeader />
 
       <ActivityCard

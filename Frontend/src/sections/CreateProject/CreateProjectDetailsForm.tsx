@@ -222,7 +222,7 @@ export default function CreateProjectDetailsForm({
       </div>
 
       {/* LOOKING FOR */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-0">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
           Who are you looking for? <span className="text-red-500">*</span>
         </label>

@@ -18,7 +18,6 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import JoinRequestModal from "@/modals/JoinRequestModal";
-import Toast from "./Toast";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -50,9 +49,6 @@ export default function ProjectDetails({
   const [deleting, setDeleting] = useState(false);
   const [joinOpen, setJoinOpen] = useState(false);
   const [joining, setJoining] = useState(false);
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("success");
-  const [toastMessage, setToastMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -72,11 +68,14 @@ export default function ProjectDetails({
         headers: { "x-auth-token": token },
       });
 
+      showToast("success", "Project deleted successfully.");
+
       onProjectDeleted(project._id);
       setDeleteOpen(false);
       onOpenChange(false);
     } catch (err: any) {
       console.error("Delete failed:", err?.response?.data || err.message);
+      showToast("error", err?.response?.data || "Failed to delete project.");
     } finally {
       setDeleting(false);
     }
@@ -88,9 +87,7 @@ export default function ProjectDetails({
 
       const token = localStorage.getItem("token");
       if (!token) {
-        setToastType("error");
-        setToastMessage("You must be logged in.");
-        setToastOpen(true);
+        showToast("error", "You must be logged in.");
         return;
       }
 
@@ -100,15 +97,11 @@ export default function ProjectDetails({
         { headers: { "x-auth-token": token } },
       );
 
-      setToastType("success");
-      setToastMessage("Join request sent successfully.");
-      setToastOpen(true);
+      showToast("success", "Join request sent successfully.");
 
       setJoinOpen(false);
     } catch (err: any) {
-      setToastType("error");
-      setToastMessage(err?.response?.data || "Failed to send join request.");
-      setToastOpen(true);
+      showToast("error", err?.response?.data || "Failed to send join request.");
     } finally {
       setJoining(false);
     }
@@ -116,18 +109,13 @@ export default function ProjectDetails({
 
   return (
     <>
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
-      />
       <JoinRequestModal
         open={joinOpen}
         onClose={() => setJoinOpen(false)}
         onSubmit={handleJoinRequest}
         loading={joining}
       />
+
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           showCloseButton={false}
@@ -192,6 +180,7 @@ export default function ProjectDetails({
           </div>
         </DialogContent>
       </Dialog>
+
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent className="bg-card border border-white/10 rounded-2xl">
           <AlertDialogHeader>

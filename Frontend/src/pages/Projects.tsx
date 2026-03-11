@@ -6,7 +6,7 @@ import ProjectGrid from "../sections/Projects/ProjectGrid";
 import ProjectDetails from "../modals/ProjectDetails";
 import type { Project } from "../types/project";
 import { useLocation } from "react-router-dom";
-import Toast from "@/modals/Toast";
+import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -27,16 +27,7 @@ export default function Projects() {
 
   const location = useLocation();
 
-  /* ---------------- Toast State ---------------- */
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("success");
-  const [toastMessage, setToastMessage] = useState("");
-
-  const showToast = (type: "success" | "error", message: string) => {
-    setToastType(type);
-    setToastMessage(message);
-    setToastOpen(true);
-  };
+  const showToast = useNotificationStore((s) => s.showToast);
 
   /* ---------------- Select Project ---------------- */
   const handleSelect = (project: Project) => {
@@ -159,13 +150,6 @@ export default function Projects() {
         currentUser={currentUser}
         onProjectDeleted={handleProjectDeleted}
         showToast={showToast}
-      />
-
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
       />
     </DashboardLayout>
   );

@@ -1,12 +1,17 @@
 import Sidebar from "./Sidebar";
 import MobileNav from "./MobileNav";
 import MobileHeader from "./MobileHeader";
+import Toast from "@/modals/Toast";
+import { useNotificationStore } from "@/store/notifications";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { toastOpen, toastType, toastMessage, hideToast } =
+    useNotificationStore();
+
   return (
     <div className="min-h-screen bg-dark-background text-foreground">
       {/* DESKTOP SIDEBAR */}
@@ -24,6 +29,14 @@ export default function DashboardLayout({
       <div className="lg:hidden">
         <MobileNav />
       </div>
+
+      {/* GLOBAL TOAST */}
+      <Toast
+        open={toastOpen}
+        type={toastType}
+        message={toastMessage}
+        onClose={hideToast}
+      />
     </div>
   );
 }

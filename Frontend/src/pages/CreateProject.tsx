@@ -6,7 +6,7 @@ import type { Project } from "@/types/project";
 import DashboardLayout from "@/sections/Dashboard/DashboardLayout";
 import CreateProjectHeader from "@/sections/CreateProject/CreateProjectHeader";
 import CreateProjectLayout from "@/sections/CreateProject/CreateProjectLayout";
-import Toast from "@/modals/Toast";
+import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -14,6 +14,8 @@ export default function CreateProject() {
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = !!id;
+
+  const showToast = useNotificationStore((s) => s.showToast);
 
   // =========================
   // FORM STATE
@@ -34,11 +36,6 @@ export default function CreateProject() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // Toast (system errors only)
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("error");
-  const [toastMessage, setToastMessage] = useState("");
 
   // =========================
   // FETCH PROJECT (EDIT MODE)
@@ -95,9 +92,7 @@ export default function CreateProject() {
 
       const token = localStorage.getItem("token");
       if (!token) {
-        setToastType("error");
-        setToastMessage("Session expired. Please log in again.");
-        setToastOpen(true);
+        showToast("error", "Session expired. Please log in again.");
 
         setTimeout(() => {
           navigate("/auth/login");
@@ -105,13 +100,6 @@ export default function CreateProject() {
 
         return;
       }
-
-      // if (!token) {
-      //   navigate("/auth/login", {
-      //     state: { error: "Please log in to continue." },
-      //   });
-      //   return;
-      // }
 
       const cleanedGoals = goals
         .map((g) => g.trim())
@@ -149,10 +137,14 @@ export default function CreateProject() {
         await axios.put(`${API}/projects/${id}`, payload, {
           headers: { "x-auth-token": token },
         });
+
+        showToast("success", "Project updated successfully.");
       } else {
         await axios.post(`${API}/projects`, payload, {
           headers: { "x-auth-token": token },
         });
+
+        showToast("success", "Project created successfully.");
       }
 
       navigate("/projects", {
@@ -161,11 +153,10 @@ export default function CreateProject() {
         },
       });
     } catch (err: any) {
-      setToastType("error");
-      setToastMessage(
+      showToast(
+        "error",
         err?.response?.data || "Something went wrong. Please try again.",
       );
-      setToastOpen(true);
     } finally {
       setSubmitting(false);
     }
@@ -217,14 +208,6 @@ export default function CreateProject() {
         setLookingFor={setLookingFor}
         broadcast={broadcast}
         setBroadcast={setBroadcast}
-      />
-
-      {/* System Toast */}
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
       />
     </DashboardLayout>
   );

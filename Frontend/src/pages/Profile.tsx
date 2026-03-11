@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Toast from "@/modals/Toast";
+import { useNotificationStore } from "@/store/notifications";
 
 import {
   AlertDialog,
@@ -35,16 +35,7 @@ export default function Profile() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  /* Toast */
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("success");
-  const [toastMessage, setToastMessage] = useState("");
-
-  const showToast = (type: "success" | "error", message: string) => {
-    setToastType(type);
-    setToastMessage(message);
-    setToastOpen(true);
-  };
+  const showToast = useNotificationStore((s) => s.showToast);
 
   useEffect(() => {
     const stored = localStorage.getItem("user");
@@ -289,13 +280,6 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
-
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
-      />
 
       {/* Delete Confirmation */}
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>

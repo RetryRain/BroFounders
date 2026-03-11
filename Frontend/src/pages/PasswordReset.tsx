@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import Toast from "@/modals/Toast";
+import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -9,20 +9,11 @@ export default function PasswordReset() {
   const { token } = useParams();
   const navigate = useNavigate();
 
+  const showToast = useNotificationStore((s) => s.showToast);
+
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
-
-  /* Toast */
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("error");
-  const [toastMessage, setToastMessage] = useState("");
-
-  const showToast = (type: "success" | "error", message: string) => {
-    setToastType(type);
-    setToastMessage(message);
-    setToastOpen(true);
-  };
 
   const handleReset = async () => {
     if (password.length < 6)
@@ -80,13 +71,6 @@ export default function PasswordReset() {
           {loading ? "Resetting..." : "Reset Password"}
         </button>
       </div>
-
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
-      />
     </div>
   );
 }

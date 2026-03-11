@@ -3,34 +3,24 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Toast from "@/modals/Toast";
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
+import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
 
 export default function LoginPanel() {
   const navigate = useNavigate();
+  const showToast = useNotificationStore((s) => s.showToast);
 
   const [form, setForm] = useState({
     email: "",
     password: "",
     remember: false,
   });
-
-  /* Toast */
-  const [toastOpen, setToastOpen] = useState(false);
-  const [toastType, setToastType] = useState<"success" | "error">("error");
-  const [toastMessage, setToastMessage] = useState("");
-
-  const showToast = (type: "success" | "error", message: string) => {
-    setToastType(type);
-    setToastMessage(message);
-    setToastOpen(true);
-  };
 
   /*
   Shared login logic
@@ -209,14 +199,6 @@ export default function LoginPanel() {
           Sign up for free
         </Link>
       </p>
-
-      {/* Toast */}
-      <Toast
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        type={toastType}
-        message={toastMessage}
-      />
     </div>
   );
 }

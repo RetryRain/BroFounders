@@ -18,6 +18,7 @@ export default function MyTeams() {
   const [detailsProject, setDetailsProject] = useState<Project | null>(null);
 
   const setNewTeam = useNotificationStore((s) => s.setNewTeam);
+  const showToast = useNotificationStore((s) => s.showToast);
 
   const storedUser = localStorage.getItem("user");
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
@@ -86,6 +87,7 @@ export default function MyTeams() {
         onOpenChange={setDetailsOpen}
         currentUser={currentUser}
         onProjectDeleted={handleProjectDeleted}
+        showToast={showToast}
         hideJoin
       />
     </DashboardLayout>
