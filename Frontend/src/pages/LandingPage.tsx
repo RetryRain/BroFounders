@@ -1,4 +1,5 @@
 import CallingCard from "@/sections/Home/CallingCard";
+import FAQ from "@/sections/Home/Faq";
 import Featured from "@/sections/Home/Featured";
 import Footer from "@/sections/Home/Footer";
 import Hero from "@/sections/Home/Hero";
@@ -12,6 +13,7 @@ export default function LandingPage() {
       <Hero />
       <Workflow />
       <Featured />
+      <FAQ />
       <CallingCard />
       <Footer />
     </>

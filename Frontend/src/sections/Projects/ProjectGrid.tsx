@@ -49,8 +49,27 @@ export default function ProjectGrid({
 
   if (!projects.length)
     return (
-      <div className="md:text-6xl text-4xl text-muted-foreground text-center">
-        Create a project and team up!
+      <div className="flex flex-col items-center justify-center text-center py-16 md:py-24 px-4">
+        {/* Icon */}
+        <span className="material-symbols-rounded text-6xl md:text-8xl text-purple mb-6">
+          groups
+        </span>
+
+        {/* Title */}
+        <h2 className="text-2xl md:text-4xl font-bold text-white mb-3">
+          No squads yet.
+        </h2>
+
+        {/* Subtext */}
+        <p className="text-sm md:text-lg text-muted-foreground max-w-md">
+          Looks like you're flying solo. Launch a project and start assembling
+          your dream squad.
+        </p>
+
+        {/* Decorative hint */}
+        <p className="mt-4 text-xs md:text-sm text-purple/70">
+          Your next great idea is waiting.
+        </p>
       </div>
     );
 
