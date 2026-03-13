@@ -133,10 +133,10 @@ projectSchema.pre("findOneAndDelete", async function (this: Query<any, any>) {
 
 /*
 ==============================
-TTL → delete closed projects after 30 days
+TTL → delete closed projects after 90 days
 ==============================
 */
-projectSchema.index({ closedAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 30 });
+projectSchema.index({ closedAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 90 });
 
 /*
 ==============================

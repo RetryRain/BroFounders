@@ -23,8 +23,11 @@ export default function Projects() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const location = useLocation();
+  const [filter, setFilter] = useState<"open" | "in-progress" | "closed">(
+    "open",
+  );
 
+  const location = useLocation();
   const showToast = useNotificationStore((s) => s.showToast);
 
   /* ---------------- Select Project ---------------- */
@@ -49,11 +52,14 @@ export default function Projects() {
       try {
         setLoading(true);
 
-        const res = await api.get(
-          `/projects?page=${page}&limit=12&search=${encodeURIComponent(
-            debouncedSearch,
-          )}`,
-        );
+        const res = await api.get("/projects", {
+          params: {
+            page,
+            limit: 12,
+            search: debouncedSearch,
+            status: filter,
+          },
+        });
 
         setProjects(res.data.data);
         setPages(res.data.pages);
@@ -65,7 +71,7 @@ export default function Projects() {
     };
 
     fetchProjects();
-  }, [page, debouncedSearch]);
+  }, [page, debouncedSearch, filter]);
 
   /* ---------------- Debounce Search ---------------- */
   useEffect(() => {
@@ -78,7 +84,7 @@ export default function Projects() {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, filter]);
 
   /* ---------------- Navigation Toast ---------------- */
   useEffect(() => {
@@ -117,7 +123,12 @@ export default function Projects() {
 
   return (
     <DashboardLayout>
-      <ProjectsHeader search={search} setSearch={setSearch} />
+      <ProjectsHeader
+        search={search}
+        setSearch={setSearch}
+        filter={filter}
+        setFilter={setFilter}
+      />
 
       <ProjectGrid
         projects={projects}

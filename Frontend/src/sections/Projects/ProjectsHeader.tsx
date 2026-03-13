@@ -34,7 +34,7 @@ export function ProjectsHeader({
       <div className="flex items-center gap-1 p-1 bg-white/5 rounded-full border border-white/10 w-full lg:w-auto">
         <button
           onClick={() => setFilter("open")}
-          className={`${pill} ${
+          className={`whitespace-nowrap ${pill} ${
             filter === "open"
               ? "bg-purple text-white shadow"
               : "text-muted-foreground hover:text-white hover:bg-white/10 whitespace-nowrap"
@@ -44,20 +44,20 @@ export function ProjectsHeader({
         </button>
         <button
           onClick={() => setFilter("in-progress")}
-          className={`${pill} ${
+          className={`whitespace-nowrap ${pill} ${
             filter === "in-progress"
               ? "bg-purple text-white shadow"
-              : "text-muted-foreground hover:text-white hover:bg-white/10 whitespace-nowrap"
+              : "text-muted-foreground hover:text-white hover:bg-white/10"
           }`}
         >
           In Progress
         </button>
         <button
           onClick={() => setFilter("closed")}
-          className={`${pill} ${
+          className={`whitespace-nowrap ${pill} ${
             filter === "closed"
               ? "bg-purple text-white shadow"
-              : "text-muted-foreground hover:text-white hover:bg-white/10 whitespace-nowrap"
+              : "text-muted-foreground hover:text-white hover:bg-white/10"
           }`}
         >
           Closed

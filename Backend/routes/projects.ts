@@ -16,16 +16,25 @@ router.get("/", auth, async (req, res) => {
   const skip = (page - 1) * limit;
 
   const search = (req.query.search as string)?.trim() || "";
+  const status = req.query.status as string;
 
   let filter: any = {};
   let sort: any = { createdAt: -1 };
   let projection: any = {};
 
+  /* ---------------- Status Filter ---------------- */
+
+  if (status && ["open", "in-progress", "closed"].includes(status)) {
+    filter.status = status;
+  }
+
+  /* ---------------- Search Filter ---------------- */
+
   if (search) {
     if (mongoose.Types.ObjectId.isValid(search)) {
-      filter = { _id: search };
+      filter._id = search;
     } else {
-      filter = { $text: { $search: search } };
+      filter.$text = { $search: search };
       sort = { score: { $meta: "textScore" } };
       projection = { score: { $meta: "textScore" } };
     }
@@ -43,9 +52,7 @@ router.get("/", auth, async (req, res) => {
     Project.countDocuments(filter),
   ]);
 
-  /*
-  Auto close expired projects
-  */
+  /* ---------------- Auto close expired projects ---------------- */
 
   const now = new Date();
 
@@ -71,7 +78,6 @@ router.get("/", auth, async (req, res) => {
     data: projects,
   });
 });
-
 /*
 ==============================
 Get my projects

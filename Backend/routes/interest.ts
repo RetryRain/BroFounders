@@ -251,8 +251,8 @@ router.patch("/:interestId", auth, async (req, res) => {
         project.status = "in-progress";
         project.startedAt = now;
 
-        // schedule automatic close in 30 days
-        project.closeAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+        // schedule automatic close in 40 days
+        project.closeAt = new Date(now.getTime() + 40 * 24 * 60 * 60 * 1000);
       }
 
       await project.save({ session });
