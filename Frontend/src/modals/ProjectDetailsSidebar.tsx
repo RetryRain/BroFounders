@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import type { Project } from "../types/project";
+import { useNotificationStore } from "@/store/notifications";
 
 interface Props {
   project: Project;
@@ -16,6 +17,8 @@ export function ProjectDetailsSidebar({
 }: Props) {
   const { members, maxMembers, status } = project;
 
+  const showToast = useNotificationStore((s) => s.showToast);
+
   const memberCount = members.length;
   const percentage = (memberCount / maxMembers) * 100;
 
@@ -28,6 +31,11 @@ export function ProjectDetailsSidebar({
     .join("")
     .slice(0, 2)
     .toUpperCase();
+
+  const handleCopy = (id: string, label: string) => {
+    navigator.clipboard.writeText(id);
+    showToast("success", `${label} copied to clipboard`);
+  };
 
   return (
     <div
@@ -80,7 +88,8 @@ export function ProjectDetailsSidebar({
           </div>
 
           <button
-            onClick={() => navigator.clipboard.writeText(hostID)}
+            title="Copy Host ID"
+            onClick={() => handleCopy(hostID, "Host ID")}
             className="text-white/50 hover:text-purple transition"
           >
             <span className="material-symbols-rounded text-sm">
@@ -167,7 +176,8 @@ export function ProjectDetailsSidebar({
           </div>
 
           <button
-            onClick={() => navigator.clipboard.writeText(project._id)}
+            title="Copy Project ID"
+            onClick={() => handleCopy(project._id, "Project ID")}
             className="text-white/50 hover:text-purple transition"
           >
             <span className="material-symbols-rounded text-sm">

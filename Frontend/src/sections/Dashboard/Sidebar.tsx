@@ -121,27 +121,6 @@ function SidebarContent({
         </Link>
       </nav>
 
-      {/* Feedback */}
-      <div className="p-4 mt-auto">
-        <div className="rounded-xl p-4 bg-card border border-border backdrop-blur-sm flex flex-col gap-3">
-          <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider">
-            Feedback?!
-          </p>
-
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            Found a bug or have an idea? We'd love to hear it.
-          </p>
-
-          <Button
-            variant="outline"
-            className="w-full text-xs font-bold"
-            onClick={() => window.open("https://forms.gle/your-form", "_blank")}
-          >
-            Send Feedback
-          </Button>
-        </div>
-      </div>
-
       {/* User */}
       <div className="p-4 border-t border-sidebar-border flex items-center gap-3">
         <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-purple">

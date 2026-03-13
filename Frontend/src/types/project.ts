@@ -1,3 +1,8 @@
+export interface ProjectMember {
+  _id: string;
+  name: string;
+}
+
 export interface Project {
   _id: string;
   title: string;
@@ -6,11 +11,21 @@ export interface Project {
   techStack: string[];
   goals: string[];
   lookingFor: string;
-  members: string[];
+
+  members: ProjectMember[];
+
   maxMembers: number;
+
   status: "open" | "in-progress" | "closed";
+
   level: "beginner" | "intermediate" | "advanced" | "chaos";
-  user: { _id: string; name: string };
+
+  user: {
+    _id: string;
+    name: string;
+  };
+
   createdAt: string;
+
   broadcast: string;
 }

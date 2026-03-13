@@ -35,6 +35,7 @@ router.get("/", auth, async (req, res) => {
     Project.find(filter, projection)
       .select("-broadcast")
       .populate("user", "name")
+      .populate("members", "name")
       .sort(sort)
       .skip(skip)
       .limit(limit),
@@ -43,9 +44,7 @@ router.get("/", auth, async (req, res) => {
   ]);
 
   /*
-  ==============================
   Auto close expired projects
-  ==============================
   */
 
   const now = new Date();
@@ -94,6 +93,8 @@ router.get("/me", auth, async (req, res) => {
 
   const [projects, total] = await Promise.all([
     Project.find(filter)
+      .populate("user", "name")
+      .populate("members", "name")
       .select(search ? { score: { $meta: "textScore" } } : {})
       .sort(search ? { score: { $meta: "textScore" } } : { createdAt: -1 })
       .skip(skip)
@@ -120,7 +121,10 @@ router.get("/my-teams", auth, async (req, res) => {
 
   const projects = await Project.find({
     members: user._id,
-  }).sort({ createdAt: -1 });
+  })
+    .populate("user", "name")
+    .populate("members", "name")
+    .sort({ createdAt: -1 });
 
   res.send(projects);
 });
@@ -136,14 +140,17 @@ router.get("/:id", auth, async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(400).send("Invalid project ID.");
 
-  const project = await Project.findById(id).populate("user", "name").lean();
+  const project = await Project.findById(id)
+    .populate("user", "name")
+    .populate("members", "name")
+    .lean();
 
   if (!project) return res.status(404).send("Project not found");
 
   const user = (req as any).user;
 
   const isMember = project.members.some(
-    (member: any) => member.toString() === user._id.toString(),
+    (member: any) => member._id.toString() === user._id.toString(),
   );
 
   if (!isMember) project.broadcast = "";
@@ -181,7 +188,11 @@ router.post("/", auth, async (req, res) => {
     members: [user._id],
   });
 
-  res.status(201).send(await project.populate("user", "name"));
+  const populated = await Project.findById(project._id)
+    .populate("user", "name")
+    .populate("members", "name");
+
+  res.status(201).send(populated);
 });
 
 /*
@@ -252,7 +263,9 @@ router.put("/:id", auth, async (req, res) => {
 
   const updated = await Project.findByIdAndUpdate(id, updateData, {
     new: true,
-  });
+  })
+    .populate("user", "name")
+    .populate("members", "name");
 
   res.send(updated);
 });
