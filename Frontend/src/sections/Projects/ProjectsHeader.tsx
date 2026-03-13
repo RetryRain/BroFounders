@@ -5,9 +5,19 @@ import { Link } from "react-router-dom";
 interface Props {
   search: string;
   setSearch: (v: string) => void;
+  filter: "open" | "in-progress" | "closed";
+  setFilter: (v: "open" | "in-progress" | "closed") => void;
 }
 
-export function ProjectsHeader({ search, setSearch }: Props) {
+export function ProjectsHeader({
+  search,
+  setSearch,
+  filter,
+  setFilter,
+}: Props) {
+  const pill =
+    "flex-1 px-4 py-1.5 rounded-full text-xs font-bold transition-all text-center";
+
   return (
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 sm:gap-6 mb-8 sm:mb-10">
       {/* LEFT */}
@@ -15,10 +25,43 @@ export function ProjectsHeader({ search, setSearch }: Props) {
         <h1 className="text-xl sm:text-3xl font-bold text-white mb-2">
           Project Discovery
         </h1>
-
         <p className="text-muted-foreground text-xs sm:text-base max-w-md mx-auto lg:mx-0">
           Find your next tech stack to master with a global community.
         </p>
+      </div>
+
+      {/* Status Filter Pills */}
+      <div className="flex items-center gap-1 p-1 bg-white/5 rounded-full border border-white/10 w-full lg:w-auto">
+        <button
+          onClick={() => setFilter("open")}
+          className={`${pill} ${
+            filter === "open"
+              ? "bg-purple text-white shadow"
+              : "text-muted-foreground hover:text-white hover:bg-white/10 whitespace-nowrap"
+          }`}
+        >
+          Open
+        </button>
+        <button
+          onClick={() => setFilter("in-progress")}
+          className={`${pill} ${
+            filter === "in-progress"
+              ? "bg-purple text-white shadow"
+              : "text-muted-foreground hover:text-white hover:bg-white/10 whitespace-nowrap"
+          }`}
+        >
+          In Progress
+        </button>
+        <button
+          onClick={() => setFilter("closed")}
+          className={`${pill} ${
+            filter === "closed"
+              ? "bg-purple text-white shadow"
+              : "text-muted-foreground hover:text-white hover:bg-white/10 whitespace-nowrap"
+          }`}
+        >
+          Closed
+        </button>
       </div>
 
       {/* RIGHT */}
@@ -28,14 +71,12 @@ export function ProjectsHeader({ search, setSearch }: Props) {
           <span className="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
             search
           </span>
-
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search tech stacks..."
             className="pl-10 pr-10 h-11 sm:h-12 rounded-xl sm:rounded-2xl w-full text-sm"
           />
-
           {search && (
             <button
               onClick={() => setSearch("")}
@@ -46,7 +87,7 @@ export function ProjectsHeader({ search, setSearch }: Props) {
           )}
         </div>
 
-        {/* Button */}
+        {/* Host Button */}
         <Link to="/projects/create-project" className="w-full sm:w-auto">
           <Button className="w-full sm:w-auto h-11 sm:h-12 gap-2 bg-purple text-sm sm:text-base font-bold hover:bg-purple/70 rounded-xl sm:rounded-2xl">
             <span className="material-symbols-rounded text-base">
