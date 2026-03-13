@@ -8,9 +8,118 @@
       rel="stylesheet"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>StackNursery</title>
+    <style>
+      body {
+        margin: 0;
+        background: #1b131f;
+      }
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: #1b131f;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        z-index: 9999;
+        transition:
+          opacity 0.4s ease,
+          visibility 0.4s ease;
+      }
+      #splash.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      #splash-logo {
+        animation: sn-pulse 1.8s ease-in-out infinite;
+      }
+      #splash-wordmark {
+        font-family: "Inter", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.7);
+        letter-spacing: -0.3px;
+      }
+      #splash-wordmark span {
+        color: rgba(255, 255, 255, 0.35);
+        font-weight: 400;
+      }
+      @keyframes sn-pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.55;
+          transform: scale(0.93);
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Splash renders instantly before any JS loads -->
+    <div id="splash">
+      <svg
+        id="splash-logo"
+        width="56"
+        height="56"
+        viewBox="0 0 56 56"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="56" height="56" rx="14" fill="url(#sn-bg)" />
+        <defs>
+          <linearGradient
+            id="sn-bg"
+            x1="0"
+            y1="0"
+            x2="56"
+            y2="56"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stop-color="#9333EA" />
+            <stop offset="100%" stop-color="#4C1D95" />
+          </linearGradient>
+        </defs>
+        <rect
+          x="11"
+          y="33"
+          width="30"
+          height="5"
+          rx="2.5"
+          fill="rgba(255,255,255,0.2)"
+        />
+        <rect
+          x="14"
+          y="25.5"
+          width="24"
+          height="5"
+          rx="2.5"
+          fill="rgba(255,255,255,0.45)"
+        />
+        <rect
+          x="17"
+          y="18"
+          width="18"
+          height="5"
+          rx="2.5"
+          fill="rgba(255,255,255,0.8)"
+        />
+        <path
+          d="M26 17 C26 14 23 12 20 13 C20 16 22 17 26 17Z"
+          fill="#86EFAC"
+        />
+        <path
+          d="M26 17 C26 14 29 12 32 13 C32 16 30 17 26 17Z"
+          fill="#4ADE80"
+        />
+      </svg>
+      <div id="splash-wordmark">Stack<span>Nursery</span></div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

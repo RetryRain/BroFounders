@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import NotificationLoader from "./sections/NotificationLoader";
 import GithubSuccess from "./pages/githubSuccess";
 import SupremeLeader from "@/pages/SupremeLeader";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -45,7 +46,11 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="/supreme-leader" element={<SupremeLeader />} />
         </Route>
+
+        {/* 404 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
+
       <NotificationLoader />
     </BrowserRouter>
   );
