@@ -13,6 +13,17 @@ interface User {
   isBanned?: boolean;
 }
 
+interface Feedback {
+  _id: string;
+  message: string;
+  page?: string;
+  createdAt: string;
+  user?: {
+    name: string;
+    email: string;
+  };
+}
+
 export default function SupremeLeader() {
   const stored = localStorage.getItem("user");
   const user = stored ? JSON.parse(stored) : null;
@@ -21,8 +32,13 @@ export default function SupremeLeader() {
     return <div className="p-10 text-center">Access denied.</div>;
   }
 
+  const [tab, setTab] = useState<"users" | "feedback">("users");
+
   const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingFeedback, setLoadingFeedback] = useState(true);
 
   const showToast = useNotificationStore((s) => s.showToast);
 
@@ -34,11 +50,23 @@ export default function SupremeLeader() {
       } catch (err: any) {
         showToast("error", err?.response?.data || "Failed to load users.");
       } finally {
-        setLoading(false);
+        setLoadingUsers(false);
+      }
+    };
+
+    const fetchFeedback = async () => {
+      try {
+        const res = await api.get("/feedback");
+        setFeedbacks(res.data);
+      } catch (err: any) {
+        showToast("error", err?.response?.data || "Failed to load feedback.");
+      } finally {
+        setLoadingFeedback(false);
       }
     };
 
     fetchUsers();
+    fetchFeedback();
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -73,101 +101,165 @@ export default function SupremeLeader() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-5xl mx-auto py-8 px-4">
-        <h1 className="text-3xl font-extrabold text-white mb-6">
-          User Administration
+      <div className="max-w-6xl mx-auto py-8 px-4 space-y-6">
+        <h1 className="text-3xl font-extrabold text-white">
+          Admin Control Panel
         </h1>
 
-        <Card className="bg-white/5 border-white/10 rounded-2xl">
-          <CardContent className="p-6">
-            {loading ? (
-              <p className="text-muted-foreground text-sm">Loading users...</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="border-b border-white/10 text-muted-foreground">
-                    <tr>
-                      <th className="text-left py-3">Name</th>
-                      <th className="text-left py-3">Email</th>
-                      <th className="text-left py-3">Role</th>
-                      <th className="text-left py-3">User ID</th>
-                      <th className="text-left py-3">Actions</th>
-                    </tr>
-                  </thead>
+        {/* Tabs */}
+        <div className="flex gap-2">
+          <Button
+            variant={tab === "users" ? "default" : "outline"}
+            onClick={() => setTab("users")}
+          >
+            Users
+          </Button>
 
-                  <tbody>
-                    {users.map((u) => (
-                      <tr
-                        key={u._id}
-                        className="border-b border-white/5 hover:bg-white/5 transition"
-                      >
-                        <td className="py-3 font-medium text-white">
-                          {u.name}
-                        </td>
+          <Button
+            variant={tab === "feedback" ? "default" : "outline"}
+            onClick={() => setTab("feedback")}
+          >
+            Feedback
+          </Button>
+        </div>
 
-                        <td className="py-3 text-muted-foreground">
-                          {u.email}
-                        </td>
+        {/* USERS TAB */}
+        {tab === "users" && (
+          <Card className="bg-white/5 border-white/10 rounded-2xl">
+            <CardContent className="p-6">
+              {loadingUsers ? (
+                <p className="text-muted-foreground text-sm">
+                  Loading users...
+                </p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="border-b border-white/10 text-muted-foreground">
+                      <tr>
+                        <th className="text-left py-3">Name</th>
+                        <th className="text-left py-3">Email</th>
+                        <th className="text-left py-3">Role</th>
+                        <th className="text-left py-3">User ID</th>
+                        <th className="text-left py-3">Actions</th>
+                      </tr>
+                    </thead>
 
-                        <td className="py-3">
-                          {u.isAdmin ? (
-                            <span className="text-purple font-semibold">
-                              Admin
-                            </span>
-                          ) : (
-                            <span className="text-muted-foreground">User</span>
-                          )}
-                        </td>
+                    <tbody>
+                      {users.map((u) => (
+                        <tr
+                          key={u._id}
+                          className="border-b border-white/5 hover:bg-white/5 transition"
+                        >
+                          <td className="py-3 font-medium text-white">
+                            {u.name}
+                          </td>
 
-                        <td className="py-3 font-mono text-xs text-muted-foreground">
-                          {u._id}
-                        </td>
+                          <td className="py-3 text-muted-foreground">
+                            {u.email}
+                          </td>
 
-                        <td className="py-3 flex gap-2">
-                          {!u.isAdmin && (
-                            <>
-                              {u.isBanned ? (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => handleUnban(u._id)}
-                                >
-                                  Unban
-                                </Button>
-                              ) : (
+                          <td className="py-3">
+                            {u.isAdmin ? (
+                              <span className="text-purple font-semibold">
+                                Admin
+                              </span>
+                            ) : (
+                              <span className="text-muted-foreground">
+                                User
+                              </span>
+                            )}
+                          </td>
+
+                          <td className="py-3 font-mono text-xs text-muted-foreground">
+                            {u._id}
+                          </td>
+
+                          <td className="py-3 flex gap-2">
+                            {!u.isAdmin && (
+                              <>
+                                {u.isBanned ? (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleUnban(u._id)}
+                                  >
+                                    Unban
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={() => handleBan(u._id)}
+                                  >
+                                    Ban
+                                  </Button>
+                                )}
+
                                 <Button
                                   size="sm"
                                   variant="destructive"
-                                  onClick={() => handleBan(u._id)}
+                                  onClick={() => handleDelete(u._id)}
                                 >
-                                  Ban
+                                  Delete
                                 </Button>
-                              )}
+                              </>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
 
-                              <Button
-                                size="sm"
-                                variant="destructive"
-                                onClick={() => handleDelete(u._id)}
-                              >
-                                Delete
-                              </Button>
-                            </>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  {users.length === 0 && (
+                    <p className="text-muted-foreground text-sm mt-4">
+                      No users found.
+                    </p>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
-                {users.length === 0 && (
-                  <p className="text-muted-foreground text-sm mt-4">
-                    No users found.
-                  </p>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        {/* FEEDBACK TAB */}
+        {tab === "feedback" && (
+          <Card className="bg-white/5 border-white/10 rounded-2xl">
+            <CardContent className="p-6">
+              {loadingFeedback ? (
+                <p className="text-muted-foreground text-sm">
+                  Loading feedback...
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  {feedbacks.map((f) => (
+                    <div
+                      key={f._id}
+                      className="p-4 bg-white/5 rounded-lg border border-white/5"
+                    >
+                      <p className="text-white text-sm mb-2">{f.message}</p>
+
+                      <div className="text-xs text-muted-foreground flex flex-wrap gap-4">
+                        <span>
+                          {f.user?.name} ({f.user?.email})
+                        </span>
+
+                        {f.page && <span>Page: {f.page}</span>}
+
+                        <span>{new Date(f.createdAt).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  ))}
+
+                  {feedbacks.length === 0 && (
+                    <p className="text-muted-foreground text-sm">
+                      No feedback submitted yet.
+                    </p>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
       </div>
     </DashboardLayout>
   );
