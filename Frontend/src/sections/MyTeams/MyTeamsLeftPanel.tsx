@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useNotificationStore } from "@/store/notifications";
 
 interface Project {
   _id: string;
@@ -18,30 +19,37 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
   const [teams, setTeams] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const showToast = useNotificationStore((s) => s.showToast);
+
   useEffect(() => {
     const fetchTeams = async () => {
       try {
         const res = await api.get(`/projects/my-teams`);
         setTeams(res.data);
-      } catch (err) {
-        console.error("Failed to load teams");
+      } catch {
+        showToast("error", "Failed to load your squads.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchTeams();
-  }, []);
+  }, [showToast]);
 
   return (
-    <Card className="bg-white/5 border-white/10 p-6 rounded-2xl h-full">
+    <Card className="bg-white/5 border-white/10 p-6 rounded-2xl h-full flex flex-col">
       <h3 className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-6">
         Active Squads
       </h3>
 
-      <div className="space-y-2">
+      {/* Scroll Area */}
+      <div className="flex-1 min-h-0 overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-purple/40 scrollbar-track-transparent">
         {loading ? (
-          <p className="text-sm text-muted-foreground">Loading...</p>
+          <div className="flex items-center justify-center py-10">
+            <span className="material-symbols-rounded animate-spin text-muted-foreground text-2xl">
+              progress_activity
+            </span>
+          </div>
         ) : teams.length === 0 ? (
           <p className="text-sm text-muted-foreground">No active squads yet.</p>
         ) : (
@@ -69,6 +77,7 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
 }
 
 /* ================= Squad Item ================= */
+
 function SquadItem({
   title,
   memberCount,
@@ -88,6 +97,7 @@ function SquadItem({
       }`}
     >
       <p className="text-sm font-semibold text-white truncate">{title}</p>
+
       <p className="text-[10px] text-muted-foreground mt-1">
         {memberCount} Members
       </p>

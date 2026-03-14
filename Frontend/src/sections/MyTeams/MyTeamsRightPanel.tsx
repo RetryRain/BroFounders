@@ -9,12 +9,55 @@ interface Props {
   onOpenDetails: (project: Project) => void;
 }
 
+/*
+Extract URL even if buried inside messy broadcast text
+
+Works with:
+https://discord.gg/abc
+http://example.com
+www.google.com
+google.com
+*/
+function extractLink(text?: string) {
+  if (!text) return null;
+
+  const regex =
+    /((https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[^\s]*)?)/i;
+
+  const match = text.match(regex);
+  if (!match) return null;
+
+  let url = match[0];
+
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    url = "https://" + url;
+  }
+
+  return url;
+}
+
 export default function MyTeamsRightPanel({ project, onOpenDetails }: Props) {
   const showToast = useNotificationStore((s) => s.showToast);
+
+  const workspaceLink = extractLink(project.broadcast);
 
   const handleCopyId = (id: string, name: string) => {
     navigator.clipboard.writeText(id);
     showToast("success", `${name}'s ID copied to clipboard`);
+  };
+
+  const handleLaunchWorkspace = () => {
+    if (!workspaceLink) {
+      showToast("error", "No workspace link detected in broadcast.");
+      return;
+    }
+
+    try {
+      window.open(workspaceLink, "_blank", "noopener,noreferrer");
+      showToast("success", "Workspace launched.");
+    } catch {
+      showToast("error", "Failed to launch workspace.");
+    }
   };
 
   return (
@@ -74,7 +117,11 @@ export default function MyTeamsRightPanel({ project, onOpenDetails }: Props) {
             ))}
           </div>
 
-          <Button className="w-full bg-purple hover:bg-purple/90 text-white font-bold uppercase tracking-widest">
+          <Button
+            onClick={handleLaunchWorkspace}
+            disabled={!workspaceLink}
+            className="w-full bg-purple hover:bg-purple/90 text-white font-bold uppercase tracking-widest disabled:opacity-50"
+          >
             Launch Workspace
           </Button>
         </Card>
