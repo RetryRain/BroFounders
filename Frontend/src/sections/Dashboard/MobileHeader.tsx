@@ -31,8 +31,15 @@ export default function MobileHeader() {
   };
 
   const submitFeedback = async () => {
-    if (!message.trim()) {
+    const trimmed = message.trim();
+
+    if (!trimmed) {
       showToast("error", "Feedback cannot be empty.");
+      return;
+    }
+
+    if (trimmed.length < 3) {
+      showToast("error", "Feedback must be at least 3 characters.");
       return;
     }
 
@@ -40,7 +47,7 @@ export default function MobileHeader() {
       setSending(true);
 
       await api.post("/feedback", {
-        message,
+        message: trimmed,
         page: window.location.pathname,
       });
 
@@ -50,7 +57,6 @@ export default function MobileHeader() {
       setFeedbackOpen(false);
     } catch (err: any) {
       const msg = err?.response?.data || "Failed to send feedback.";
-
       showToast("error", msg);
     } finally {
       setSending(false);
@@ -146,7 +152,7 @@ export default function MobileHeader() {
 
             <Button
               onClick={submitFeedback}
-              disabled={sending}
+              disabled={sending || message.trim().length < 3}
               className="w-full mt-3 bg-purple hover:bg-purple/90 text-white text-xs"
             >
               {sending ? "Sending..." : "Submit Feedback"}

@@ -75,8 +75,15 @@ function SidebarContent({
   }, [feedbackOpen]);
 
   const submitFeedback = async () => {
-    if (!message.trim()) {
+    const trimmed = message.trim();
+
+    if (!trimmed) {
       showToast("error", "Feedback cannot be empty.");
+      return;
+    }
+
+    if (trimmed.length < 3) {
+      showToast("error", "Feedback must be at least 3 characters.");
       return;
     }
 
@@ -84,7 +91,7 @@ function SidebarContent({
       setSending(true);
 
       await api.post("/feedback", {
-        message,
+        message: trimmed,
         page: window.location.pathname,
       });
 
@@ -92,8 +99,9 @@ function SidebarContent({
 
       setMessage("");
       setFeedbackOpen(false);
-    } catch {
-      showToast("error", "Failed to send feedback.");
+    } catch (err: any) {
+      const msg = err?.response?.data || "Failed to send feedback.";
+      showToast("error", msg);
     } finally {
       setSending(false);
     }
@@ -204,10 +212,16 @@ function SidebarContent({
 
             <Button
               onClick={submitFeedback}
-              disabled={sending}
-              className="w-full mt-3 bg-purple hover:bg-purple/90 text-white text-xs"
+              disabled={sending || message.trim().length < 3}
+              className="w-full mt-3 bg-purple hover:bg-purple/90 text-white text-xs flex items-center justify-center"
             >
-              {sending ? "Sending..." : "Submit Feedback"}
+              {sending ? (
+                <span className="material-symbols-rounded animate-spin text-sm">
+                  progress_activity
+                </span>
+              ) : (
+                "Submit Feedback"
+              )}
             </Button>
           </div>
         )}
