@@ -1,9 +1,11 @@
 import "material-symbols/rounded.css";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import SidebarLink from "./SidebarLink";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { useNotificationStore } from "@/store/notifications";
+import api from "@/lib/api";
 
 interface User {
   _id: string;
@@ -27,15 +29,13 @@ export default function Sidebar() {
   };
 
   return (
-    <>
-      <aside className="hidden lg:flex w-64 bg-sidebar text-sidebar-foreground flex-col fixed inset-y-0 left-0 border-r border-sidebar-border">
-        <SidebarContent
-          user={user}
-          onLogout={handleLogout}
-          pathname={location.pathname}
-        />
-      </aside>
-    </>
+    <aside className="hidden lg:flex w-64 bg-sidebar text-sidebar-foreground flex-col fixed inset-y-0 left-0 border-r border-sidebar-border">
+      <SidebarContent
+        user={user}
+        onLogout={handleLogout}
+        pathname={location.pathname}
+      />
+    </aside>
   );
 }
 
@@ -49,8 +49,55 @@ function SidebarContent({
   pathname: string;
 }) {
   const hasUnreadActivity = useNotificationStore((s) => s.hasUnreadActivity);
-
   const hasNewTeam = useNotificationStore((s) => s.hasNewTeam);
+  const showToast = useNotificationStore((s) => s.showToast);
+
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  // close when clicking outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!popoverRef.current) return;
+      if (!popoverRef.current.contains(e.target as Node)) {
+        setFeedbackOpen(false);
+      }
+    };
+
+    if (feedbackOpen) {
+      document.addEventListener("mousedown", handler);
+    }
+
+    return () => document.removeEventListener("mousedown", handler);
+  }, [feedbackOpen]);
+
+  const submitFeedback = async () => {
+    if (!message.trim()) {
+      showToast("error", "Feedback cannot be empty.");
+      return;
+    }
+
+    try {
+      setSending(true);
+
+      await api.post("/feedback", {
+        message,
+        page: window.location.pathname,
+      });
+
+      showToast("success", "Thanks for the feedback!");
+
+      setMessage("");
+      setFeedbackOpen(false);
+    } catch {
+      showToast("error", "Failed to send feedback.");
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <>
@@ -83,7 +130,6 @@ function SidebarContent({
             icon={
               <div className="relative">
                 <span className="material-symbols-rounded">groups</span>
-
                 {hasNewTeam && (
                   <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 )}
@@ -99,7 +145,6 @@ function SidebarContent({
             icon={
               <div className="relative">
                 <span className="material-symbols-rounded">notifications</span>
-
                 {hasUnreadActivity && (
                   <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 )}
@@ -120,6 +165,53 @@ function SidebarContent({
           />
         </Link>
       </nav>
+
+      {/* Feedback trigger */}
+      <div className="p-4  border-sidebar-border relative">
+        <button
+          onClick={() => setFeedbackOpen((p) => !p)}
+          className="flex items-center gap-3 w-full px-4 py-3 text-sm opacity-70 hover:opacity-100"
+        >
+          <span className="material-symbols-rounded">chat</span>
+          Share Feedback
+        </button>
+
+        {feedbackOpen && (
+          <div
+            ref={popoverRef}
+            className="absolute bottom-16 left-4 right-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-xl"
+          >
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-xs font-semibold text-white">
+                How can we improve?
+              </h3>
+
+              <button
+                onClick={() => setFeedbackOpen(false)}
+                className="text-muted-foreground hover:text-white"
+              >
+                <span className="material-symbols-rounded text-sm">close</span>
+              </button>
+            </div>
+
+            <Textarea
+              rows={3}
+              placeholder="Tell us what's on your mind..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="text-xs"
+            />
+
+            <Button
+              onClick={submitFeedback}
+              disabled={sending}
+              className="w-full mt-3 bg-purple hover:bg-purple/90 text-white text-xs"
+            >
+              {sending ? "Sending..." : "Submit Feedback"}
+            </Button>
+          </div>
+        )}
+      </div>
 
       {/* User */}
       <div className="p-4 border-t border-sidebar-border flex items-center gap-3">

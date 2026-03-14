@@ -6,6 +6,7 @@ import auth from "../routes/auth";
 import googleAuth from "../routes/googleAuth";
 import githubAuth from "../routes/githubAuth";
 import interests from "../routes/interest";
+import feedbackRoutes from "../routes/feedback";
 import error from "../middleware/error";
 import passwordReset from "../routes/passwordReset";
 
@@ -23,6 +24,7 @@ export default function (app: express.Application) {
   app.use("/users", users);
   app.use("/auth", auth);
   app.use("/interests", interests);
+  app.use("/feedback", feedbackRoutes);
   app.use("/auth", passwordReset);
 
   app.use("/auth", googleAuth);
