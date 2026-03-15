@@ -6,10 +6,10 @@ export default function Navbar() {
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/20 px-6 md:px-20 py-4 bg-background/90 backdrop-blur-xl z-50">
       {/* LEFT */}
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-4 md:gap-8 lg:gap-10">
         <img
           src={logowithname}
-          className="w-auto h-15 rounded-2xl cursor-pointer"
+          className="h-10 md:h-12 lg:h-15 w-auto rounded-2xl cursor-pointer"
         />
 
         {/* Desktop Nav */}

@@ -11,9 +11,11 @@ import error from "../middleware/error";
 import passwordReset from "../routes/passwordReset";
 
 export default function (app: express.Application) {
+  const FRONTEND_URL = process.env.FRONTEND_URL;
+
   app.use(
     cors({
-      origin: "http://localhost:5173", // your frontend
+      origin: FRONTEND_URL, // wired from .env
       credentials: true,
     }),
   );

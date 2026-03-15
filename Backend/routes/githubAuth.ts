@@ -5,6 +5,7 @@ import crypto from "crypto";
 import { User } from "../models/users";
 
 const router = express.Router();
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 /*
 Redirect user to GitHub login
@@ -25,7 +26,7 @@ router.get("/github/callback", async (req, res) => {
     const code = req.query.code;
 
     if (!code) {
-      return res.redirect("http://localhost:5173/auth/login?error=github");
+      return res.redirect(`${FRONTEND_URL}/auth/login?error=github`);
     }
 
     /*
@@ -46,7 +47,7 @@ router.get("/github/callback", async (req, res) => {
     const accessToken = tokenRes.data.access_token;
 
     if (!accessToken) {
-      return res.redirect("http://localhost:5173/auth/login?error=github");
+      return res.redirect(`${FRONTEND_URL}/auth/login?error=github`);
     }
 
     /*
@@ -72,7 +73,7 @@ router.get("/github/callback", async (req, res) => {
     const name = userRes.data.name || userRes.data.login;
 
     if (!email) {
-      return res.redirect("http://localhost:5173/auth/login?error=github");
+      return res.redirect(`${FRONTEND_URL}/auth/login?error=github`);
     }
 
     /*
@@ -100,11 +101,9 @@ router.get("/github/callback", async (req, res) => {
     /*
     Redirect back to frontend
     */
-    res.redirect(
-      `http://localhost:5173/auth/github-success?token=${authToken}`,
-    );
+    res.redirect(`${FRONTEND_URL}/auth/github-success?token=${authToken}`);
   } catch (err) {
-    res.redirect("http://localhost:5173/auth/login?error=github");
+    res.redirect(`${FRONTEND_URL}/auth/login?error=github`);
   }
 });
 
