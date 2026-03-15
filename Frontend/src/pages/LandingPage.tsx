@@ -1,5 +1,5 @@
 import CallingCard from "@/sections/Home/CallingCard";
-import FAQ from "@/sections/Home/Faq";
+import FAQ from "@/sections/Home/FAQ";
 import Featured from "@/sections/Home/Featured";
 import Footer from "@/sections/Home/Footer";
 import Hero from "@/sections/Home/Hero";

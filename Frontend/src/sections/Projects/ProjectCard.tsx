@@ -44,6 +44,7 @@ export default function ProjectCard({ project, onClick }: Props) {
             </Badge>
 
             <Badge
+              title="project scale"
               className={`uppercase text-[9px] sm:text-[10px] tracking-widest font-bold px-2 py-1 rounded-full ${levelStyle[level]}`}
             >
               {level}

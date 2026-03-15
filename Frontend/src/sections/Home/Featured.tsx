@@ -5,59 +5,58 @@ export default function Featured() {
   const featuredProjects: Project[] = [
     {
       _id: "featured-1",
-      title: "Rust Systems Engine",
-      blurb: "Build a high-performance CLI for distributed log processing.",
-      description:
-        "Master ownership, memory safety and zero-cost abstractions while building a real Rust system tool.",
-      techStack: ["Rust", "CLI", "Systems"],
+      title: "Built By People Like You",
+      blurb: "These aren't corporate products or startup unicorns.",
+      description: "",
+      techStack: ["Builders", "Curiosity", "Shipping"],
       goals: [],
-      lookingFor: "Systems engineers interested in Rust internals",
+      lookingFor: "",
       members: [],
-      maxMembers: 8,
+      maxMembers: 5,
       broadcast: "",
       status: "open",
-      level: "advanced",
-      user: { _id: "1", name: "Featured Host" },
+      level: "beginner",
+      user: { _id: "1", name: "BroFounders" },
       createdAt: new Date().toISOString(),
     },
     {
       _id: "featured-2",
-      title: "K8s Native Lab",
-      blurb: "Design self-healing microservices with Kubernetes CRDs.",
-      description:
-        "Learn orchestration patterns, scaling and resilience with a production style cluster project.",
-      techStack: ["Kubernetes", "Go", "DevOps"],
+      title: "No Experts Required",
+      blurb:
+        "You don't need to be the best. You just need to be alive, curious and willing ",
+      description: "",
+      techStack: ["Experimenting", "Learning", "Building"],
       goals: [],
-      lookingFor: "Developers interested in cloud-native architecture",
+      lookingFor: "",
       members: [],
       maxMembers: 5,
       broadcast: "",
       status: "open",
       level: "intermediate",
-      user: { _id: "2", name: "Featured Host" },
+      user: { _id: "2", name: "BroFounders" },
       createdAt: new Date().toISOString(),
     },
     {
       _id: "featured-3",
-      title: "3D Web UX",
-      blurb: "Build immersive interfaces with Three.js and WebGL.",
-      description:
-        "Push modern frontend interaction through 3D visualizations and real-time rendering.",
-      techStack: ["Three.js", "WebGL", "React"],
+      title: "Small Teams, Big Learning",
+      blurb:
+        "Great projects don't always start with huge teams. Sometimes all it takes is a couple.",
+      description: "",
+      techStack: ["Teamwork", "Ideas", "Execution"],
       goals: [],
-      lookingFor: "Creative frontend devs interested in 3D UX",
+      lookingFor: "",
       members: [],
-      maxMembers: 4,
+      maxMembers: 5,
       broadcast: "",
-      status: "closed",
-      level: "advanced",
-      user: { _id: "3", name: "Featured Host" },
+      status: "open",
+      level: "chaos",
+      user: { _id: "3", name: "BroFounders" },
       createdAt: new Date().toISOString(),
     },
   ];
 
   return (
-    <section className="max-w-300 w-full px-6 md:px-10 py-12 md:py-16 mx-auto">
+    <section className="max-w-300 w-full px-6 md:px-10 py-15 md:py-30 mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-12 md:mb-16 gap-6">
         <div className="flex items-center gap-4">

@@ -10,6 +10,13 @@ export default function NotificationLoader() {
 
   useEffect(() => {
     const checkNotifications = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setUnreadActivity(false);
+        setNewTeam(false);
+        return;
+      }
+
       try {
         /* Activity notifications */
         const activityRes = await api.get(`/interests/received/me`);

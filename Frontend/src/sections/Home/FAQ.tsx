@@ -9,29 +9,29 @@ type FAQItem = {
 export default function FAQ() {
   const faqs: FAQItem[] = [
     {
-      question: "What is BuildTogether?",
+      question: "What is BroFounders?",
       answer:
-        "BuildTogether is a platform where developers form small squads to build real-world projects. No courses, no tutorials — just shipping code and learning by doing.",
+        "BroFounders is a platform where builders who aren't “experts” yet can find teammates and work on real projects together.",
     },
     {
-      question: "Do I need to be an expert developer?",
+      question: "Do I need to be an expert to join?",
       answer:
-        "No. Projects exist for different skill levels. Beginners can join learning squads while experienced developers can host advanced builds.",
+        "No. BroFounders is built for people who are still learning or exploring new skills. You don't need to be an expert developer, designer, artist, or marketer to participate. If you're curious, willing to collaborate, and ready to build projects with others, you’re welcome here.",
     },
     {
-      question: "How big are the teams?",
+      question: "Can I start my own project?",
       answer:
-        "Most projects run with 3–5 developers. Small enough to move fast, big enough to build something meaningful.",
+        "Yes. Anyone can create a project on BroFounders. If you have an idea, you can start a project, describe what you're building, and invite other developers, designers, artists, or creators to collaborate with you.",
     },
     {
-      question: "Can I host my own project?",
+      question: "Is BroFounders only for developers?",
       answer:
-        "Yes. If you have a project idea or want to practice a stack, you can create a project and recruit developers to join your squad.",
+        "No. BroFounders is a collaborative builder community. Developers, designers, artists, marketers, writers, and curious creators are all welcome to join projects and work together.",
     },
     {
       question: "Is this free to use?",
       answer:
-        "Yes. The platform is currently free while we grow the builder community.",
+        "Yes. BroFounders is free to use. The goal is to help more people collaborate, learn new skills, and build real projects together without barriers or gatekeeping.",
     },
   ];
 
@@ -46,13 +46,9 @@ export default function FAQ() {
   return (
     <section className="max-w-300 mx-auto w-full px-6 md:px-10 py-16 md:py-24">
       <div className="text-center mb-16">
-        <h2 className="text-foreground text-sm font-black uppercase tracking-[0.4em] mb-4">
-          QUESTIONS
-        </h2>
-
-        <h3 className="text-white text-4xl md:text-6xl font-black tracking-tight">
+        <h2 className="text-white text-4xl md:text-6xl font-black tracking-tight">
           Frequently Asked
-        </h3>
+        </h2>
       </div>
 
       <div className="max-w-3xl mx-auto flex flex-col divide-y divide-white/10">
