@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface Props {
   onLaunch: () => void;
@@ -32,12 +33,15 @@ export default function CreateProjectHeader({
 
       {/* RIGHT */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full lg:w-auto">
-        <Button
-          variant="outline"
-          className="w-full sm:w-auto h-11 sm:h-12 text-sm sm:text-base font-bold rounded-full"
-        >
-          Save Draft
-        </Button>
+        <Link to="/projects">
+          <Button
+            variant="outline"
+            className="w-full sm:w-auto h-11 sm:h-12 text-sm sm:text-base font-bold rounded-full"
+          >
+            <span className="material-symbols-rounded">arrow_back</span>
+            back
+          </Button>
+        </Link>
 
         <Button
           onClick={onLaunch}

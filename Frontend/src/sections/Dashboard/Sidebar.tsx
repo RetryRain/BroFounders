@@ -1,4 +1,5 @@
 import "material-symbols/rounded.css";
+import paperPlane from "@/assets/paper-plane.svg";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import SidebarLink from "./SidebarLink";
@@ -113,12 +114,13 @@ function SidebarContent({
       <Link to="/">
         <div className="p-8 flex items-center gap-3">
           <div className="size-10 bg-purple rounded-sm flex items-center justify-center shadow-lg shadow-primary/20">
-            <span className="material-symbols-rounded text-primary-foreground">
+            {/* <span className="material-symbols-rounded text-primary-foreground">
               rocket_launch
-            </span>
+            </span> */}
+            <img src={paperPlane} className="rounded-sm scale-120" />
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">
-            Project Hub
+            Bro Founders
           </h2>
         </div>
       </Link>

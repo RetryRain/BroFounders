@@ -10,7 +10,7 @@ export default function Workflow() {
       <div className="max-w-300 mx-auto px-6 text-center">
         {/* Heading */}
         <div className="mb-14 sm:mb-16 md:mb-20">
-          <h2 className="text-foreground text-[10px] sm:text-sm font-black uppercase tracking-[0.35em] sm:tracking-[0.4em] mb-3 sm:mb-4">
+          <h2 className="text-foreground test-base font-black uppercase tracking-[0.35em] sm:tracking-[0.4em] mb-3 sm:mb-4">
             THE WORKFLOW
           </h2>
 
@@ -25,16 +25,19 @@ export default function Workflow() {
           <Card className="bg-transparent border-none shadow-none group">
             <CardContent className="flex flex-col items-center p-0">
               <div className="size-20 sm:size-24 rounded-full bg-primary flex items-center justify-center mb-6 sm:mb-8 border-4 border-white/20 shadow-xl group-hover:scale-110 transition-transform">
-                <span className="material-symbols-rounded text-white text-xl sm:text-2xl">
+                <span
+                  className="material-symbols-rounded text-white"
+                  style={{ fontSize: 45 }}
+                >
                   fact_check
                 </span>
               </div>
 
-              <h4 className="text-white font-black text-lg sm:text-xl mb-2 sm:mb-3">
+              <h4 className="text-white font-black text-lg md:text-2xl mb-2 sm:mb-3">
                 Discover
               </h4>
 
-              <p className="text-foreground/90 text-xs sm:text-sm leading-relaxed max-w-xs">
+              <p className="text-foreground/90 text-base leading-relaxed max-w-xs">
                 Find projects matching your target stack through curated
                 listings.
               </p>
@@ -45,16 +48,19 @@ export default function Workflow() {
           <Card className="bg-transparent border-none shadow-none group">
             <CardContent className="flex flex-col items-center p-0">
               <div className="size-20 sm:size-24 rounded-full bg-primary flex items-center justify-center mb-6 sm:mb-8 border-4 border-white/20 shadow-xl group-hover:scale-110 transition-transform">
-                <span className="material-symbols-rounded text-white text-xl sm:text-2xl">
+                <span
+                  className="material-symbols-rounded text-white text-xl sm:text-2xl"
+                  style={{ fontSize: 45 }}
+                >
                   groups
                 </span>
               </div>
 
-              <h4 className="text-white font-black text-lg sm:text-xl mb-2 sm:mb-3">
+              <h4 className="text-white font-black text-lg md:text-2xl mb-2 sm:mb-3">
                 Assemble
               </h4>
 
-              <p className="text-foreground/90 text-xs sm:text-sm leading-relaxed max-w-xs">
+              <p className="text-foreground/90 text-base leading-relaxed max-w-xs">
                 Join a vetted squad of 3-5 developers ready to execute.
               </p>
             </CardContent>
@@ -64,16 +70,19 @@ export default function Workflow() {
           <Card className="bg-transparent border-none shadow-none group">
             <CardContent className="flex flex-col items-center p-0">
               <div className="size-20 sm:size-24 rounded-full bg-primary flex items-center justify-center mb-6 sm:mb-8 border-4 border-white/20 shadow-xl group-hover:scale-110 transition-transform">
-                <span className="material-symbols-rounded text-white text-xl sm:text-2xl">
+                <span
+                  className="material-symbols-rounded text-white text-xl sm:text-2xl"
+                  style={{ fontSize: 45 }}
+                >
                   bolt
                 </span>
               </div>
 
-              <h4 className="text-white font-black text-lg sm:text-xl mb-2 sm:mb-3">
+              <h4 className="text-white font-black text-lg md:text-2xl mb-2 sm:mb-3">
                 Sprint
               </h4>
 
-              <p className="text-foreground/90 text-xs sm:text-sm leading-relaxed max-w-xs">
+              <p className="text-foreground/90 text-base leading-relaxed max-w-xs">
                 Ship production-grade features in high-velocity 2-week cycles.
               </p>
             </CardContent>
@@ -83,16 +92,19 @@ export default function Workflow() {
           <Card className="bg-transparent border-none shadow-none group">
             <CardContent className="flex flex-col items-center p-0">
               <div className="size-20 sm:size-24 rounded-full bg-primary flex items-center justify-center mb-6 sm:mb-8 border-4 border-white/20 shadow-xl group-hover:scale-110 transition-transform">
-                <span className="material-symbols-rounded text-white text-xl sm:text-2xl">
+                <span
+                  className="material-symbols-rounded text-white text-xl sm:text-2xl"
+                  style={{ fontSize: 45 }}
+                >
                   verified
                 </span>
               </div>
 
-              <h4 className="text-white font-black text-lg sm:text-xl mb-2 sm:mb-3">
+              <h4 className="text-white font-black text-lg md:text-2xl mb-2 sm:mb-3">
                 Master
               </h4>
 
-              <p className="text-foreground/90 text-xs sm:text-sm leading-relaxed max-w-xs">
+              <p className="text-foreground/90 text-base leading-relaxed max-w-xs">
                 Earn verified credentials and peer endorsements.
               </p>
             </CardContent>

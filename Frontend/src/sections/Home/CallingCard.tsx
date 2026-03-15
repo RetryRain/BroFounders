@@ -5,25 +5,32 @@ import { Link } from "react-router-dom";
 
 export default function CallingCard() {
   return (
-    <section className="max-w-300 mx-auto w-full py-10 sm:py-12 px-4 sm:px-6 flex justify-center">
+    <section className="max-w-300 mx-auto w-full py-10 sm:py-12 px-0 sm:px-6 flex justify-center">
       <Card
         className="
         relative w-full max-w-275
-        rounded-[2.5rem] sm:rounded-[4rem]
+
+        /* MOBILE → looks like a section */
+        rounded-none border-0 shadow-none
+
+        /* DESKTOP → card style */
+        sm:rounded-[4rem]
+        sm:border-4 sm:border-white/20
+        sm:shadow-[0_30px_80px_-20px_rgba(131,50,172,0.5)]
+
         bg-linear-to-r from-primary to-background
-        border-4 border-white/20
-        shadow-[0_30px_80px_-20px_rgba(131,50,172,0.5)]
         overflow-hidden
         transition-all duration-500
         transform-gpu
-        hover:-translate-y-2 sm:hover:-translate-y-3
-        hover:scale-[1.01] sm:hover:scale-[1.02]
-        hover:shadow-[0_60px_140px_-20px_rgba(131,50,172,0.75)]
-        hover:border-white/40
+
+        sm:hover:-translate-y-3
+        sm:hover:scale-[1.02]
+        sm:hover:shadow-[0_60px_140px_-20px_rgba(131,50,172,0.75)]
+        sm:hover:border-white/40
       "
       >
         <CardContent className="relative z-10 flex flex-col items-center text-center gap-6 sm:gap-8 p-8 sm:p-12 md:p-16">
-          {/* Top Badge */}
+          {/* Badge */}
           <div className="bg-white text-background px-6 sm:px-8 py-2 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest md:tracking-[0.3em] shadow-2xl">
             READY TO LAUNCH?
           </div>
@@ -77,8 +84,11 @@ export default function CallingCard() {
 
         {/* Decorative Icon */}
         <div className="absolute top-0 right-0 p-8 sm:p-12 opacity-10">
-          <span className="material-symbols-rounded rotate-12 text-white opacity-50 text-[120px] sm:text-[180px]">
-            code
+          <span
+            style={{ fontSize: 200 }}
+            className="material-symbols-rounded rotate-12 text-white opacity-50 text-[120px] sm:text-[180px]"
+          >
+            architecture
           </span>
         </div>
       </Card>
