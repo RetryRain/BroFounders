@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
-    <section className="relative max-w-6xl w-full px-6 sm:px-12 py-20 mx-auto flex flex-col items-center text-center gap-0">
+    <section className="relative overflow-hidden max-w-6xl w-full px-6 sm:px-12 py-20 mx-auto flex flex-col items-center text-center gap-0">
       {/* ── Ambient glows ── */}
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-175 h-175 bg-accent/25 blur-[180px] rounded-full pointer-events-none" />
       <div className="absolute top-1/3 left-1/4 w-75 h-75 bg-secondary/15 blur-[140px] rounded-full pointer-events-none" />
@@ -22,7 +22,7 @@ export default function Hero() {
           FEEL READY.
         </span>
       </h1>
-      <p className="text-white/60 text-xs font-medium tracking-wide translate-x-30 md:translate-x-60 mb-5">
+      <p className="text-white/60 text-xs font-medium tracking-wide mb-5">
         - cuz you are!
       </p>
       {/* ── Thin rule ── */}
