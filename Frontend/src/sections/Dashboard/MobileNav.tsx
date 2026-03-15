@@ -42,7 +42,7 @@ export default function MobileNav() {
       {navItem("/projects", "explore", "Discovery")}
       {navItem("/my-teams", "groups", "My Teams")}
       {navItem("/activity", "notifications", "Activity")}
-      {navItem("/settings", "settings", "Settings")}
+      {navItem("/profile", "account_circle", "Profile")}
     </nav>
   );
 }

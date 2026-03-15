@@ -94,9 +94,11 @@ export default function ProjectCard({ project, onClick }: Props) {
         ) : status === "in-progress" ? (
           <span className="material-symbols-rounded">lock</span>
         ) : (
-          <span className="material-symbols-rounded group-hover:translate-x-1 transition-transform">
-            arrow_forward
-          </span>
+          <div className="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-white/5 group-hover:bg-purple group-hover:translate-x-1">
+            <span className="material-symbols-rounded  transition-transform text-white">
+              arrow_forward
+            </span>
+          </div>
         )}
       </CardFooter>
     </Card>

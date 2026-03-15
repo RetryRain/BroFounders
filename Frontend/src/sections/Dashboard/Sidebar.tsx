@@ -231,7 +231,7 @@ function SidebarContent({
 
       {/* User */}
       <div className="p-4 border-t border-sidebar-border flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-purple">
+        <div className="h-10 w-10 rounded-full bg-purple/20 border border-primary/30 flex items-center justify-center text-base font-extrabold text-purple">
           {user?.name
             ?.split(" ")
             .map((n) => n[0])
