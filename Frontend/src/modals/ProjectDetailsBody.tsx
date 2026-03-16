@@ -100,7 +100,7 @@ export function ProjectDetailsBody({
       {/* Mission */}
       <div className="mb-8 sm:mb-10">
         <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-3 sm:mb-4 uppercase tracking-widest">
-          Project Mission
+          Description
         </h3>
 
         <p className="leading-relaxed text-base sm:text-lg font-medium text-foreground/80">

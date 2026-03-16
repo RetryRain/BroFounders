@@ -33,7 +33,7 @@ export default function ProjectCard({ project, onClick }: Props) {
       onClick={onClick}
       className="glass-card rounded-2xl cursor-pointer group border border-white/10 bg-card-background hover:-translate-y-1 hover:border-(--primary)/40 hover:shadow-[0_0_0_1px_var(--primary),0_10px_30px_-5px_var(--primary)] transition-all"
     >
-      <CardContent className="p-5 sm:p-6">
+      <CardContent className="-mt-5 pt-5">
         {/* STATUS ROW */}
         <div className="flex justify-between items-start mb-4 flex-wrap gap-2">
           <div className="flex flex-wrap gap-2">
@@ -85,7 +85,7 @@ export default function ProjectCard({ project, onClick }: Props) {
       </CardContent>
 
       {/* FOOTER */}
-      <CardFooter className="px-5 sm:px-6 py-5 pt-0 border-t border-white/5 flex justify-between items-center">
+      <CardFooter className="px-5 sm:px-6 pt-0 border-t border-white/5 flex justify-between items-center">
         <span className="text-xs sm:text-sm font-medium">
           {memberCount}/{maxMembers} Members
         </span>
