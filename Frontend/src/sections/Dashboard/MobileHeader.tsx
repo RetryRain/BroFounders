@@ -1,3 +1,4 @@
+import plane from "@/assets/paper-plane.svg";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
@@ -82,8 +83,9 @@ export default function MobileHeader() {
             <span className="material-symbols-rounded">arrow_back</span>
           </button>
 
+          <img className="h-8 rounded-sm" src={plane} alt="logo" />
           <h1 className="text-lg font-bold text-white tracking-tight">
-            Workspace Launcher
+            BroFounders
           </h1>
         </div>
 

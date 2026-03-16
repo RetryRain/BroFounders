@@ -268,7 +268,7 @@ router.put("/:id", auth, async (req, res) => {
   }
 
   const updated = await Project.findByIdAndUpdate(id, updateData, {
-    new: true,
+    returnDocument: "after",
   })
     .populate("user", "name")
     .populate("members", "name");

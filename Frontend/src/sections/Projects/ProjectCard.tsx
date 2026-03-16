@@ -31,7 +31,7 @@ export default function ProjectCard({ project, onClick }: Props) {
   return (
     <Card
       onClick={onClick}
-      className="glass-card rounded-2xl cursor-pointer group border-white/10 bg-card-background hover:-translate-y-1 transition-all"
+      className="glass-card rounded-2xl cursor-pointer group border border-white/10 bg-card-background hover:-translate-y-1 hover:border-(--primary)/40 hover:shadow-[0_0_0_1px_var(--primary),0_10px_30px_-5px_var(--primary)] transition-all"
     >
       <CardContent className="p-5 sm:p-6">
         {/* STATUS ROW */}

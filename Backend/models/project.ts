@@ -133,6 +133,30 @@ projectSchema.pre("findOneAndDelete", async function (this: Query<any, any>) {
 
 /*
 ==============================
+Auto start project when full
+==============================
+*/
+projectSchema.pre("findOneAndUpdate", async function () {
+  const update: any = this.getUpdate();
+  if (!update) return;
+
+  const doc = await this.model.findOne(this.getQuery());
+  if (!doc) return;
+
+  const members = update.members ?? doc.members;
+  const maxMembers = update.maxMembers ?? doc.maxMembers;
+
+  if (members.length === maxMembers && doc.status === "open") {
+    update.status = "in-progress";
+    update.startedAt = new Date();
+    update.closeAt = new Date(Date.now() + 40 * 24 * 60 * 60 * 1000);
+  }
+
+  this.setUpdate(update);
+});
+
+/*
+==============================
 TTL → delete closed projects after 90 days
 ==============================
 */

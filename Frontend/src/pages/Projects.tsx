@@ -23,8 +23,9 @@ export default function Projects() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const [filter, setFilter] = useState<"open" | "in-progress" | "closed">(
-    "open",
+  /* MULTI STATUS FILTER */
+  const [filters, setFilters] = useState<("open" | "in-progress" | "closed")[]>(
+    ["open", "in-progress"],
   );
 
   const location = useLocation();
@@ -57,7 +58,7 @@ export default function Projects() {
             page,
             limit: 12,
             search: debouncedSearch,
-            status: filter,
+            status: filters.join(","), // send multiple statuses
           },
         });
 
@@ -71,7 +72,7 @@ export default function Projects() {
     };
 
     fetchProjects();
-  }, [page, debouncedSearch, filter]);
+  }, [page, debouncedSearch, filters]);
 
   /* ---------------- Debounce Search ---------------- */
   useEffect(() => {
@@ -84,7 +85,7 @@ export default function Projects() {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedSearch, filter]);
+  }, [debouncedSearch, filters]);
 
   /* ---------------- Navigation Toast ---------------- */
   useEffect(() => {
@@ -126,8 +127,8 @@ export default function Projects() {
       <ProjectsHeader
         search={search}
         setSearch={setSearch}
-        filter={filter}
-        setFilter={setFilter}
+        filters={filters}
+        setFilters={setFilters}
       />
 
       <ProjectGrid

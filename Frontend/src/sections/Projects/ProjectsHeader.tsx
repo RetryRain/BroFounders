@@ -5,18 +5,29 @@ import { Link } from "react-router-dom";
 interface Props {
   search: string;
   setSearch: (v: string) => void;
-  filter: "open" | "in-progress" | "closed";
-  setFilter: (v: "open" | "in-progress" | "closed") => void;
+  filters: ("open" | "in-progress" | "closed")[];
+  setFilters: (v: ("open" | "in-progress" | "closed")[]) => void;
 }
 
 export function ProjectsHeader({
   search,
   setSearch,
-  filter,
-  setFilter,
+  filters,
+  setFilters,
 }: Props) {
   const pill =
-    "flex-1 px-4 py-1.5 rounded-full text-xs font-bold transition-all text-center";
+    "flex-1 px-4 py-1.5 rounded-full text-xs font-bold transition-all text-center whitespace-nowrap";
+
+  const toggleFilter = (status: "open" | "in-progress" | "closed") => {
+    if (filters.includes(status)) {
+      setFilters(filters.filter((f) => f !== status));
+    } else {
+      setFilters([...filters, status]);
+    }
+  };
+
+  const isActive = (status: "open" | "in-progress" | "closed") =>
+    filters.includes(status);
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 sm:gap-6 mb-8 sm:mb-10">
@@ -33,29 +44,31 @@ export function ProjectsHeader({
       {/* Status Filter Pills */}
       <div className="flex items-center gap-1 p-1 bg-white/5 rounded-full border border-white/10 w-full lg:w-auto">
         <button
-          onClick={() => setFilter("open")}
-          className={`whitespace-nowrap ${pill} ${
-            filter === "open"
+          onClick={() => toggleFilter("open")}
+          className={`${pill} ${
+            isActive("open")
               ? "bg-purple text-white shadow"
-              : "text-muted-foreground hover:text-white hover:bg-white/10 whitespace-nowrap"
+              : "text-muted-foreground hover:text-white hover:bg-white/10"
           }`}
         >
           Open
         </button>
+
         <button
-          onClick={() => setFilter("in-progress")}
-          className={`whitespace-nowrap ${pill} ${
-            filter === "in-progress"
+          onClick={() => toggleFilter("in-progress")}
+          className={`${pill} ${
+            isActive("in-progress")
               ? "bg-purple text-white shadow"
               : "text-muted-foreground hover:text-white hover:bg-white/10"
           }`}
         >
           In Progress
         </button>
+
         <button
-          onClick={() => setFilter("closed")}
-          className={`whitespace-nowrap ${pill} ${
-            filter === "closed"
+          onClick={() => toggleFilter("closed")}
+          className={`${pill} ${
+            isActive("closed")
               ? "bg-purple text-white shadow"
               : "text-muted-foreground hover:text-white hover:bg-white/10"
           }`}
@@ -71,12 +84,14 @@ export function ProjectsHeader({
           <span className="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
             search
           </span>
+
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search tech stacks..."
             className="pl-10 pr-10 h-11 sm:h-12 rounded-xl sm:rounded-2xl w-full text-sm"
           />
+
           {search && (
             <button
               onClick={() => setSearch("")}

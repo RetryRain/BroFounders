@@ -242,19 +242,6 @@ router.patch("/:interestId", auth, async (req, res) => {
 
       project.members.push(interest.user);
 
-      /*
-      Team reached capacity → start project
-      */
-      if (project.members.length === project.maxMembers) {
-        const now = new Date();
-
-        project.status = "in-progress";
-        project.startedAt = now;
-
-        // schedule automatic close in 40 days
-        project.closeAt = new Date(now.getTime() + 40 * 24 * 60 * 60 * 1000);
-      }
-
       await project.save({ session });
     }
 

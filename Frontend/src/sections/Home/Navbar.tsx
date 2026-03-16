@@ -69,7 +69,7 @@ export default function Navbar() {
                 COMMUNITY
               </a>
 
-              <button className="cursor-pointer mt-4 flex h-10 px-6 items-center justify-center rounded-full bg-white/10 text-white text-sm font-bold transition-all hover:bg-white/20 active:scale-95">
+              <button className="cursor-pointer mt-4 mx-3 flex h-10 px-6 items-center justify-center rounded-full bg-white/10 text-white text-sm font-bold transition-all hover:bg-white/20 active:scale-95">
                 FEEDBACK
               </button>
 
