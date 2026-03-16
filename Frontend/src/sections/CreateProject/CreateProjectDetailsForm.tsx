@@ -96,7 +96,7 @@ export default function CreateProjectDetailsForm({
       {/* TITLE */}
       <div className="flex flex-col gap-2">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Project Title <span className="text-red-500">*</span>
+          Title <span className="text-red-500">*</span>
         </label>
 
         <Input
@@ -111,7 +111,7 @@ export default function CreateProjectDetailsForm({
       {/* BLURB */}
       <div className="flex flex-col gap-2">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Blurb (Short Pitch) <span className="text-red-500">*</span>
+          Blurb <span className="text-red-500">*</span>
         </label>
 
         <Textarea
@@ -127,7 +127,7 @@ export default function CreateProjectDetailsForm({
       {/* DESCRIPTION */}
       <div className="flex flex-col gap-2">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Full Description <span className="text-red-500">*</span>
+          Description <span className="text-red-500">*</span>
         </label>
 
         <Textarea
@@ -142,7 +142,7 @@ export default function CreateProjectDetailsForm({
       {/* DIFFICULTY */}
       <div className="space-y-3 sm:space-y-4">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground block">
-          Difficulty Level <span className="text-red-500">*</span>
+          Project Scale <span className="text-red-500">*</span>
         </label>
 
         <div className="flex gap-2 flex-wrap">
@@ -165,7 +165,7 @@ export default function CreateProjectDetailsForm({
       {/* TECH STACK */}
       <div className="space-y-3 sm:space-y-4">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground block">
-          Tech Stack <span className="text-red-500">*</span>
+          Tags <span className="text-red-500">*</span>
         </label>
 
         <div className="flex flex-wrap gap-2">
@@ -250,7 +250,9 @@ export default function CreateProjectDetailsForm({
         <Textarea
           required
           rows={2}
-          placeholder="Paste Discord / Telegram / Slack link..."
+          placeholder={
+            "Paste Discord / Telegram / Slack link... \n(shown only to members)"
+          }
           value={broadcast}
           onChange={(e) => setBroadcast(e.target.value)}
           className="resize-none text-sm"

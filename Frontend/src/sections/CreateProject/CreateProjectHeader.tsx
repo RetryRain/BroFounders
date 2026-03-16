@@ -23,11 +23,11 @@ export default function CreateProjectHeader({
         </div>
 
         <h1 className="text-xl sm:text-3xl font-bold text-white">
-          Build Your Project
+          Assemble Your Bros
         </h1>
 
         <p className="text-muted-foreground text-xs sm:text-base mt-1 max-w-md mx-auto lg:mx-0">
-          Set the stage for your next collaborative masterpiece.
+          Set the stage for your collaborative masterpiece.
         </p>
       </div>
 
@@ -54,7 +54,7 @@ export default function CreateProjectHeader({
               : "Launching..."
             : mode === "edit"
               ? "Update Project"
-              : "Launch Project"}
+              : "Create Project"}
         </Button>
       </div>
     </div>

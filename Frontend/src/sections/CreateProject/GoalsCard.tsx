@@ -13,7 +13,7 @@ export default function GoalsCard({ goals, setGoals }: Props) {
     <Card className="glass-card md:min-h-125 rounded-2xl border-white/10 bg-card-background shadow-none">
       <CardContent className="p-6 space-y-6">
         <div>
-          <h3 className="text-lg font-bold text-white mb-1">Project Goals</h3>
+          <h3 className="text-lg font-bold text-white mb-1">Goals</h3>
           <p className="text-sm text-muted-foreground">
             Define what this project aims to achieve.
           </p>
