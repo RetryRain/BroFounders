@@ -5,9 +5,9 @@ export default function ActivityHeader() {
         <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
           Activity Center
         </h1>
-        <p className="text-sm sm:text-base text-muted-foreground max-w-md">
-          Manage your applications and hosting requests in one place.
-        </p>
+        <span className="text-sm sm:text-base text-muted-foreground max-w-md">
+          Manage your sent and recevied messages here.
+        </span>
       </div>
     </header>
   );

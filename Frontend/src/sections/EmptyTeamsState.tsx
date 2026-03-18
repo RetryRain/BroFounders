@@ -5,11 +5,10 @@ export default function EmptyTeamsState() {
         <span className="material-symbols-rounded text-4xl">groups</span>
       </div>
 
-      <h2 className="text-2xl font-bold text-white mb-2">Select a Squad</h2>
+      <h2 className="text-2xl font-bold text-white mb-2">Select a Team</h2>
 
       <p className="text-muted-foreground max-w-md">
-        Choose a team from the left to view its broadcast, members, and
-        workspace tools.
+        Choose a team from the left to view its broadcast, members, and details.
       </p>
     </div>
   );

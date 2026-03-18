@@ -125,10 +125,6 @@ export default function Profile() {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
             Manage Your Profile
           </h1>
-
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Update your personal information and account security.
-          </p>
         </div>
 
         {/* Profile Card */}
@@ -170,7 +166,7 @@ export default function Profile() {
                 </p>
 
                 <p className="text-xs sm:text-sm text-muted-foreground">
-                  How you appear to squad members.
+                  How you appear to other Bros.
                 </p>
               </div>
 
@@ -189,7 +185,7 @@ export default function Profile() {
                 </p>
 
                 <p className="text-xs sm:text-sm text-muted-foreground">
-                  Primary email for notifications.
+                  your current email.
                 </p>
               </div>
 
@@ -218,7 +214,7 @@ export default function Profile() {
               </Button>
 
               <p className="text-[11px] sm:text-xs text-muted-foreground mt-2">
-                We'll send a secure link to your email to reset your password.
+                We'll send an email to reset your password.
               </p>
             </div>
           </CardContent>
@@ -253,7 +249,7 @@ export default function Profile() {
             </h2>
 
             <p className="text-xs sm:text-sm text-muted-foreground mb-4">
-              Once you delete your account, there is no going back.
+              Once you delete your account, all data will be lost!.
             </p>
 
             <Button

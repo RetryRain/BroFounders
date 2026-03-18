@@ -84,13 +84,11 @@ export default function MyTeamsRightPanel({ project, onOpenDetails }: Props) {
 
       {/* Action Cards */}
       <div className="grid md:grid-cols-2 gap-6 min-w-0">
-        {/* Development Environment */}
+        {/* Project Members */}
         <Card className="p-8 rounded-2xl bg-white/5 border-white/10">
-          <h3 className="text-lg font-bold text-white mb-6">
-            Development Environment
-          </h3>
+          <h3 className="text-lg font-bold text-white mb-6">Project Members</h3>
 
-          <div className="space-y-3 mb-6">
+          <div className="space-y-3 mb-6 max-h-56 overflow-y-auto pr-1">
             {project.members.map((member) => (
               <div
                 key={member._id}
@@ -100,12 +98,14 @@ export default function MyTeamsRightPanel({ project, onOpenDetails }: Props) {
                   <span className="text-white font-medium">{member.name}</span>
 
                   {member._id === project.user._id && (
-                    <span className="text-[10px] text-purple ml-2">(Host)</span>
+                    <span className="text-[10px] text-purple ml-2">
+                      (Big Bro)
+                    </span>
                   )}
                 </div>
 
                 <button
-                  title="Copy ID"
+                  title="Copy User ID"
                   onClick={() => handleCopyId(member._id, member.name)}
                   className="flex items-center justify-center size-7 rounded-md hover:bg-white/10 transition"
                 >

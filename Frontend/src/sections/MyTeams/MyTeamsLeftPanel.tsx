@@ -3,6 +3,7 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNotificationStore } from "@/store/notifications";
+import { Link } from "react-router-dom";
 
 interface Project {
   _id: string;
@@ -39,7 +40,7 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
   return (
     <Card className="bg-white/5 border-white/10 p-6 rounded-2xl h-full flex flex-col">
       <h3 className="text-xs uppercase tracking-widest text-muted-foreground font-bold mb-6">
-        Active Squads
+        My Teams
       </h3>
 
       {/* Scroll Area */}
@@ -65,13 +66,15 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
         )}
       </div>
 
-      <Button
-        variant="outline"
-        className="w-full mt-6 border-dashed border-white/20 text-muted-foreground hover:text-white hover:border-white/40"
-      >
-        <span className="material-symbols-rounded mr-2">add</span>
-        Browse New Squads
-      </Button>
+      <Link to="/projects">
+        <Button
+          variant="outline"
+          className="w-full mt-6 border-dashed border-white/20 text-muted-foreground hover:text-white hover:border-white/40"
+        >
+          <span className="material-symbols-rounded mr-2">add</span>
+          Browse New Projects
+        </Button>
+      </Link>
     </Card>
   );
 }

@@ -70,7 +70,7 @@ export default function ActivityCard({
           ) : (
             <div className="p-4 sm:p-6 text-sm text-muted-foreground text-center">
               <p>No requests yet.</p>
-              <p>Don't hesitate, just do it :)</p>
+              <p>Don't be shy, create your project now!</p>
             </div>
           )
         ) : sent.length > 0 ? (
@@ -80,7 +80,7 @@ export default function ActivityCard({
         ) : (
           <div className="p-4 sm:p-6 text-sm text-muted-foreground text-center">
             <p>No applications sent.</p>
-            <p>Don't be shy, join a team :)</p>
+            <p>Don't be shy, we're all Bros here</p>
           </div>
         )}
       </div>

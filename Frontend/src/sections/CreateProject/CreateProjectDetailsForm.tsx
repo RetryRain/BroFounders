@@ -29,6 +29,9 @@ interface Props {
 
   broadcast: string;
   setBroadcast: Dispatch<SetStateAction<string>>;
+
+  memberCount: number;
+  mode: "create" | "edit";
 }
 
 export default function CreateProjectDetailsForm({
@@ -48,6 +51,8 @@ export default function CreateProjectDetailsForm({
   setLookingFor,
   broadcast,
   setBroadcast,
+  memberCount,
+  mode,
 }: Props) {
   const [customTech, setCustomTech] = useState("");
 
@@ -90,6 +95,8 @@ export default function CreateProjectDetailsForm({
   const formatTitle = (value: string) => {
     return value.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
   };
+
+  const projectFull = memberCount >= maxMembers;
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -208,9 +215,17 @@ export default function CreateProjectDetailsForm({
 
       {/* MAX MEMBERS */}
       <div className="flex flex-col gap-2">
-        <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
-          Max Members <span className="text-red-500">*</span>
-        </label>
+        <div className="flex items-center gap-2 flex-wrap">
+          <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">
+            Max Members <span className="text-red-500">*</span>
+          </label>
+
+          {mode === "edit" && projectFull && (
+            <Badge className="bg-orange-500/20 text-orange-400 border border-orange-400/30 text-[10px] sm:text-xs">
+              Increase to reopen project
+            </Badge>
+          )}
+        </div>
 
         <Input
           type="number"
@@ -218,6 +233,7 @@ export default function CreateProjectDetailsForm({
           min={2}
           max={50}
           onChange={(e) => setMaxMembers(Number(e.target.value))}
+          className={projectFull ? "border-orange-400" : ""}
         />
       </div>
 
@@ -251,7 +267,7 @@ export default function CreateProjectDetailsForm({
           required
           rows={2}
           placeholder={
-            "Paste Discord / Telegram / Slack link... \n(shown only to members)"
+            "Paste Discord / Telegram / Slack link...\n(shown only to members)"
           }
           value={broadcast}
           onChange={(e) => setBroadcast(e.target.value)}
