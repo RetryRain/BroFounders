@@ -64,11 +64,13 @@ export default function LoginPanel() {
 
       navigate("/projects");
     } catch (err: any) {
-      if (err?.response) {
-        showToast("error", err.response?.data || "Login failed");
-      } else {
-        showToast("error", "Something went wrong");
-      }
+      const message =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        err?.message ||
+        "Invalid email or password.";
+
+      showToast("error", message);
     }
   };
 

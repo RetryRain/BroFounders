@@ -1,11 +1,9 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useNotificationStore } from "@/store/notifications";
-
-const API = import.meta.env.VITE_API_URL;
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -14,13 +12,33 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
 
+  const RATE_LIMIT_KEY = "forgot_password_attempts";
+  const MAX_ATTEMPTS = 2;
+  const WINDOW_MS = 10 * 60 * 1000;
+
   const handleSend = async () => {
     if (!email) return;
+
+    const now = Date.now();
+
+    const attempts = JSON.parse(
+      localStorage.getItem(RATE_LIMIT_KEY) || "[]",
+    ) as number[];
+
+    const recentAttempts = attempts.filter((t) => now - t < WINDOW_MS);
+
+    if (recentAttempts.length >= MAX_ATTEMPTS) {
+      showToast("error", "Too many requests. Try again later.");
+      return;
+    }
 
     try {
       setSending(true);
 
-      await axios.post(`${API}/auth/forgot-password`, { email });
+      await api.post(`/auth/forgot-password`, { email });
+
+      const updatedAttempts = [...recentAttempts, now];
+      localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(updatedAttempts));
 
       showToast("success", "Password reset link has been sent.");
 
@@ -54,7 +72,7 @@ export default function ForgotPassword() {
         <Button
           onClick={handleSend}
           disabled={sending}
-          className="w-full bg-purple hover:bg-purple/90"
+          className="w-full bg-purple hover:bg-purple/90 cursor-pointer"
         >
           {sending ? "Sending..." : "Send Reset Link"}
         </Button>

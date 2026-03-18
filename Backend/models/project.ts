@@ -226,6 +226,14 @@ function validateProjectUpdate(project: any) {
   return schema.validate(project);
 }
 
+projectSchema.pre("save", async function () {
+  if (this.members.length === this.maxMembers && this.status === "open") {
+    this.status = "in-progress";
+    this.startedAt = new Date();
+    this.closeAt = new Date(Date.now() + 40 * 24 * 60 * 60 * 1000);
+  }
+});
+
 const Project = mongoose.model("Project", projectSchema);
 
 export {
