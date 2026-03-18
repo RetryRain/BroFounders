@@ -69,7 +69,7 @@ export default function MyTeamsLeftPanel({ selectedId, onSelect }: Props) {
       <Link to="/projects">
         <Button
           variant="outline"
-          className="w-full mt-6 border-dashed border-white/20 text-muted-foreground hover:text-white hover:border-white/40"
+          className="cursor-pointer w-full mt-6 border-dashed border-white/20 text-muted-foreground hover:text-white hover:border-white/40"
         >
           <span className="material-symbols-rounded mr-2">add</span>
           Browse New Projects

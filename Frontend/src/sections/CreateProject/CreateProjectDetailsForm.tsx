@@ -57,15 +57,18 @@ export default function CreateProjectDetailsForm({
   const [customTech, setCustomTech] = useState("");
 
   const defaultTech = [
-    "Rust",
-    "Solana",
-    "Wasm",
-    "React",
-    "Node.js",
-    "Go",
-    "Python",
-    "TypeScript",
-    "PostgreSQL",
+    "Frontend",
+    "Backend",
+    "Design",
+    "Music",
+    "Marketing",
+    "AI",
+    "No-Code",
+    "Mobile",
+    "Art",
+    "Game Dev",
+    "Experimenting",
+    "Learning",
   ];
 
   const allTech = Array.from(new Set([...defaultTech, ...techStack]));
@@ -146,7 +149,7 @@ export default function CreateProjectDetailsForm({
         />
       </div>
 
-      {/* DIFFICULTY */}
+      {/* SCALE */}
       <div className="space-y-3 sm:space-y-4">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground block">
           Project Scale <span className="text-red-500">*</span>
@@ -157,7 +160,7 @@ export default function CreateProjectDetailsForm({
             <Badge
               key={lvl}
               onClick={() => setLevel(lvl)}
-              className={`cursor-pointer text-xs sm:text-sm ${
+              className={`capitalize cursor-pointer text-xs sm:text-sm ${
                 level === lvl
                   ? "bg-purple text-white"
                   : "bg-card border-border text-muted-foreground hover:bg-purple/20"

@@ -124,21 +124,29 @@ export function ProjectDetailsBody({
         <Button
           variant="ghost"
           onClick={handleShare}
-          className="text-muted-foreground hover:text-purple font-bold text-sm justify-center sm:justify-start"
+          className="cursor-pointer text-muted-foreground hover:text-background hover:bg-black font-bold text-sm justify-center sm:justify-start"
         >
           <span className="material-symbols-rounded mr-2">share</span>
           Share Project
         </Button>
 
         {canUpdate && (
-          <Button variant="outline" onClick={() => onEdit(project._id)}>
+          <Button
+            className="cursor-pointer hover:text-green-600"
+            variant="outline"
+            onClick={() => onEdit(project._id)}
+          >
             <span className="material-symbols-rounded mr-2">edit</span>
             Edit Project
           </Button>
         )}
 
         {canDelete && (
-          <Button variant="destructive" onClick={() => onDelete(project._id)}>
+          <Button
+            className="cursor-pointer"
+            variant="destructive"
+            onClick={() => onDelete(project._id)}
+          >
             <span className="material-symbols-rounded mr-2">delete</span>
             Delete Project
           </Button>

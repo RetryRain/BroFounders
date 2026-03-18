@@ -90,7 +90,7 @@ export function ProjectDetailsSidebar({
           <button
             title="Copy Host ID"
             onClick={() => handleCopy(hostID, "Host ID")}
-            className="text-white/50 hover:text-purple transition"
+            className="text-white/50 hover:text-purple transition cursor-pointer"
           >
             <span className="material-symbols-rounded text-sm">
               content_copy
@@ -153,7 +153,7 @@ export function ProjectDetailsSidebar({
           {status === "open" && !hideJoin && (
             <Button
               onClick={onJoin}
-              className="mt-4 w-full bg-purple hover:bg-purple/90 text-white rounded-xl font-black text-sm shadow-lg shadow-purple/40"
+              className="cursor-pointer mt-4 w-full bg-purple hover:bg-purple/90 text-white rounded-xl font-black text-sm shadow-lg shadow-purple/40"
             >
               <span className="material-symbols-rounded mr-2">
                 rocket_launch
@@ -178,7 +178,7 @@ export function ProjectDetailsSidebar({
           <button
             title="Copy Project ID"
             onClick={() => handleCopy(project._id, "Project ID")}
-            className="text-white/50 hover:text-purple transition"
+            className="text-white/50 hover:text-purple transition cursor-pointer"
           >
             <span className="material-symbols-rounded text-sm">
               content_copy

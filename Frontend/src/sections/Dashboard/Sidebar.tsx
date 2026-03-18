@@ -180,7 +180,7 @@ function SidebarContent({
       <div className="p-4  border-sidebar-border relative">
         <button
           onClick={() => setFeedbackOpen((p) => !p)}
-          className="flex items-center gap-3 w-full px-4 py-3 text-sm opacity-70 hover:opacity-100"
+          className="cursor-pointer flex items-center gap-3 w-full px-4 py-3 text-sm opacity-70 hover:opacity-100"
         >
           <span className="material-symbols-rounded">chat</span>
           Share Feedback

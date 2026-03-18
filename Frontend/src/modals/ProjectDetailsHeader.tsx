@@ -34,6 +34,7 @@ export function ProjectDetailsHeader({ project }: Props) {
           </Badge>
 
           <Badge
+            title="Project scale"
             className={`uppercase tracking-widest text-[11px] px-4 py-1.5 rounded-full ${levelStyle[level]}`}
           >
             {level}

@@ -36,7 +36,7 @@ export default function ActivityCard({
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`flex-1 relative px-4 sm:px-6 py-3 sm:py-4 text-sm font-semibold transition-colors ${
+            className={`cursor-pointer flex-1 relative px-4 sm:px-6 py-3 sm:py-4 text-sm font-semibold transition-colors ${
               activeTab === tab.key
                 ? "text-purple after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-purple"
                 : "text-muted-foreground"

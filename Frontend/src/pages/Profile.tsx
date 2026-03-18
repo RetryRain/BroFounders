@@ -29,7 +29,6 @@ export default function Profile() {
   const [name, setName] = useState("");
 
   const [saving, setSaving] = useState(false);
-  const [sendingReset, setSendingReset] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -66,24 +65,6 @@ export default function Profile() {
       showToast("error", "Failed to update profile");
     } finally {
       setSaving(false);
-    }
-  };
-
-  const handleSendReset = async () => {
-    try {
-      if (!user) return;
-
-      setSendingReset(true);
-
-      await api.post(`/auth/forgot-password`, {
-        email: user.email,
-      });
-
-      showToast("success", "Password reset email sent.");
-    } catch {
-      showToast("error", "Failed to send reset email.");
-    } finally {
-      setSendingReset(false);
     }
   };
 
@@ -149,7 +130,7 @@ export default function Profile() {
 
                 <button
                   onClick={handleCopyId}
-                  className="text-white/50 hover:text-purple transition"
+                  className="text-white/50 hover:text-purple transition cursor-pointer"
                 >
                   <span className="material-symbols-rounded text-sm">
                     content_copy
@@ -196,27 +177,6 @@ export default function Profile() {
                 value={user?.email || ""}
               />
             </div>
-
-            {/* Password Reset */}
-            <div>
-              <p className="font-semibold text-white text-sm sm:text-base mb-2">
-                Password
-              </p>
-
-              <Button
-                onClick={handleSendReset}
-                disabled={sendingReset}
-                className="bg-purple hover:bg-purple/90 text-white w-full sm:w-auto"
-              >
-                {sendingReset
-                  ? "Sending reset email..."
-                  : "Send Password Reset Email"}
-              </Button>
-
-              <p className="text-[11px] sm:text-xs text-muted-foreground mt-2">
-                We'll send an email to reset your password.
-              </p>
-            </div>
           </CardContent>
         </Card>
 
@@ -255,7 +215,7 @@ export default function Profile() {
             <Button
               variant="outline"
               onClick={() => setDeleteOpen(true)}
-              className="border-red-500/40 text-red-400 hover:bg-red-500/20 w-full sm:w-auto"
+              className="border-red-500/40 text-red-400 hover:bg-red-500/20 w-full sm:w-auto cursor-pointer"
             >
               Delete Account
             </Button>
@@ -279,14 +239,14 @@ export default function Profile() {
           </AlertDialogHeader>
 
           <AlertDialogFooter className="mt-6">
-            <AlertDialogCancel className="bg-muted hover:bg-muted/80">
+            <AlertDialogCancel className="cursor-pointer bg-muted hover:bg-muted/80">
               Cancel
             </AlertDialogCancel>
 
             <AlertDialogAction
               onClick={handleDeleteAccount}
               disabled={deleting}
-              className="bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/30"
+              className="cursor-pointer bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/30"
             >
               {deleting ? "Deleting..." : "Yes, Delete Account"}
             </AlertDialogAction>

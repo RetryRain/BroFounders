@@ -36,17 +36,17 @@ export default function CreateProjectHeader({
         <Link to="/projects">
           <Button
             variant="outline"
-            className="w-full sm:w-auto h-11 sm:h-12 text-sm sm:text-base font-bold rounded-full"
+            className="cursor-pointer w-full sm:w-auto h-11 sm:h-12 text-sm sm:text-base font-bold rounded-full hover:text-purple"
           >
             <span className="material-symbols-rounded">arrow_back</span>
-            back
+            Back
           </Button>
         </Link>
 
         <Button
           onClick={onLaunch}
           disabled={submitting}
-          className="w-full sm:w-auto h-11 sm:h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-sm sm:text-base font-bold rounded-full disabled:opacity-50"
+          className="cursor-pointer w-full sm:w-auto h-11 sm:h-12 bg-primary hover:bg-primary/90 text-primary-foreground text-sm sm:text-base font-bold rounded-full disabled:opacity-50"
         >
           {submitting
             ? mode === "edit"

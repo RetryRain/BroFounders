@@ -1,4 +1,9 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import type { Project } from "../types/project";
 import { ProjectDetailsHeader } from "./ProjectDetailsHeader";
@@ -114,6 +119,11 @@ export default function ProjectDetails({
           border-0 sm:border sm:border-white/10
         "
         >
+          <DialogTitle className="sr-only">Project Details</DialogTitle>
+
+          <DialogDescription className="sr-only">
+            View full details of the selected project
+          </DialogDescription>
           {/* Mobile Close Button */}
           <div className="md:hidden absolute top-4 right-4 z-50">
             <Button
@@ -178,14 +188,14 @@ export default function ProjectDetails({
           </AlertDialogHeader>
 
           <AlertDialogFooter className="mt-6">
-            <AlertDialogCancel className="bg-muted hover:bg-muted/80">
+            <AlertDialogCancel className="cursor-pointer bg-muted hover:text-green-500 hover:bg-muted/80">
               Cancel
             </AlertDialogCancel>
 
             <AlertDialogAction
               onClick={handleDelete}
               disabled={deleting}
-              className="bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/30"
+              className="cursor-pointer bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/30"
             >
               {deleting ? "Deleting..." : "Yes, Delete Project"}
             </AlertDialogAction>

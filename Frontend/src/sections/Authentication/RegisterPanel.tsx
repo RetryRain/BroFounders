@@ -143,7 +143,7 @@ export default function RegisterPanel() {
                   setTab("terms");
                   setOpen(true);
                 }}
-                className="text-primary hover:underline"
+                className="text-primary hover:underline cursor-pointer"
               >
                 Terms
               </button>{" "}
@@ -154,7 +154,7 @@ export default function RegisterPanel() {
                   setTab("privacy");
                   setOpen(true);
                 }}
-                className="text-primary hover:underline"
+                className="text-primary hover:underline cursor-pointer"
               >
                 Privacy
               </button>
@@ -224,7 +224,7 @@ export default function RegisterPanel() {
         Already have an account?{" "}
         <Link
           to="/auth/login"
-          className="font-bold text-primary hover:underline"
+          className="font-bold text-primary hover:underline cursor-pointer"
         >
           Sign in
         </Link>

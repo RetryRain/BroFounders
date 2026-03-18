@@ -45,7 +45,7 @@ export function ProjectsHeader({
       <div className="flex items-center gap-1 p-1 bg-white/5 rounded-full border border-white/10 w-full lg:w-auto">
         <button
           onClick={() => toggleFilter("open")}
-          className={`${pill} ${
+          className={`${pill} cursor-pointer ${
             isActive("open")
               ? "bg-purple text-white shadow"
               : "text-muted-foreground hover:text-white hover:bg-white/10"
@@ -56,7 +56,7 @@ export function ProjectsHeader({
 
         <button
           onClick={() => toggleFilter("in-progress")}
-          className={`${pill} ${
+          className={`${pill} cursor-pointer ${
             isActive("in-progress")
               ? "bg-purple text-white shadow"
               : "text-muted-foreground hover:text-white hover:bg-white/10"
@@ -67,7 +67,7 @@ export function ProjectsHeader({
 
         <button
           onClick={() => toggleFilter("closed")}
-          className={`${pill} ${
+          className={`${pill} cursor-pointer ${
             isActive("closed")
               ? "bg-purple text-white shadow"
               : "text-muted-foreground hover:text-white hover:bg-white/10"
@@ -104,7 +104,7 @@ export function ProjectsHeader({
 
         {/* Host Button */}
         <Link to="/projects/create-project" className="w-full sm:w-auto">
-          <Button className="w-full sm:w-auto h-11 sm:h-12 gap-2 bg-purple text-sm sm:text-base font-bold hover:bg-purple/70 rounded-xl sm:rounded-2xl">
+          <Button className="cursor-pointer w-full sm:w-auto h-11 sm:h-12 gap-2 bg-purple text-sm sm:text-base font-bold hover:bg-purple/70 rounded-xl sm:rounded-2xl">
             <span className="material-symbols-rounded text-base">
               add_circle
             </span>

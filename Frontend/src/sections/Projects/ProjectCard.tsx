@@ -6,9 +6,10 @@ import type { Project } from "@/types/project";
 interface Props {
   project: Project;
   onClick: () => void;
+  showToast: (type: "success" | "error", message: string) => void;
 }
 
-export default function ProjectCard({ project, onClick }: Props) {
+export default function ProjectCard({ project, onClick, showToast }: Props) {
   const { title, blurb, techStack, members, maxMembers, status, level } =
     project;
 
@@ -28,6 +29,27 @@ export default function ProjectCard({ project, onClick }: Props) {
     chaos: "bg-red-500/15 text-red-400 border border-red-400/30",
   };
 
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    const url = `${window.location.origin}/projects?project=${project._id}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: project.title,
+          text: project.blurb,
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        showToast("success", "Project link copied to clipboard");
+      }
+    } catch {
+      showToast("error", "Failed to share project");
+    }
+  };
+
   return (
     <Card
       onClick={onClick}
@@ -44,7 +66,7 @@ export default function ProjectCard({ project, onClick }: Props) {
             </Badge>
 
             <Badge
-              title="project scale"
+              title="Project scale"
               className={`uppercase text-[9px] sm:text-[10px] tracking-widest font-bold px-2 py-1 rounded-full ${levelStyle[level]}`}
             >
               {level}
@@ -54,10 +76,10 @@ export default function ProjectCard({ project, onClick }: Props) {
           <Button
             variant="ghost"
             size="icon"
-            className="group-hover:text-white transition-colors"
-            onClick={(e) => e.stopPropagation()}
+            className="group-hover:text-white transition-colors cursor-pointer"
+            onClick={handleShare}
           >
-            <span className="material-symbols-rounded">bookmark</span>
+            <span className="material-symbols-rounded">share</span>
           </Button>
         </div>
 
@@ -96,7 +118,7 @@ export default function ProjectCard({ project, onClick }: Props) {
           <span className="material-symbols-rounded">lock</span>
         ) : (
           <div className="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-white/5 group-hover:bg-purple group-hover:translate-x-1">
-            <span className="material-symbols-rounded  transition-transform text-white">
+            <span className="material-symbols-rounded transition-transform text-white">
               arrow_forward
             </span>
           </div>

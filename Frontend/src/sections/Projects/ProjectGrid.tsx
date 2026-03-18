@@ -19,6 +19,7 @@ interface Props {
   loading: boolean;
   error: string | null;
   onSelect: (project: Project) => void;
+  showToast: (type: "success" | "error", message: string) => void;
 }
 
 export default function ProjectGrid({
@@ -29,6 +30,7 @@ export default function ProjectGrid({
   loading,
   error,
   onSelect,
+  showToast,
 }: Props) {
   if (loading)
     return (
@@ -82,6 +84,7 @@ export default function ProjectGrid({
             key={project._id}
             project={project}
             onClick={() => onSelect(project)}
+            showToast={showToast}
           />
         ))}
       </div>

@@ -42,7 +42,7 @@ export default function Hero() {
       {/* ── CTA Buttons ── */}
       <div className="flex flex-col md:flex-row gap-5 mt-5 w-full md:justify-center">
         <Link to="/projects" className="w-full md:w-auto">
-          <button className="w-full md:w-auto group flex h-14 sm:h-16 px-10 sm:px-14 items-center justify-center gap-3 rounded-full bg-primary text-white text-base sm:text-lg font-black tracking-wide shadow-2xl shadow-primary/40 hover:-translate-y-1 hover:shadow-primary/60 transition-all duration-200 border border-white/10">
+          <button className="cursor-pointer w-full md:w-auto group flex h-14 sm:h-16 px-10 sm:px-14 items-center justify-center gap-3 rounded-full bg-primary text-white text-base sm:text-lg font-black tracking-wide shadow-2xl shadow-primary/40 hover:-translate-y-1 hover:shadow-primary/60 transition-all duration-200 border border-white/10">
             FIND BUILDERS
             <span className="material-symbols-rounded text-lg group-hover:translate-x-1 transition-transform duration-200">
               arrow_forward
@@ -51,7 +51,7 @@ export default function Hero() {
         </Link>
 
         <Link to="/projects" className="w-full md:w-auto">
-          <button className="w-full md:w-auto flex h-14 sm:h-16 px-10 sm:px-14 items-center justify-center gap-3 rounded-full bg-white/6 text-white text-base sm:text-lg font-black tracking-wide border border-white/20 hover:bg-white/12 hover:-translate-y-1 transition-all duration-200 backdrop-blur-sm">
+          <button className="cursor-pointer w-full md:w-auto flex h-14 sm:h-16 px-10 sm:px-14 items-center justify-center gap-3 rounded-full bg-white/6 text-white text-base sm:text-lg font-black tracking-wide border border-white/20 hover:bg-white/12 hover:-translate-y-1 transition-all duration-200 backdrop-blur-sm">
             CREATE PROJECT
             <span className="material-symbols-rounded text-lg">edit</span>
           </button>

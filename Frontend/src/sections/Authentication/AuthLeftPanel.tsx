@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import paperPlaneViolet from "@/assets/paper-plane-violet.svg";
+import { Link } from "react-router-dom";
 
 export default function AuthLeftPanel() {
   const [time, setTime] = useState(5);
@@ -71,7 +72,9 @@ export default function AuthLeftPanel() {
       <div className="relative z-10 p-12 max-w-xl text-primary-foreground">
         <div className="mb-8 flex items-center gap-3">
           <img className="h-10 rounded-full" src={paperPlaneViolet} />
-          <h2 className="text-2xl font-bold tracking-tight">BroFounders</h2>
+          <Link to="/">
+            <h2 className="text-2xl font-bold tracking-tight">BroFounders</h2>
+          </Link>
         </div>
 
         <h1 className="text-5xl font-black leading-tight mb-6">

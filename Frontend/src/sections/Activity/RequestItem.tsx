@@ -41,7 +41,7 @@ export default function RequestItem({ interest, onRespond }: Props) {
           {interest.status === "pending" && (
             <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <Button
-                className="w-full sm:w-auto"
+                className="cursor-pointer w-full sm:w-auto"
                 onClick={() => onRespond(interest._id, "accepted")}
               >
                 Accept
@@ -49,7 +49,7 @@ export default function RequestItem({ interest, onRespond }: Props) {
 
               <Button
                 variant="outline"
-                className="w-full sm:w-auto"
+                className="cursor-pointer w-full sm:w-auto"
                 onClick={() => onRespond(interest._id, "rejected")}
               >
                 Reject

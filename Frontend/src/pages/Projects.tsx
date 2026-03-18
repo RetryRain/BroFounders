@@ -139,6 +139,7 @@ export default function Projects() {
         loading={loading}
         error={null}
         onSelect={handleSelect}
+        showToast={showToast}
       />
 
       <ProjectDetails
