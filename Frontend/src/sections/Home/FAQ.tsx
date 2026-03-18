@@ -11,27 +11,31 @@ export default function FAQ() {
     {
       question: "What is BroFounders?",
       answer:
-        "BroFounders is a platform where builders who aren't “experts” yet can find teammates and work on real projects together.",
+        "BroFounders is a platform where beginners and early-stage builders find teammates and build real projects together. No fake networking — just people actually building.",
     },
     {
-      question: "Do I need to be an expert to join?",
+      question: "Do I need to be experienced to join?",
       answer:
-        "No. BroFounders is built for people who are still learning or exploring new skills. You don't need to be an expert developer, designer, artist, or marketer to participate. If you're curious, willing to collaborate, and ready to build projects with others, you’re welcome here.",
+        "No. Most people here are still figuring things out. You don't need experience — just the willingness to start, learn, and not disappear after day one.",
     },
     {
-      question: "Can I start my own project?",
+      question: "Can I start a project without technical skills?",
       answer:
-        "Yes. Anyone can create a project on BroFounders. If you have an idea, you can start a project, describe what you're building, and invite other developers, designers, artists, or creators to collaborate with you.",
+        "Yes. Ideas don't need code to start. Many projects begin with non-technical people who find developers, designers, and collaborators here.",
     },
     {
-      question: "Is BroFounders only for developers?",
+      question: "Who can join BroFounders?",
       answer:
-        "No. BroFounders is a collaborative builder community. Developers, designers, artists, marketers, writers, and curious creators are all welcome to join projects and work together.",
+        "Anyone who wants to build. Developers, designers, marketers, writers, artists — or someone who doesn't even know what they are yet.",
     },
     {
-      question: "Is this free to use?",
+      question: "Is BroFounders free?",
+      answer: "Yes. No paywalls. No gatekeeping. Just build.",
+    },
+    {
+      question: "How is this different from platforms like Y Combinator?",
       answer:
-        "Yes. BroFounders is free to use. The goal is to help more people collaborate, learn new skills, and build real projects together without barriers or gatekeeping.",
+        "Y Combinator picks people who are already impressive. BroFounders is for people who are not there yet — but are willing to become that by building.",
     },
   ];
 
@@ -47,7 +51,7 @@ export default function FAQ() {
     <section className="max-w-300 mx-auto w-full px-6 md:px-10 py-16 md:py-24">
       <div className="text-center mb-16">
         <h2 className="text-white text-4xl md:text-6xl font-black tracking-tight">
-          Frequently Asked
+          BEFORE YOU OVERTHINK IT
         </h2>
       </div>
 

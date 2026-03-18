@@ -78,13 +78,12 @@ export default function AuthLeftPanel() {
         </div>
 
         <h1 className="text-5xl font-black leading-tight mb-6">
-          Learn by Building Right Now!
+          Start Before You Feel Ready.
         </h1>
 
         <p className="text-lg text-muted-foreground">
-          Build with people who aren't perfect — just curious enough to start.
-          Learn new things, collaborate across roles, and ship real projects
-          together.
+          Build with people who don't have it figured out. Learn fast. Ship
+          fast. Figure it out as you go.
         </p>
 
         {/* TIMER */}
@@ -93,13 +92,13 @@ export default function AuthLeftPanel() {
             <>
               <p className="font-bold text-xl">{time}s</p>
               <p className="text-muted-foreground">
-                Time to start building your dreams.
+                Still waiting for the “right time”?
               </p>
             </>
           ) : (
             <>
               <p className="font-bold text-xl flex items-center">
-                Go build something
+                No one is coming to pick you. Start building.
                 <span className="material-symbols-rounded ml-2 leading-none">
                   rocket_launch
                 </span>

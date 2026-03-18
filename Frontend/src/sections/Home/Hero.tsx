@@ -16,34 +16,35 @@ export default function Hero() {
       >
         YOU DON'T
         <br />
-        HAVE TO
+        NEED TO
         <br />
         <span className="text-transparent bg-clip-text bg-linear-to-r from-accent via-secondary to-white">
-          FEEL READY.
+          BE READY.
         </span>
       </h1>
       <p className="text-white/60 text-xs font-medium tracking-wide mb-5">
-        - cuz you are!
+        - no one is.
       </p>
       {/* ── Thin rule ── */}
       <div className="w-16 h-px bg-linear-to-r from-transparent via-white/30 to-transparent mb-10" />
 
       {/* ── Body copy ── */}
       <p className="text-white/55 text-lg sm:text-xl md:text-2xl max-w-2xl leading-[1.75] mb-6">
-        BroFounders connects developers, marketers, designers, and builders who
-        aren't "elite" yet — but are{" "}
-        <em className="text-white/80 not-italic">capable and hungry.</em>
+        BroFounders is where developers, designers, marketers, and creators who
+        aren't “experts” yet{" "}
+        <em className="text-white/80 not-italic">
+          come together to build real projects.
+        </em>
       </p>
       <p className="text-white font-semibold text-lg sm:text-xl md:text-2xl max-w-2xl leading-[1.75] decoration-accent decoration-2 underline-offset-4 mb-6">
-        Find teammates at your level, experiment with new stacks, and build
-        projects together.
+        Find teammates at your level. Try new stacks. Ship real projects.
       </p>
 
       {/* ── CTA Buttons ── */}
       <div className="flex flex-col md:flex-row gap-5 mt-5 w-full md:justify-center">
         <Link to="/projects" className="w-full md:w-auto">
           <button className="cursor-pointer w-full md:w-auto group flex h-14 sm:h-16 px-10 sm:px-14 items-center justify-center gap-3 rounded-full bg-primary text-white text-base sm:text-lg font-black tracking-wide shadow-2xl shadow-primary/40 hover:-translate-y-1 hover:shadow-primary/60 transition-all duration-200 border border-white/10">
-            FIND BUILDERS
+            FIND YOUR TEAM
             <span className="material-symbols-rounded text-lg group-hover:translate-x-1 transition-transform duration-200">
               arrow_forward
             </span>
@@ -52,8 +53,10 @@ export default function Hero() {
 
         <Link to="/projects" className="w-full md:w-auto">
           <button className="cursor-pointer w-full md:w-auto flex h-14 sm:h-16 px-10 sm:px-14 items-center justify-center gap-3 rounded-full bg-white/6 text-white text-base sm:text-lg font-black tracking-wide border border-white/20 hover:bg-white/12 hover:-translate-y-1 transition-all duration-200 backdrop-blur-sm">
-            CREATE PROJECT
-            <span className="material-symbols-rounded text-lg">edit</span>
+            START BUILDING
+            <span className="material-symbols-rounded text-lg">
+              construction
+            </span>
           </button>
         </Link>
       </div>
@@ -64,7 +67,7 @@ export default function Hero() {
           <span className="material-symbols-rounded text-base text-accent/70">
             verified
           </span>
-          Free forever
+          No paywalls
         </span>
 
         <span className="hidden md:block w-px h-4 bg-white/15" />
@@ -73,7 +76,7 @@ export default function Hero() {
           <span className="material-symbols-rounded text-base text-accent/70">
             groups
           </span>
-          Collaborate
+          Find your people
         </span>
 
         <span className="hidden md:block w-px h-4 bg-white/15" />
@@ -82,7 +85,7 @@ export default function Hero() {
           <span className="material-symbols-rounded text-base text-accent/70">
             bolt
           </span>
-          Try new things
+          Build from zero
         </span>
       </div>
     </section>

@@ -28,6 +28,9 @@ export default function CreateProject() {
   const [lookingFor, setLookingFor] = useState("");
   const [broadcast, setBroadcast] = useState("");
 
+  // 👇 NEW: member count for logic
+  const [memberCount, setMemberCount] = useState(0);
+
   // =========================
   // UI STATE
   // =========================
@@ -46,7 +49,6 @@ export default function CreateProject() {
         setLoading(true);
 
         const res = await api.get(`/projects/${id}`);
-
         const p = res.data;
 
         setTitle(p.title);
@@ -56,7 +58,9 @@ export default function CreateProject() {
         setLevel(p.level);
         setMaxMembers(p.maxMembers);
 
-        // Always ensure 4 goals
+        setMemberCount(p.members?.length || 0);
+
+        // Ensure 4 goals
         const paddedGoals = [...p.goals];
         while (paddedGoals.length < 4) {
           paddedGoals.push("");
@@ -128,18 +132,14 @@ export default function CreateProject() {
 
       if (isEdit) {
         await api.put(`/projects/${id}`, payload);
-
         showToast("success", "Project updated successfully.");
       } else {
         await api.post(`/projects`, payload);
-
         showToast("success", "Project created successfully.");
       }
 
       navigate("/projects", {
-        state: {
-          success: isEdit ? "updated" : "created",
-        },
+        state: { success: isEdit ? "updated" : "created" },
       });
     } catch (err: any) {
       showToast(
@@ -170,7 +170,7 @@ export default function CreateProject() {
         mode={isEdit ? "edit" : "create"}
       />
 
-      {/* Inline Validation Error */}
+      {/* Inline Error */}
       {error && (
         <div className="mb-6 text-red-400 text-sm font-medium">{error}</div>
       )}
@@ -194,6 +194,8 @@ export default function CreateProject() {
         setLookingFor={setLookingFor}
         broadcast={broadcast}
         setBroadcast={setBroadcast}
+        memberCount={memberCount}
+        mode={isEdit ? "edit" : "create"}
       />
     </DashboardLayout>
   );

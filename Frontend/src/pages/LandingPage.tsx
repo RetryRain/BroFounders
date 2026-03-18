@@ -1,17 +1,19 @@
-import CallingCard from "@/sections/Home/CallingCard";
-import FAQ from "@/sections/Home/FAQ";
-import Featured from "@/sections/Home/Featured";
-import Footer from "@/sections/Home/Footer";
+import { lazy, Suspense } from "react";
 import Hero from "@/sections/Home/Hero";
 import Navbar from "@/sections/Home/Navbar";
-import Workflow from "@/sections/Home/Workflow";
 import { motion, type Easing } from "framer-motion";
 
-/* Smooth easing (TS-safe) */
+/* Lazy load non-critical sections */
+const Workflow = lazy(() => import("@/sections/Home/Workflow"));
+const Featured = lazy(() => import("@/sections/Home/Featured"));
+const FAQ = lazy(() => import("@/sections/Home/FAQ"));
+const CallingCard = lazy(() => import("@/sections/Home/CallingCard"));
+const Footer = lazy(() => import("@/sections/Home/Footer"));
+
+/* Smooth easing */
 const smoothEase: Easing = [0.22, 1, 0.36, 1];
 
 /* Animation variants */
-
 const fadeUp = {
   initial: { opacity: 0, y: 80 },
   whileInView: { opacity: 1, y: 0 },
@@ -45,44 +47,53 @@ export default function LandingPage() {
     <>
       <Navbar />
 
-      {/* Hero - real depth */}
-      <motion.div style={{ perspective: 1000 }}>
-        <motion.div
-          initial={{ opacity: 0, z: -200, scale: 0.9 }}
-          animate={{ opacity: 1, z: 0, scale: 1 }}
-          transition={{
-            duration: 1,
-            ease: smoothEase,
-          }}
-        >
-          <Hero />
+      <main>
+        {/* HERO (no lazy) */}
+        <motion.div style={{ perspective: 1000 }}>
+          <motion.div
+            initial={{ opacity: 0, z: -200, scale: 0.9 }}
+            animate={{ opacity: 1, z: 0, scale: 1 }}
+            transition={{ duration: 1, ease: smoothEase }}
+          >
+            <Hero />
+          </motion.div>
         </motion.div>
-      </motion.div>
 
-      {/* Workflow */}
-      <motion.div {...fadeUp}>
-        <Workflow />
-      </motion.div>
+        {/* WORKFLOW */}
+        <Suspense fallback={<div style={{ height: 200 }} />}>
+          <motion.div {...fadeUp}>
+            <Workflow />
+          </motion.div>
+        </Suspense>
 
-      {/* Featured */}
-      <motion.div {...fadeLeft}>
-        <Featured />
-      </motion.div>
+        {/* FEATURED */}
+        <Suspense fallback={<div style={{ height: 200 }} />}>
+          <motion.div {...fadeLeft}>
+            <Featured />
+          </motion.div>
+        </Suspense>
 
-      {/* FAQ */}
-      <motion.div {...fadeRight}>
-        <FAQ />
-      </motion.div>
+        {/* FAQ */}
+        <Suspense fallback={<div style={{ height: 200 }} />}>
+          <motion.div {...fadeRight}>
+            <FAQ />
+          </motion.div>
+        </Suspense>
 
-      {/* CTA */}
-      <motion.div {...zoomIn}>
-        <CallingCard />
-      </motion.div>
+        {/* CTA */}
+        <Suspense fallback={<div style={{ height: 200 }} />}>
+          <motion.div {...zoomIn}>
+            <CallingCard />
+          </motion.div>
+        </Suspense>
 
-      {/* Footer */}
-      <motion.div {...fadeUp}>
-        <Footer />
-      </motion.div>
+        {/* FOOTER */}
+        <Suspense fallback={<div style={{ height: 100 }} />}>
+          <motion.div {...fadeUp}>
+            <Footer />
+          </motion.div>
+        </Suspense>
+      </main>
     </>
   );
 }

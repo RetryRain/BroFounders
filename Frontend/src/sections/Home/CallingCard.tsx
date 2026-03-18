@@ -25,7 +25,7 @@ export default function CallingCard() {
         <CardContent className="relative z-10 flex flex-col items-center text-center gap-6 sm:gap-8 p-8 sm:p-12 md:p-16">
           {/* Badge */}
           <div className="bg-white text-[#1a0f3c] px-6 sm:px-8 py-2 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest md:tracking-[0.3em] shadow-2xl">
-            Ready to build something?
+            Still waiting?
           </div>
           {/* Heading */}
           <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter max-w-3xl leading-tight">
@@ -40,9 +40,10 @@ export default function CallingCard() {
                 backgroundClip: "text",
               }}
             >
-              START BUILDING.
+              BUILD SOMETHING.
             </span>
           </h2>
+          <p>No team? No experience? Start anyway.</p>
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6 mt-4 sm:mt-6">
             <Link to="/projects">
@@ -56,7 +57,7 @@ export default function CallingCard() {
                 cursor-pointer
               "
               >
-                START BROWSING
+                FIND A PROJECT
               </Button>
             </Link>
             <a href="#workflow">
@@ -75,7 +76,7 @@ export default function CallingCard() {
                 cursor-pointer
               "
               >
-                HOW IT WORKS
+                SEE HOW IT WORKS
               </Button>
             </a>
           </div>

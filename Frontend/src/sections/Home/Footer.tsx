@@ -13,9 +13,9 @@ export default function Footer() {
             </h2>
 
             <p className="text-foreground/80 text-xs sm:text-sm leading-relaxed">
-              BroFounders is a community where imperfect builders collaborate on
-              real projects, learn new stacks, and grow together through
-              execution. No gatekeeping. No interviews. Just people building.
+              BroFounders is where people who aren't “ready” build anyway. No
+              gatekeeping. No interviews. Just people showing up and creating
+              real things together.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-white/10 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-foreground/60 text-center">
           <p>© {new Date().getFullYear()} BroFounders</p>
-          <p>For builders who stopped waiting.</p>
+          <p>For people who stopped waiting and started building.</p>
         </div>
       </div>
     </footer>

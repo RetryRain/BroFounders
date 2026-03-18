@@ -131,6 +131,7 @@ export default function MyTeamsRightPanel({ project, onOpenDetails }: Props) {
           <ProjectCard
             project={project}
             onClick={() => onOpenDetails(project)}
+            showToast={showToast}
           />
         </div>
       </div>

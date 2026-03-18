@@ -11,7 +11,7 @@ export default function Workflow() {
         {/* Heading */}
         <div className="mb-14 sm:mb-16 md:mb-20">
           <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
-            How BroFounders Work?!
+            HOW THIS THING WORKS?!
           </h2>
         </div>
 
@@ -34,8 +34,8 @@ export default function Workflow() {
               </h4>
 
               <p className="text-foreground/80 text-sm md:text-base leading-relaxed">
-                Find curious builders. Aspirant Developers, Marketers, Designers
-                and people who just want to build something real.
+                Find people like you. Not experts. Not polished. Just curious
+                builders who want to make something real.
               </p>
             </CardContent>
           </Card>
@@ -57,8 +57,8 @@ export default function Workflow() {
               </h4>
 
               <p className="text-foreground/80 text-sm md:text-base leading-relaxed">
-                Form a team of 3-5 builders at a similar skill level. No
-                résumés. No “know it all” nonsense.
+                Form a small team of 3–5. Same level. No résumés. No ego. Just
+                people figuring it out together.
               </p>
             </CardContent>
           </Card>
@@ -80,8 +80,8 @@ export default function Workflow() {
               </h4>
 
               <p className="text-foreground/80 text-sm md:text-base leading-relaxed">
-                Work together on real projects. Experiment, break things, learn
-                new tools, and ship something meaningful.
+                Start messy. Try things. Break things. Learn as you go. Ship
+                something real.
               </p>
             </CardContent>
           </Card>
@@ -103,8 +103,8 @@ export default function Workflow() {
               </h4>
 
               <p className="text-foreground/80 text-sm md:text-base leading-relaxed">
-                Gain real experience, improve your skills, and build the
-                confidence to tackle bigger ideas.
+                Get real experience. Build confidence. Become the kind of
+                builder you couldn't hire before.
               </p>
             </CardContent>
           </Card>

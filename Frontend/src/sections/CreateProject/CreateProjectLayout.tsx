@@ -3,6 +3,7 @@ import ProjectCard from "../Projects/ProjectCard";
 import GoalsCard from "./GoalsCard";
 import type { Project } from "@/types/project";
 import type { Dispatch, SetStateAction } from "react";
+import { useNotificationStore } from "@/store/notifications";
 
 interface Props {
   title: Project["title"];
@@ -31,6 +32,9 @@ interface Props {
 
   broadcast: Project["broadcast"];
   setBroadcast: Dispatch<SetStateAction<Project["broadcast"]>>;
+
+  memberCount: number;
+  mode: "create" | "edit";
 }
 
 export default function CreateProjectLayout({
@@ -52,7 +56,11 @@ export default function CreateProjectLayout({
   setLookingFor,
   broadcast,
   setBroadcast,
+  memberCount,
+  mode,
 }: Props) {
+  const showToast = useNotificationStore((s) => s.showToast);
+
   const previewProject: Project = {
     _id: "preview",
     title,
@@ -91,6 +99,8 @@ export default function CreateProjectLayout({
           setLookingFor={setLookingFor}
           broadcast={broadcast}
           setBroadcast={setBroadcast}
+          memberCount={memberCount}
+          mode={mode}
         />
       </div>
 
@@ -103,7 +113,11 @@ export default function CreateProjectLayout({
             Preview
           </h3>
 
-          <ProjectCard project={previewProject} onClick={() => {}} />
+          <ProjectCard
+            project={previewProject}
+            onClick={() => {}}
+            showToast={showToast}
+          />
         </div>
       </div>
     </div>
