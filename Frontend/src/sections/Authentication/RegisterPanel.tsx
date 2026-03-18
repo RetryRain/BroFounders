@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "@/lib/api";
 import { GoogleLogin } from "@react-oauth/google";
+import TermsModal from "@/modals/TermsModal";
 import { useNotificationStore } from "@/store/notifications";
 
 const API = import.meta.env.VITE_API_URL;
@@ -23,6 +24,9 @@ export default function RegisterPanel() {
     confirmPassword: "",
     terms: false,
   });
+
+  const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<"terms" | "privacy">("terms");
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { id, value } = e.target;
@@ -76,7 +80,7 @@ export default function RegisterPanel() {
         <form className="space-y-5 sm:space-y-6" onSubmit={handleSubmit}>
           {/* Name */}
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name">Name</Label>
             <Input
               id="name"
               type="text"
@@ -132,14 +136,28 @@ export default function RegisterPanel() {
               }
             />
             <Label htmlFor="terms" className="text-sm text-muted-foreground">
-              I agree to the{" "}
-              <a href="#" className="text-primary hover:underline">
-                Terms of Service
-              </a>{" "}
+              I agree to the
+              <button
+                type="button"
+                onClick={() => {
+                  setTab("terms");
+                  setOpen(true);
+                }}
+                className="text-primary hover:underline"
+              >
+                Terms
+              </button>{" "}
               and{" "}
-              <a href="#" className="text-primary hover:underline">
-                Privacy Policy
-              </a>
+              <button
+                type="button"
+                onClick={() => {
+                  setTab("privacy");
+                  setOpen(true);
+                }}
+                className="text-primary hover:underline"
+              >
+                Privacy
+              </button>
             </Label>
           </div>
 
@@ -211,6 +229,12 @@ export default function RegisterPanel() {
           Sign in
         </Link>
       </p>
+      <TermsModal
+        open={open}
+        onClose={() => setOpen(false)}
+        tab={tab}
+        setTab={setTab}
+      />
     </div>
   );
 }

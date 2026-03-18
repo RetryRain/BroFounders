@@ -76,7 +76,7 @@ export default function LoginPanel() {
     <div className="mx-auto w-full max-w-md px-2 sm:px-0">
       {/* Header */}
       <div className="mb-6 sm:mb-8">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2">Welcome Back</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2">Welcome Back!</h2>
         <p className="text-sm sm:text-base text-muted-foreground">
           Enter your details to access your projects.
         </p>
