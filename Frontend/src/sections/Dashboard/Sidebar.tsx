@@ -49,6 +49,8 @@ function SidebarContent({
   onLogout: () => void;
   pathname: string;
 }) {
+  const navigate = useNavigate(); // ✅ FIXED HERE
+
   const hasUnreadActivity = useNotificationStore((s) => s.hasUnreadActivity);
   const hasNewTeam = useNotificationStore((s) => s.hasNewTeam);
   const showToast = useNotificationStore((s) => s.showToast);
@@ -59,7 +61,6 @@ function SidebarContent({
 
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  // close when clicking outside
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (!popoverRef.current) return;
@@ -114,9 +115,6 @@ function SidebarContent({
       <Link to="/">
         <div className="p-8 flex items-center gap-3">
           <div className="size-10 bg-purple rounded-sm flex items-center justify-center shadow-lg shadow-primary/20">
-            {/* <span className="material-symbols-rounded text-primary-foreground">
-              rocket_launch
-            </span> */}
             <img src={paperPlane} className="rounded-sm scale-120" />
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">
@@ -176,8 +174,8 @@ function SidebarContent({
         </Link>
       </nav>
 
-      {/* Feedback trigger */}
-      <div className="p-4  border-sidebar-border relative">
+      {/* Feedback + Support */}
+      <div className="p-4 border-sidebar-border relative">
         <button
           onClick={() => setFeedbackOpen((p) => !p)}
           className="cursor-pointer flex items-center gap-3 w-full px-4 py-3 text-sm opacity-70 hover:opacity-100"
@@ -227,6 +225,20 @@ function SidebarContent({
             </Button>
           </div>
         )}
+
+        {/* Divider */}
+        <div className="mt-3 border-t border-white/5" />
+
+        {/* Support */}
+        <button
+          onClick={() => navigate("/support")}
+          className="mt-2 cursor-pointer flex items-center gap-3 w-full px-4 py-3 text-sm opacity-70 hover:opacity-100 hover:bg-white/5 rounded-lg transition"
+        >
+          <span className="material-symbols-rounded text-yellow-400">
+            favorite
+          </span>
+          Support Us
+        </button>
       </div>
 
       {/* User */}

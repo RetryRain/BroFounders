@@ -16,6 +16,7 @@ import NotificationLoader from "./sections/NotificationLoader";
 import GithubSuccess from "./pages/githubSuccess";
 import SupremeLeader from "@/pages/SupremeLeader";
 import NotFound from "./pages/NotFound";
+import SupportUs from "./pages/SupportUs";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="activity" element={<Activity />} />
           <Route path="profile" element={<Profile />} />
           <Route path="/supreme-leader" element={<SupremeLeader />} />
+          <Route path="/support" element={<SupportUs />} />
         </Route>
 
         {/* 404 */}
