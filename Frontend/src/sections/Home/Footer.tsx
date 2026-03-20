@@ -2,7 +2,10 @@ import "material-symbols/rounded.css";
 
 export default function Footer() {
   return (
-    <footer className="w-full mt-20 border-t border-white/10 bg-black/40 backdrop-blur-xl">
+    <footer
+      id="footer"
+      className="w-full mt-20 border-t border-white/10 bg-black/40 backdrop-blur-xl"
+    >
       <div className="max-w-300 mx-auto px-6 py-14 sm:py-20 flex flex-col gap-12 sm:gap-16">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row justify-between gap-10 md:gap-12 text-center md:text-left">
@@ -26,14 +29,20 @@ export default function Footer() {
             </h4>
 
             <div className="flex flex-col gap-3 sm:gap-4 text-foreground/70 text-xs sm:text-sm font-bold">
-              <a href="#" className="hover:text-white transition-colors">
+              <a
+                href="#featured"
+                className="hover:text-white transition-colors"
+              >
                 Projects
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a
+                href="#workflow"
+                className="hover:text-white transition-colors"
+              >
                 Workflow
               </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Community
+              <a href="#faq" className="hover:text-white transition-colors">
+                FAQ's
               </a>
             </div>
           </div>
@@ -45,11 +54,17 @@ export default function Footer() {
             </h4>
 
             <div className="flex gap-6 text-foreground/70">
-              <a href="#" className="hover:text-white transition-colors">
+              <a
+                href="mailto:hello@brofounders.com?body=Hey%20Bro,"
+                className="hover:text-white transition-colors"
+              >
                 <span className="material-symbols-rounded text-xl">mail</span>
               </a>
 
-              <a href="#" className="hover:text-white transition-colors">
+              <a
+                href="https://t.me/brofounders"
+                className="hover:text-white transition-colors"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"

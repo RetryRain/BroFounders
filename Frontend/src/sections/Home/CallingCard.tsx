@@ -4,7 +4,10 @@ import "material-symbols/rounded.css";
 import { Link } from "react-router-dom";
 export default function CallingCard() {
   return (
-    <section className="max-w-300 mx-auto w-full py-10 sm:py-12 px-0 sm:px-6 flex justify-center">
+    <section
+      id="cta"
+      className="max-w-300 mx-auto w-full py-10 sm:py-12 px-0 sm:px-6 flex justify-center"
+    >
       <Card
         className="
         relative w-full max-w-275
@@ -24,7 +27,7 @@ export default function CallingCard() {
       >
         <CardContent className="relative z-10 flex flex-col items-center text-center gap-6 sm:gap-8 p-8 sm:p-12 md:p-16">
           {/* Badge */}
-          <div className="bg-white text-[#1a0f3c] px-6 sm:px-8 py-2 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest md:tracking-[0.3em] shadow-2xl">
+          <div className="bg-white text-[#1a0f3c] px-6 sm:px-8 py-2 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest md:tracking-wide shadow-2xl">
             Still waiting?
           </div>
           {/* Heading */}
@@ -43,7 +46,7 @@ export default function CallingCard() {
               BUILD SOMETHING.
             </span>
           </h2>
-          <p>No team? No experience? Start anyway.</p>
+          <p>No team? No experience? You've come to the right place.</p>
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6 mt-4 sm:mt-6">
             <Link to="/projects">

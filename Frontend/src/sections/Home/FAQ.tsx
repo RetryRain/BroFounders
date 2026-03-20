@@ -50,8 +50,8 @@ export default function FAQ() {
   return (
     <section className="max-w-300 mx-auto w-full px-6 md:px-10 py-16 md:py-24">
       <div className="text-center mb-16">
-        <h2 className="text-white text-4xl md:text-6xl font-black tracking-tight">
-          BEFORE YOU OVERTHINK IT
+        <h2 className="text-purple-500 text-4xl md:text-6xl font-black tracking-tight">
+          BEFORE YOU OVERTHINK IT!
         </h2>
       </div>
 
@@ -61,6 +61,7 @@ export default function FAQ() {
 
           return (
             <div
+              id="faq"
               key={index}
               className="py-6 cursor-pointer"
               onClick={() => toggleItem(index)}

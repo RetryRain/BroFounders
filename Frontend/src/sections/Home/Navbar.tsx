@@ -1,8 +1,19 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import logowithname from "@/assets/900pxBroFounders.svg";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const handleNavClick = (id: string) => {
+    setOpen(false);
+    // Wait for sheet close animation to finish before scrolling
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }, 300);
+  };
+
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/20 px-6 md:px-20 py-4 bg-background/90 backdrop-blur-xl z-50">
       {/* LEFT */}
@@ -14,16 +25,23 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-8">
-          <a className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide">
+          <a
+            href="#cta"
+            className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide"
+          >
             EXPLORE
           </a>
-
-          <a className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide">
+          <a
+            href="#workflow"
+            className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide"
+          >
             HOW IT WORKS
           </a>
-
-          <a className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide">
-            COMMUNITY
+          <a
+            href="#footer"
+            className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide"
+          >
+            CONNECT
           </a>
         </nav>
       </div>
@@ -45,7 +63,7 @@ export default function Navbar() {
         </Link>
 
         {/* Mobile Menu */}
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <button className="lg:hidden text-white cursor-pointer">
               <span className="material-symbols-rounded text-[26px]">menu</span>
@@ -57,24 +75,30 @@ export default function Navbar() {
             className="bg-background border-white/20 text-white"
           >
             <div className="flex flex-col gap-6 mt-20 text-center">
-              <a className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide">
+              <button
+                onClick={() => handleNavClick("cta")}
+                className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide"
+              >
                 EXPLORE
-              </a>
-
-              <a className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide">
+              </button>
+              <button
+                onClick={() => handleNavClick("workflow")}
+                className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide"
+              >
                 HOW IT WORKS
-              </a>
-
-              <a className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide">
-                COMMUNITY
-              </a>
+              </button>
+              <button
+                onClick={() => handleNavClick("footer")}
+                className="cursor-pointer text-foreground/80 hover:text-white transition-all text-sm font-bold tracking-wide"
+              >
+                CONNECT
+              </button>
 
               <button className="cursor-pointer mt-4 mx-3 flex h-10 px-6 items-center justify-center rounded-full bg-white/10 text-white text-sm font-bold transition-all hover:bg-white/20 active:scale-95">
                 FEEDBACK
               </button>
-
               <button className="cursor-pointer mt-2 mx-3 flex h-10 px-6 items-center justify-center rounded-full bg-white text-background text-sm font-black transition-all hover:bg-secondary active:scale-95">
-                GET STARTED
+                <Link to="/auth">GET STARTED</Link>
               </button>
             </div>
           </SheetContent>

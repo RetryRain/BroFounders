@@ -37,7 +37,7 @@ export function ProjectsHeader({
           Project Discovery
         </h1>
         <p className="text-muted-foreground text-xs sm:text-base max-w-md mx-auto lg:mx-0">
-          Find your next tech stack to master with a global community.
+          Find people to build with — learn whatever you need along the way.
         </p>
       </div>
 

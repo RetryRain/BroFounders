@@ -108,6 +108,7 @@ export default function ProjectDetails({
         <DialogContent
           showCloseButton={false}
           className="
+          mt-5
           p-0
           w-screen max-w-none
           sm:w-[90vw] sm:max-w-none

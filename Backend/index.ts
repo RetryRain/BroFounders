@@ -12,7 +12,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("HalfAss API running");
+  res.send("brofounders API running");
 });
 
 routes(app);

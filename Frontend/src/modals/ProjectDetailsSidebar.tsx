@@ -165,7 +165,7 @@ export function ProjectDetailsSidebar({
       </section>
 
       {/* Project ID */}
-      <div>
+      <div className="mb-7">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
           Project ID
         </p>

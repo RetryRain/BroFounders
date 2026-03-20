@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProjectCard from "@/sections/Projects/ProjectCard";
 import type { Project } from "@/types/project";
+import { Link } from "react-router-dom";
 
 /* TEMP inline toast (since you said duplicate for now) */
 function Toast({
@@ -103,7 +104,7 @@ export default function Featured() {
       maxMembers: 2,
       broadcast: "",
       status: "open",
-      level: "chaos",
+      level: "advanced",
       user: { _id: "3", name: "BroFounders" },
       createdAt: new Date().toISOString(),
     },
@@ -112,7 +113,10 @@ export default function Featured() {
   return (
     <>
       {/* SECTION */}
-      <section className="max-w-300 w-full px-6 md:px-10 py-15 md:pt-30 md:pb-20 mx-auto">
+      <section
+        id="featured"
+        className="max-w-300 w-full px-6 md:px-10 py-15 md:pt-30 md:pb-20 mx-auto"
+      >
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 md:mb-16 gap-6">
           <div className="flex items-center gap-4">
@@ -127,12 +131,14 @@ export default function Featured() {
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {featuredProjects.map((project) => (
-            <ProjectCard
-              key={project._id}
-              project={project}
-              onClick={() => {}}
-              showToast={showToast} // ✅ FIX
-            />
+            <Link to="projects">
+              <ProjectCard
+                key={project._id}
+                project={project}
+                onClick={() => {}}
+                showToast={showToast}
+              />
+            </Link>
           ))}
         </div>
       </section>
