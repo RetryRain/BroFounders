@@ -1,0 +1,24 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 136.113.204.140
+          username: rain_reactor
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd ~/Brofounders/Backend
+            git pull origin main
+            npm install
+            npx tsc
+            pm2 restart backend
