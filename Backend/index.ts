@@ -2,11 +2,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
+import helmet from "helmet";
 import routes from "./startup/routes";
 import db from "./startup/db";
 
 const app = express();
 
+app.use(helmet());
 app.use(express.json());
 
 app.get("/", (req, res) => {

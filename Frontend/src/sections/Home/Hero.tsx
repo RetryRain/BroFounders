@@ -27,7 +27,6 @@ export default function Hero() {
       </p>
       {/* ── Thin rule ── */}
       <div className="w-16 h-px bg-linear-to-r from-transparent via-white/30 to-transparent mb-10" />
-
       {/* ── Body copy ── */}
       <p className="text-white/55 text-lg sm:text-xl md:text-2xl max-w-2xl leading-[1.75] mb-6">
         BroFounders is where developers, designers, marketers, and creators who
@@ -39,7 +38,6 @@ export default function Hero() {
       <p className="text-white font-semibold text-lg sm:text-xl md:text-2xl max-w-2xl leading-[1.75] decoration-accent decoration-2 underline-offset-4 mb-6">
         Find teammates at your level. Try new stacks. Ship real projects.
       </p>
-
       {/* ── CTA Buttons ── */}
       <div className="flex flex-col md:flex-row gap-5 mt-5 w-full md:justify-center">
         <Link to="/projects" className="w-full md:w-auto">
