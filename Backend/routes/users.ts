@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import auth from "../middleware/auth";
 import admin from "../middleware/admin";
+import { signupLimiter } from "../middleware/rateLimiter";
+import { validateEmailAdvanced } from "../lib/email";
 
 const router = express.Router();
 
@@ -39,11 +41,17 @@ router.get("/:id", auth, async (req, res) => {
 });
 
 //Create user
-router.post("/", async (req, res) => {
+router.post("/", signupLimiter, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details?.[0]?.message);
 
   const { name, email, password } = req.body;
+
+  // Email check
+  const emailCheck = await validateEmailAdvanced(email);
+  if (!emailCheck.valid) {
+    return res.status(400).send(emailCheck.reason);
+  }
 
   // Password validation
   if (!password || password.length < 5)

@@ -1,5 +1,5 @@
 import plane from "@/assets/paper-plane.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
 import { Textarea } from "@/components/ui/textarea";
@@ -82,11 +82,12 @@ export default function MobileHeader() {
           <button onClick={() => navigate(-1)} className="text-foreground/80">
             <span className="material-symbols-rounded">arrow_back</span>
           </button>
-
-          <img className="h-8 rounded-sm" src={plane} alt="logo" />
-          <h1 className="text-lg font-bold text-white tracking-tight">
-            BroFounders
-          </h1>
+          <Link to="/" className="flex items-center gap-3 text-inherit">
+            <img className="h-8 rounded-sm" src={plane} alt="logo" />
+            <h1 className="text-lg font-bold text-white tracking-tight">
+              BroFounders
+            </h1>
+          </Link>
         </div>
 
         <DropdownMenu>

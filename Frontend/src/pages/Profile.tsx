@@ -166,7 +166,7 @@ export default function Profile() {
                 </p>
 
                 <p className="text-xs sm:text-sm text-muted-foreground">
-                  your current email.
+                  Your current email.
                 </p>
               </div>
 

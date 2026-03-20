@@ -8,7 +8,7 @@ export default function EmptyTeamsState() {
       <h2 className="text-2xl font-bold text-white mb-2">Select a Team</h2>
 
       <p className="text-muted-foreground max-w-md">
-        Choose a team from the left to view its broadcast, members, and details.
+        Choose a team to view its broadcast, members, and details.
       </p>
     </div>
   );

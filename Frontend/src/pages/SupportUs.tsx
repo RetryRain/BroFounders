@@ -27,17 +27,19 @@ export default function SupportUs() {
         </p>
 
         {/* BUTTON */}
-        <a
-          href="https://www.paypal.com/donate/?hosted_button_id=YOUR_ID"
+        <form
+          action="https://www.paypal.com/ncp/payment/KL8P7MAPLM8GJ"
+          method="post"
           target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full sm:inline-block sm:w-auto"
+          className="w-full sm:inline-block sm:w-auto"
         >
-          <button className="w-full sm:w-auto cursor-pointer bg-green-500 hover:bg-green-400 text-black font-bold px-5 sm:px-6 py-3 rounded-xl shadow-lg active:scale-95 sm:hover:scale-105 transition">
+          <button
+            type="submit"
+            className="w-full sm:w-auto cursor-pointer bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-3 rounded-xl shadow-lg active:scale-95 sm:hover:scale-105 transition"
+          >
             💖 Support via PayPal
           </button>
-        </a>
-
+        </form>
         {/* FOOTER */}
         <p className="text-xs sm:text-base text-muted-foreground opacity-70 leading-relaxed max-w-xs mx-auto">
           No subscriptions will be implemented in this platform.

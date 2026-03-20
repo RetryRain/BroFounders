@@ -235,7 +235,7 @@ function SidebarContent({
           className="mt-2 cursor-pointer flex items-center gap-3 w-full px-4 py-3 text-sm opacity-70 hover:opacity-100 hover:bg-white/5 rounded-lg transition"
         >
           <span className="material-symbols-rounded text-yellow-400">
-            favorite
+            assist_walker
           </span>
           Support Us
         </button>
