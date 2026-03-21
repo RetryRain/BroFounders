@@ -109,7 +109,7 @@ export default function MyTeamsRightPanel({ project, onOpenDetails }: Props) {
                   onClick={() => handleCopyId(member._id, member.name)}
                   className="flex items-center justify-center size-7 rounded-md hover:bg-white/10 transition"
                 >
-                  <span className="material-symbols-rounded text-sm text-muted-foreground">
+                  <span className="cursor-pointer material-symbols-rounded text-sm text-muted-foreground">
                     content_copy
                   </span>
                 </button>
@@ -120,7 +120,7 @@ export default function MyTeamsRightPanel({ project, onOpenDetails }: Props) {
           <Button
             onClick={handleLaunchWorkspace}
             disabled={!workspaceLink}
-            className="w-full bg-purple hover:bg-purple/90 text-white font-bold uppercase tracking-widest disabled:opacity-50"
+            className="cursor-pointer w-full bg-purple hover:bg-purple/90 text-white font-bold uppercase tracking-widest disabled:opacity-50"
           >
             Launch Workspace
           </Button>

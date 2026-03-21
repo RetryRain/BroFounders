@@ -9,7 +9,7 @@ import type { Project } from "../types/project";
 import { ProjectDetailsHeader } from "./ProjectDetailsHeader";
 import { ProjectDetailsBody } from "./ProjectDetailsBody";
 import { ProjectDetailsSidebar } from "./ProjectDetailsSidebar";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AlertDialog,
@@ -37,6 +37,43 @@ interface ProjectDetailsProps {
   showToast: (type: "success" | "error", message: string) => void;
 }
 
+// ─── Modal History Hook ────────────────────────────────────────────────────────
+// On mobile, when a full-screen modal is open the browser back button would
+// normally navigate away from the page. This hook pushes a phantom history
+// entry when the modal opens so that pressing back simply closes the modal
+// instead of leaving the page.
+function useModalHistory(open: boolean, onClose: () => void) {
+  // Stable reference so the popstate listener never goes stale
+  const stableOnClose = useCallback(onClose, [onClose]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    // Push a sentinel entry so the stack has something to pop
+    window.history.pushState({ modal: true }, "");
+
+    const handlePopState = () => {
+      // Back button was pressed — close the modal, don't navigate
+      stableOnClose();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+
+      // If the modal was closed by any means OTHER than the back button
+      // (e.g. clicking ✕, backdrop, delete flow) the sentinel entry is
+      // still sitting on the history stack. Remove it so the user's real
+      // back navigation isn't swallowed on the next tap.
+      if (window.history.state?.modal) {
+        window.history.back();
+      }
+    };
+  }, [open, stableOnClose]);
+}
+// ──────────────────────────────────────────────────────────────────────────────
+
 export default function ProjectDetails({
   project,
   open,
@@ -54,6 +91,9 @@ export default function ProjectDetails({
   const [joining, setJoining] = useState(false);
 
   const navigate = useNavigate();
+
+  // ── Back-button fix: intercept mobile back to close modal ──────────────────
+  useModalHistory(open, () => onOpenChange(false));
 
   const handleEdit = (id: string) => {
     onOpenChange(false);
@@ -125,6 +165,7 @@ export default function ProjectDetails({
           <DialogDescription className="sr-only">
             View full details of the selected project
           </DialogDescription>
+
           {/* Mobile Close Button */}
           <div className="md:hidden absolute top-4 right-4 z-50">
             <Button
