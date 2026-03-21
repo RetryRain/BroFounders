@@ -14,16 +14,16 @@ export default function Hero() {
         className="text-white font-black leading-[0.88] tracking-tighter max-w-5xl mb-10"
         style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}
       >
-        YOU DON'T
+        FIND YOUR
         <br />
-        NEED TO
+        PROJECT
         <br />
         <span className="text-transparent bg-clip-text bg-linear-to-r from-accent via-secondary to-white">
-          BE READY.
+          PARTNER.
         </span>
       </h1>
       <p className="text-white/60 text-xs font-medium tracking-wide mb-5">
-        - no one is.
+        - You Don't Need To Be Ready.
       </p>
       {/* ── Thin rule ── */}
       <div className="w-16 h-px bg-linear-to-r from-transparent via-white/30 to-transparent mb-10" />

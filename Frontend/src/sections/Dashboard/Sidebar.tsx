@@ -115,7 +115,7 @@ function SidebarContent({
       <Link to="/">
         <div className="p-8 flex items-center gap-3">
           <div className="size-10 bg-purple rounded-sm flex items-center justify-center shadow-lg shadow-primary/20">
-            <img src={paperPlane} className="rounded-sm scale-120" />
+            <img src={paperPlane} className="rounded-sm scale-120" alt="logo" />
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">
             Bro Founders

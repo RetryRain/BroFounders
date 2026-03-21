@@ -20,6 +20,7 @@ export default function Navbar() {
       <div className="flex items-center gap-4 md:gap-8 lg:gap-10">
         <img
           src={logowithname}
+          alt="logo with name"
           className="h-10 md:h-12 lg:h-15 w-auto rounded-2xl cursor-pointer"
         />
 
