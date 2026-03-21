@@ -105,10 +105,21 @@ export default function MobileHeader() {
           >
             <DropdownMenuItem
               onClick={handleFeedback}
-              className="cursor-pointer gap-2"
+              className="cursor-pointer gap-2 pb-5"
             >
-              <span className="material-symbols-rounded text-sm">feedback</span>
+              <span className="material-symbols-rounded text-green-400">
+                feedback
+              </span>
               Feedback
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigate("/support")}
+              className="cursor-pointer gap-2 pb-5"
+            >
+              <span className="material-symbols-rounded text-yellow-400">
+                assist_walker
+              </span>
+              Support Us!
             </DropdownMenuItem>
 
             <DropdownMenuItem

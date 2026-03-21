@@ -198,7 +198,9 @@ function SidebarContent({
                 onClick={() => setFeedbackOpen(false)}
                 className="text-muted-foreground hover:text-white"
               >
-                <span className="material-symbols-rounded text-sm">close</span>
+                <span className="material-symbols-rounded text-sm cursor-pointer">
+                  close
+                </span>
               </button>
             </div>
 
@@ -216,7 +218,7 @@ function SidebarContent({
               className="w-full mt-3 bg-purple hover:bg-purple/90 text-white text-xs flex items-center justify-center"
             >
               {sending ? (
-                <span className="material-symbols-rounded animate-spin text-sm">
+                <span className="cursor-pointer material-symbols-rounded animate-spin text-sm">
                   progress_activity
                 </span>
               ) : (

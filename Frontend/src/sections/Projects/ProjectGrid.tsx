@@ -59,13 +59,13 @@ export default function ProjectGrid({
 
         {/* Title */}
         <h2 className="text-2xl md:text-4xl font-bold text-white mb-3">
-          No squads yet.
+          No Bros yet.
         </h2>
 
         {/* Subtext */}
         <p className="text-sm md:text-lg text-muted-foreground max-w-md">
           Looks like you're flying solo. Launch a project and start assembling
-          your dream squad.
+          your dream team.
         </p>
 
         {/* Decorative hint */}

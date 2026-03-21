@@ -49,7 +49,12 @@ export default function Navbar() {
       {/* RIGHT */}
       <div className="flex flex-1 justify-end gap-4 items-center">
         {/* Feedback Button */}
-        <button className="hidden md:flex h-10 px-5 items-center justify-center rounded-full bg-white/10 text-white text-sm font-bold transition-all hover:bg-white/20 active:scale-95 cursor-pointer">
+        <button
+          onClick={() =>
+            window.open("https://forms.gle/1NZXxkcMtH4xA42w7", "_blank")
+          }
+          className="hidden md:flex h-10 px-5 items-center justify-center rounded-full bg-white/10 text-white text-sm font-bold transition-all hover:bg-white/20 active:scale-95 cursor-pointer"
+        >
           FEEDBACK!
         </button>
 
@@ -94,8 +99,13 @@ export default function Navbar() {
                 CONNECT
               </button>
 
-              <button className="cursor-pointer mt-4 mx-3 flex h-10 px-6 items-center justify-center rounded-full bg-white/10 text-white text-sm font-bold transition-all hover:bg-white/20 active:scale-95">
-                FEEDBACK
+              <button
+                onClick={() =>
+                  window.open("https://forms.gle/1NZXxkcMtH4xA42w7", "_blank")
+                }
+                className="cursor-pointer mt-4 mx-3 flex h-10 px-6 items-center justify-center rounded-full bg-white/10 text-white text-sm font-bold transition-all hover:bg-white/20 active:scale-95"
+              >
+                FEEDBACK!
               </button>
               <button className="cursor-pointer mt-2 mx-3 flex h-10 px-6 items-center justify-center rounded-full bg-white text-background text-sm font-black transition-all hover:bg-secondary active:scale-95">
                 <Link to="/auth">GET STARTED</Link>

@@ -20,7 +20,7 @@ export default function SupportUs() {
         </div>
 
         {/* TEXT */}
-        <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed max-w-sm sm:max-w-none mx-auto">
+        <p className="text-base text-white md:text-lg leading-relaxed max-w-sm sm:max-w-none mx-auto">
           Right now this platform runs on hopes, dreams, and free-tiers. If you
           believe in what we're building, help us keep it running and make it
           better for builders like you.
@@ -41,8 +41,8 @@ export default function SupportUs() {
           </button>
         </form>
         {/* FOOTER */}
-        <p className="text-xs sm:text-base text-muted-foreground opacity-70 leading-relaxed max-w-xs mx-auto">
-          No subscriptions will be implemented in this platform.
+        <p className="text-base text-white opacity-70 leading-relaxed max-w-xs mx-auto">
+          No subscriptions will be implemented.
           <br />
           Please support if you can.
         </p>

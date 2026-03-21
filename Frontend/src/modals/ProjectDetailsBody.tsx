@@ -52,10 +52,10 @@ export function ProjectDetailsBody({
 
   return (
     <div className="px-6 py-6 sm:p-10 overflow-y-auto flex-1 text-foreground min-h-0">
-      {/* Tech Stack */}
+      {/* Tag */}
       <div className="mb-8 sm:mb-10">
         <h3 className="text-purple font-extrabold text-[11px] sm:text-sm mb-4 sm:mb-6 uppercase tracking-widest">
-          Tech Stack
+          Tags
         </h3>
 
         <div className="flex flex-wrap gap-2 sm:gap-3">
