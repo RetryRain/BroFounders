@@ -12,7 +12,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("BroFounders Backend running");
+  res.send("BroFounders APPPPPPI is running");
 });
 
 routes(app);

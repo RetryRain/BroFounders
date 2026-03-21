@@ -16,7 +16,8 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd ~/Brofounders/Backend
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
             npm install
             npx tsc
             pm2 restart backend
