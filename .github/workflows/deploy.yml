@@ -14,6 +14,7 @@ jobs:
           host: 136.113.204.140
           username: rain_reactor
           key: ${{ secrets.VM_SSH_KEY }}
+          debug: true
           script: |
             cd ~/Brofounders/Backend
             git fetch origin
