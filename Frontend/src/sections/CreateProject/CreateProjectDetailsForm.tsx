@@ -172,7 +172,7 @@ export default function CreateProjectDetailsForm({
         </div>
       </div>
 
-      {/* TECH STACK */}
+      {/* TAGS */}
       <div className="space-y-3 sm:space-y-4">
         <label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground block">
           Tags <span className="text-red-500">*</span>

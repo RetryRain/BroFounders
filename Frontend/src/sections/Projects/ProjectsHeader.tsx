@@ -88,7 +88,7 @@ export function ProjectsHeader({
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search tech stacks..."
+            placeholder="project id, title, desc — related"
             className="pl-10 pr-10 h-11 sm:h-12 rounded-xl sm:rounded-2xl w-full text-sm"
           />
 

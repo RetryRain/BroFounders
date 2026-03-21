@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -43,15 +44,18 @@ export default function JoinRequestModal({
       >
         <DialogHeader>
           <DialogTitle className="text-white text-lg sm:text-xl font-bold">
-            Why should the host accept you?
+            Say something before you join
           </DialogTitle>
+          <DialogDescription className="text-sm text-muted-foreground">
+            No need to impress — just say what you're interested in building.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="mt-4 sm:mt-6 space-y-5 sm:space-y-6">
           <Textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Tell them what you bring to the table..."
+            placeholder="What caught your interest? What would you like to work on?"
             className="bg-white/5 border-white/10 focus:ring-purple rounded-xl sm:rounded-2xl min-h-24 sm:min-h-30 text-sm"
           />
 
@@ -59,22 +63,22 @@ export default function JoinRequestModal({
             <Button
               variant="ghost"
               onClick={onClose}
-              className="text-muted-foreground text-sm"
+              className="text-muted-foreground cursor-pointer"
             >
-              Cancel
+              Nevermind
             </Button>
 
             <Button
               onClick={handleSubmit}
               disabled={loading}
-              className="bg-purple hover:bg-purple/90 text-white rounded-lg sm:rounded-xl font-bold text-sm flex items-center gap-2 disabled:opacity-60"
+              className="cursor-pointer bg-purple hover:bg-purple/90 text-white rounded-lg sm:rounded-xl font-bold text-sm flex items-center gap-2 disabled:opacity-60"
             >
               {loading && (
                 <span className="material-symbols-rounded animate-spin text-sm">
                   progress_activity
                 </span>
               )}
-              {loading ? "Sending..." : "Send Request"}
+              {loading ? "Sending..." : "Join Project"}
             </Button>
           </div>
         </div>
