@@ -37,7 +37,7 @@ export default function SupportUs() {
             type="submit"
             className="w-full sm:w-auto cursor-pointer bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-3 rounded-xl shadow-lg active:scale-95 sm:hover:scale-105 transition"
           >
-            💖 Support via PayPal
+            💖 Thanks for your support!
           </button>
         </form>
         {/* FOOTER */}
