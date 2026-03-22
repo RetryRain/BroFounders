@@ -145,7 +145,7 @@ export default function RegisterPanel() {
                 }}
                 className="text-primary hover:underline cursor-pointer"
               >
-                Terms
+                Terms of Service
               </button>{" "}
               and{" "}
               <button
