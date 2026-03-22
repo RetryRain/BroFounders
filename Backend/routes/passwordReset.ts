@@ -34,7 +34,7 @@ router.post("/forgot-password", async (req, res) => {
       const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
 
       await resend.emails.send({
-        from: "Project Hub <onboarding@resend.dev>",
+        from: "BroFounders <hello@brofounders.com>",
         to: email,
         subject: "Reset your password",
         html: `
