@@ -11,7 +11,7 @@ export default function FAQ() {
     {
       question: "What is BroFounders?",
       answer:
-        "BroFounders is a platform where beginners and early-stage builders find teammates and build real projects together. No fake networking — just people actually building.",
+        "BroFounders is a platform where beginners and early-stage builders find teammates and build real projects together — even if you're just getting started.",
     },
     {
       question: "Do I need to be experienced to join?",

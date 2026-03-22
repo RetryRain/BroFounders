@@ -3,6 +3,14 @@ import { useLocation } from "react-router-dom";
 import api from "@/lib/api";
 import { useNotificationStore } from "@/store/notifications";
 
+function isPublicPath(pathname: string) {
+  return (
+    pathname === "/" ||
+    pathname.startsWith("/auth") ||
+    pathname.startsWith("/reset-password")
+  );
+}
+
 export default function NotificationLoader() {
   const setUnreadActivity = useNotificationStore((s) => s.setUnreadActivity);
   const setNewTeam = useNotificationStore((s) => s.setNewTeam);
@@ -11,7 +19,7 @@ export default function NotificationLoader() {
   useEffect(() => {
     const checkNotifications = async () => {
       const token = localStorage.getItem("token");
-      if (!token) {
+      if (!token || isPublicPath(location.pathname)) {
         setUnreadActivity(false);
         setNewTeam(false);
         return;

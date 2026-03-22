@@ -25,7 +25,13 @@ api.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      if (!window.location.pathname.startsWith("/auth")) {
+      const path = window.location.pathname || "";
+      const isPublic =
+        path === "/" ||
+        path.startsWith("/auth") ||
+        path.startsWith("/reset-password");
+
+      if (!isPublic) {
         setTimeout(() => {
           window.location.href = "/auth/login";
         }, 3000);

@@ -1,0 +1,21 @@
+{
+  "name": "BroFounders — Build Projects Together",
+  "short_name": "BroFounders",
+  "description": "BroFounders is a platform where beginners and early-stage builders find teammates and build real projects together — even if you're just getting started.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1b131f",
+  "background_color": "#1b131f",
+  "display": "standalone",
+  "start_url": "/"
+}
