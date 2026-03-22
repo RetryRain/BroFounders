@@ -29,7 +29,7 @@ export default function SupremeLeader() {
   const user = stored ? JSON.parse(stored) : null;
 
   if (!user?.isAdmin) {
-    return <div className="p-10 text-center">Access denied.</div>;
+    return <div className="p-6 text-center">Access denied.</div>;
   }
 
   const [tab, setTab] = useState<"users" | "feedback">("users");
@@ -101,14 +101,15 @@ export default function SupremeLeader() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-6xl mx-auto py-8 px-4 space-y-6">
-        <h1 className="text-3xl font-extrabold text-white">
+      <div className="max-w-6xl mx-auto py-6 px-4 space-y-6">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-white">
           Admin Control Panel
         </h1>
 
         {/* Tabs */}
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button
+            size="sm"
             variant={tab === "users" ? "default" : "outline"}
             onClick={() => setTab("users")}
           >
@@ -116,6 +117,7 @@ export default function SupremeLeader() {
           </Button>
 
           <Button
+            size="sm"
             variant={tab === "feedback" ? "default" : "outline"}
             onClick={() => setTab("feedback")}
           >
@@ -126,96 +128,159 @@ export default function SupremeLeader() {
         {/* USERS TAB */}
         {tab === "users" && (
           <Card className="bg-white/5 border-white/10 rounded-2xl">
-            <CardContent className="p-6">
+            <CardContent className="p-4 md:p-6">
               {loadingUsers ? (
                 <p className="text-muted-foreground text-sm">
                   Loading users...
                 </p>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead className="border-b border-white/10 text-muted-foreground">
-                      <tr>
-                        <th className="text-left py-3">Name</th>
-                        <th className="text-left py-3">Email</th>
-                        <th className="text-left py-3">Role</th>
-                        <th className="text-left py-3">User ID</th>
-                        <th className="text-left py-3">Actions</th>
-                      </tr>
-                    </thead>
+                <>
+                  {/* Desktop Table */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead className="border-b border-white/10 text-muted-foreground">
+                        <tr>
+                          <th className="text-left py-3">Name</th>
+                          <th className="text-left py-3">Email</th>
+                          <th className="text-left py-3">Role</th>
+                          <th className="text-left py-3">User ID</th>
+                          <th className="text-left py-3">Actions</th>
+                        </tr>
+                      </thead>
 
-                    <tbody>
-                      {users.map((u) => (
-                        <tr
-                          key={u._id}
-                          className="border-b border-white/5 hover:bg-white/5 transition"
-                        >
-                          <td className="py-3 font-medium text-white">
-                            {u.name}
-                          </td>
+                      <tbody>
+                        {users.map((u) => (
+                          <tr
+                            key={u._id}
+                            className="border-b border-white/5 hover:bg-white/5 transition"
+                          >
+                            <td className="py-3 font-medium text-white">
+                              {u.name}
+                            </td>
 
-                          <td className="py-3 text-muted-foreground">
-                            {u.email}
-                          </td>
+                            <td className="py-3 text-muted-foreground">
+                              {u.email}
+                            </td>
 
-                          <td className="py-3">
-                            {u.isAdmin ? (
-                              <span className="text-purple font-semibold">
-                                Admin
-                              </span>
-                            ) : (
-                              <span className="text-muted-foreground">
-                                User
-                              </span>
-                            )}
-                          </td>
+                            <td className="py-3">
+                              {u.isAdmin ? (
+                                <span className="text-purple font-semibold">
+                                  Admin
+                                </span>
+                              ) : (
+                                <span className="text-muted-foreground">
+                                  User
+                                </span>
+                              )}
+                            </td>
 
-                          <td className="py-3 font-mono text-xs text-muted-foreground">
-                            {u._id}
-                          </td>
+                            <td className="py-3 font-mono text-xs text-muted-foreground">
+                              {u._id}
+                            </td>
 
-                          <td className="py-3 flex gap-2">
-                            {!u.isAdmin && (
-                              <>
-                                {u.isBanned ? (
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={() => handleUnban(u._id)}
-                                  >
-                                    Unban
-                                  </Button>
-                                ) : (
+                            <td className="py-3 flex flex-wrap gap-2">
+                              {!u.isAdmin && (
+                                <>
+                                  {u.isBanned ? (
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => handleUnban(u._id)}
+                                    >
+                                      Unban
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      size="sm"
+                                      variant="destructive"
+                                      onClick={() => handleBan(u._id)}
+                                    >
+                                      Ban
+                                    </Button>
+                                  )}
+
                                   <Button
                                     size="sm"
                                     variant="destructive"
-                                    onClick={() => handleBan(u._id)}
+                                    onClick={() => handleDelete(u._id)}
                                   >
-                                    Ban
+                                    Delete
                                   </Button>
-                                )}
+                                </>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
 
-                                <Button
-                                  size="sm"
-                                  variant="destructive"
-                                  onClick={() => handleDelete(u._id)}
-                                >
-                                  Delete
-                                </Button>
-                              </>
+                  {/* Mobile Cards */}
+                  <div className="md:hidden space-y-4">
+                    {users.map((u) => (
+                      <div
+                        key={u._id}
+                        className="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2"
+                      >
+                        <div className="text-white font-semibold">{u.name}</div>
+
+                        <div className="text-xs text-muted-foreground break-all">
+                          {u.email}
+                        </div>
+
+                        <div className="text-xs">
+                          {u.isAdmin ? (
+                            <span className="text-purple font-semibold">
+                              Admin
+                            </span>
+                          ) : (
+                            <span className="text-muted-foreground">User</span>
+                          )}
+                        </div>
+
+                        <div className="text-xs font-mono text-muted-foreground break-all">
+                          {u._id}
+                        </div>
+
+                        {!u.isAdmin && (
+                          <div className="flex flex-wrap gap-2 pt-2">
+                            {u.isBanned ? (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleUnban(u._id)}
+                              >
+                                Unban
+                              </Button>
+                            ) : (
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => handleBan(u._id)}
+                              >
+                                Ban
+                              </Button>
                             )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDelete(u._id)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
 
                   {users.length === 0 && (
                     <p className="text-muted-foreground text-sm mt-4">
                       No users found.
                     </p>
                   )}
-                </div>
+                </>
               )}
             </CardContent>
           </Card>
@@ -224,7 +289,7 @@ export default function SupremeLeader() {
         {/* FEEDBACK TAB */}
         {tab === "feedback" && (
           <Card className="bg-white/5 border-white/10 rounded-2xl">
-            <CardContent className="p-6">
+            <CardContent className="p-4 md:p-6">
               {loadingFeedback ? (
                 <p className="text-muted-foreground text-sm">
                   Loading feedback...
@@ -238,7 +303,7 @@ export default function SupremeLeader() {
                     >
                       <p className="text-white text-sm mb-2">{f.message}</p>
 
-                      <div className="text-xs text-muted-foreground flex flex-wrap gap-4">
+                      <div className="text-xs text-muted-foreground flex flex-col md:flex-row md:flex-wrap gap-1 md:gap-4">
                         <span>
                           {f.user?.name} ({f.user?.email})
                         </span>
