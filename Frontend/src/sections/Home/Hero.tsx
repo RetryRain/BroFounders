@@ -36,7 +36,7 @@ export default function Hero() {
         </em>
       </p>
       <p className="text-white font-semibold text-lg sm:text-xl md:text-2xl max-w-2xl leading-[1.75] decoration-accent decoration-2 underline-offset-4 mb-6">
-        Find teammates at your level. Try new stacks. Ship real projects.
+        Find teammates at your level. Try new skills. Ship real projects.
       </p>
       {/* ── CTA Buttons ── */}
       <div className="flex flex-col md:flex-row gap-5 mt-5 w-full md:justify-center">
