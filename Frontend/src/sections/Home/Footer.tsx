@@ -79,7 +79,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-white/10 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-foreground/60 text-center">
+        <div className="italic border-t border-white/10 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-foreground/60 text-center">
           <p>© {new Date().getFullYear()} BroFounders</p>
           <p>For people who stopped waiting and started building.</p>
         </div>
